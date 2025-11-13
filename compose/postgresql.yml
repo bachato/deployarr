@@ -2,7 +2,7 @@ services:
   # PostgreSQL - Database
   postgresql:
     container_name: postgresql
-    image: postgres:16-alpine
+    image: postgres:${POSTGRESQL_VERSION_PIN}
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
@@ -18,7 +18,7 @@ services:
     ports:
       - "$POSTGRESQL_PORT:5432"
     volumes:
-      - $DOCKERDIR/appdata/postgresql:/var/lib/postgresql/data
+      - $DOCKERDIR/appdata/postgresql:/var/lib/postgresql/18/data
     environment:
       # - POSTGRES_DB=$POSTGRES_DB
       - POSTGRES_USER=$POSTGRES_USER

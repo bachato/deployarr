@@ -2,7 +2,7 @@ services:
   # Immich - Photo/video server
   immich:
     container_name: immich
-    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION_PIN}
     profiles: ["apps", "all"]
     restart: unless-stopped
     security_opt:

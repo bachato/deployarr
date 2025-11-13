@@ -1,7 +1,7 @@
 services:
   # Homarr - Application Dashboard
   homarr:
-    image: ghcr.io/ajnart/homarr:latest
+    image: ghcr.io/homarr-labs/homarr:latest
     container_name: homarr
     security_opt:
       - no-new-privileges:true

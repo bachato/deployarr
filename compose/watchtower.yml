@@ -6,7 +6,7 @@ services:
     security_opt:
       - no-new-privileges:true
     restart: always
-    profiles: ["all", "aps"]
+    profiles: ["all", "monitoring", "apps"]
     networks:
       - default
     volumes:

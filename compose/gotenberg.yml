@@ -1,7 +1,7 @@
 services:
   # Gotenberg - Document conversion server for Paperless-NGX
   gotenberg:
-    image: docker.io/gotenberg/gotenberg:8.7
+    image: docker.io/gotenberg/gotenberg:latest
     container_name: gotenberg
     security_opt:
       - no-new-privileges:true

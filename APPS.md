@@ -1,4 +1,4 @@
-# Deployarr Apps - 145 (and increasing)
+# Deployarr Apps - 150 (and increasing)
 
 ## Reverse Proxy and Tunnels
 - **Traefik**: A modern HTTP reverse proxy and load balancer that makes deploying microservices easy.
@@ -16,6 +16,7 @@
 - **Lollypop**: A modern music player for GNOME.
 - **Funkwhale**: A modern, self-hosted, web-based music server.
 - **Gonic**: A self-hosted music server.
+- **ViniPlay**: A self-hosted IPTV player.
 
 ## Media Management
 - **Radarr**: A movie collection manager for Usenet and BitTorrent users.
@@ -36,6 +37,7 @@
 - **Audiobookshelf**: A self-hosted audiobook and podcast server.
 - **Huntarr**: Missing media and upgrade utility.
 - **Cleanuparr**: Arr stack and media cleanup utility.
+- **Dispatcharr**: An IPTV and stream companion.
 
 ## Downloaders
 - **NZBGet**: A Usenet downloader optimized for performance and efficiency.
@@ -66,6 +68,7 @@
 - **Glances**: A cross-platform monitoring tool for systems.
 - **Change Detection**: A tool for monitoring web pages for changes.
 - **Node Exporter**: A Prometheus exporter for hardware and OS metrics exposed by *NIX kernels.
+- **Pulse**: A homelab monitoring tool for PVE, PBS, Docker, and more.
 
 ## Security 
 - **Authentik**: A self-hosted identity provider that can be used to secure applications and services with Single Sign-On (SSO).
@@ -128,6 +131,7 @@
 - **What's Up Docker (WUD)**: A tool to monitor and update your Docker containers.
 - **DweebUI**: A customizable web-based user interface for managing various Docker applications.
 - **Watchtower**: A container-based solution for automating Docker container base image updates.
+- **Lazydocker**: A terminal UI for Docker management.
 
 ## File Management
 - **FileZilla**: A fast and reliable FTP, FTPS and SFTP client with GUI.
@@ -142,6 +146,7 @@
 - **Tika**: A document text extraction tool for Paperless-NGX.
 - **PdfDing**: PDF Viewing/Editing Tool
 - **Privatebin**: A minimalist, open-source online pastebin.
+- **ProjectSend**: A secure, private file sharing application.
 
 ## Admin Tools
 - **IT-Tools**: A collection of useful tools for IT professionals.

@@ -1,0 +1,18 @@
+services:
+  # Viniplay - Self-hosted IPTV Player
+  viniplay:
+    image: ardovini/viniplay:latest
+    container_name: viniplay
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    ports:
+      - $VINIPLAY_PORT:8998
+    volumes:
+      - $DOCKERDIR/appdata/viniplay/data:/data
+    env_file:
+      - $DOCKERDIR/appdata/viniplay/.env
+    # DOCKER-LABELS-PLACEHOLDER

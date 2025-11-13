@@ -1,4 +1,33 @@
 <h3>Releases</h3>
+Total Supported Apps: 150
+<h5>v5.11 - November 13, 2025</h5>
+<ul>
+<li>NEW: Added ViniPlay, Lazydocker, Pulse, Dispatcharr, and ProjectSend apps.</li>
+<li>ENHANCEMENT: Updated Traefik to v3.5 (latest).</li>
+<li>ENHANCEMENT: Updated Authelia from 4.39.4 to 4.39.14 (latest).</li>
+<li>ENHANCEMENT: Bumped Deployrr Dashboard from Homepage 1.3.2 to 1.7.0.</li>
+<li>ENHANCEMENT: Updated Authentik from v2025.06 to v2025.10 (latest). Removed Redis requirement.</li>
+<li>ENHANCEMENT: Updated PostgreSQL from 16-alpine to 18-alpine.</li>
+<li>ENHANCEMENT: Changed Gotenberg version from 8.4 to latest.</li>
+<li>ENHANCEMENT: Updated image source for Homarr.</li>
+<li>ENHANCEMENT: Implemented version pinning via .env file for easier updates.</li>
+<li>ENHANCEMENT: Added tool to change server IP and update Deployrr Dashboard and Traefik file providers accordingly.</li>
+<li>ENHANCEMENT: Added "monitoring" Docker profile for several apps.</li>
+<li>ENHANCEMENT: Added noperm options to SMB fstab entry.</li>
+<li>ENHANCEMENT: Removed unnecessary wait after managing auth for apps.</li>
+<li>ENHANCEMENT: Updated Deployrr Dashboard services template.</li>
+<li>ENHANCEMENT: Added Traefik error checking for Docker v29 conflict and containerd.</li>
+<li>ENHANCEMENT: Updated disclaimers and documentation links.</li>
+<li>FIX: Fixed typo in Authelia menu item.</li>
+<li>FIX: Fixed wrong port number in compose for Mosquitto.</li>
+<li>FIX: Fixed Deployrr mode being empty during first start.</li>
+<li>FIX: Fixed OAuth menu yes/no options being swapped.</li>
+<li>FIX: Fixed exposure mode while setting up apps showing all options even when not applicable.</li>
+<li>FIX: Added quotes for Cleanuparr umask to prevent container startup issues.</li>
+<li>DOCS: Updated README and APPS.md.</li>
+<li>Numerous other logic and reliability improvements.</li>
+</ul>
+
 Total Supported Apps: 145+
 <h5>v5.10 - July 29, 2025</h5>
 <ul>

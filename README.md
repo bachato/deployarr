@@ -2,7 +2,7 @@
 
 > Transform your homelab setup from complex to click! Deployrr is your all-in-one solution for automated Docker-based homelab deployment.
 
-[![Apps Supported](images/v5/2025_07_29_deployrr_145.png)](APPS.md)
+[![Apps Supported](images/v5/2025_11_13_deployrr_150.png)](APPS.md)
 
 ## What is Deployrr?
 
@@ -10,7 +10,7 @@ Deployrr revolutionizes homelab setup by automating the deployment and configura
 
 ### Key Features
 
-- **Extensive App Support**: 145+ pre-configured applications ready for deployment
+- **Extensive App Support**: 150+ pre-configured applications ready for deployment
 - **Intelligent Automation**: Automated environment setup with smart system checks
 - **Enterprise-Grade Security**:
   - Socket-Proxy protection
@@ -33,7 +33,15 @@ bash -c "$(curl -fsSL https://www.deployrr.app/install.sh)"
 ```
 
 ## Impact & Growth
-![Deployrr Stats](images/v5/2025_07_29_deployrr_stats.png)
+![Deployrr Stats](images/v5/2025_11_13_deployrr_stats.png)
+
+## Testimonials
+
+> I went from skeptic to fully believing (and knowing) and its the homelab deal of the century - David S
+
+> With Deployrr I was able to cleanly setup everything in a matter of hours. I'm still new to the platform but so far it's delivered everything I hoped it would - Tim Bishop
+
+[Check Out All Testimonials](https://www.simplehomelab.com/testimonials/)
 
 # Supported Apps
 Deployrr can automatically setup Socket Proxy, Traefik (fetch LE SSL certificates), Authentik, Authelia, TinyAuth, Portainer, Plex, Jellyfin, Starr Apps, Gluetun, Dozzle, Uptime-Kuma, Homepage, CrowdSec, and other apps. 
@@ -44,7 +52,7 @@ Deployrr can automatically setup Socket Proxy, Traefik (fetch LE SSL certificate
 
 - [Official Documentation](https://www.simplehomelab.com/deployrr/)
 - [Quick Start Guide (20 min)](https://www.simplehomelab.com/go/deployarr-v5-intro/)
-- [Comprehensive Tutorial](https://www.simplehomelab.com/go/deployarr-v5-detailed-guide/)
+- [Comprehensive 2.5-hour Tutorial](https://www.simplehomelab.com/go/deployarr-v5-detailed-guide/)
 
 ## Supported Environments
 
@@ -74,19 +82,20 @@ Join our thriving community:
 
 ## Project Vision
 
-Deployrr isn't just another container manager - it's your pathway to homelab mastery. Our goal is to:
+Deployrr isn't just another container manager - it's your pathway to homelab mastery. My goal with Deployrr is to:
 - Simplify complex deployments
-- Enable rapid testing and experimentation
+- Enable rapid testing, experimentation, and learning
 - Foster learning through hands-on experience
 - Provide quick recovery options when needed
 
 ## Feature Showcase
 
+![Deployrr Dashboard](images/v5/11a%20Deployarr%20v5%20Deployarr%20Dashboard.png)
+
 <details>
 <summary>Click to view screenshots</summary>
 
 #### Dashboard & Management
-![Deployrr Dashboard](images/v5/11a%20Deployarr%20v5%20Deployarr%20Dashboard.png)
 ![Stack Manager](images/v5/13%20Deployarr%20v5%20Stack%20Manager.png)
 
 #### Setup & Configuration

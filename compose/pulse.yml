@@ -1,0 +1,28 @@
+services:
+  # Pulse - Homelab Monitoring (PVE, PBS, Docker, etc.)
+  pulse:
+    image: rcourtman/pulse:latest
+    container_name: pulse
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "monitoring", "all"]
+    networks:
+      - default
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:7655/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    ports:
+      - "$PULSE_PORT:7655" 
+    volumes:
+      - $DOCKERDIR/appdata/pulse:/data
+      # Secure temperature monitoring via host-side proxy (requires setup - see docs)
+      # Uncomment after installing pulse-sensor-proxy on host with --standalone flag
+      # Mount is read-only (:ro) for security - proxy uses SO_PEERCRED for access control
+      # - /run/pulse-sensor-proxy:/run/pulse-sensor-proxy:ro
+    environment:
+      TZ: $TZ
+    # DOCKER-LABELS-PLACEHOLDER

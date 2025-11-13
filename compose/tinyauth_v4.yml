@@ -2,7 +2,7 @@ services:
   # TinyAuth - Self-Hosted Single Sign-On, 2-FA, and OAuth
   tinyauth:
     container_name: tinyauth
-    image: ghcr.io/steveiliop56/tinyauth:${TINYAUTH_VERSION_PIN}
+    image: ghcr.io/steveiliop56/tinyauth:v3
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped

@@ -1,5 +1,5 @@
 services:
-  # IT-Tools - Status Page & Monitoring Server
+  # IT-Tools - IT Tools Dashboard
   it-tools:
     image: corentinth/it-tools
     container_name: it-tools

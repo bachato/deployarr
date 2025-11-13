@@ -12,7 +12,7 @@ services:
     networks:
       - default
     ports:
-      - "1833:1883" #http
+      - "1883:1883" #http
       - "9001:9001" #websockets
     volumes:
       - $DOCKERDIR/appdata/mosquitto/config:/mosquitto/config
