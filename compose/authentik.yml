@@ -17,10 +17,7 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
-      redis:
-        condition: service_healthy
     environment:
-      - AUTHENTIK_REDIS__HOST
       - AUTHENTIK_POSTGRESQL__HOST
       - AUTHENTIK_POSTGRESQL__NAME
       - AUTHENTIK_POSTGRESQL__USER
