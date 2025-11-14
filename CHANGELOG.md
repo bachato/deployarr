@@ -1,4 +1,11 @@
 <h3>Releases</h3>
+
+<h5>v5.11.1 - November 14, 2025</h5>
+<ul>
+<li>NEW: Added ability to edit version pins directly from the Tools menu.</li>
+<li>ENHANCEMENT: Bumped Traefik to v3.6 (fixes incompatibility with Docker v29).</li>
+</ul>
+
 Total Supported Apps: 150
 <h5>v5.11 - November 13, 2025</h5>
 <ul>
