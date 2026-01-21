@@ -3,10 +3,16 @@
 # https://gethomepage.dev/configs/services/
 
 - Apps (Local):
+    - Links to Local Apps:
+        description: ""
 # WEB-APPS-LOCAL-PLACEHOLDER
 
 - Apps (Remote):
+    - Links to Remote Apps:
+        description: ""
 # WEB-APPS-REMOTE-PLACEHOLDER
 
 - Apps (Others):
+    - Core / Non-Web Apps:
+        description: ""
 # CORE-APPS-PLACEHOLDER
