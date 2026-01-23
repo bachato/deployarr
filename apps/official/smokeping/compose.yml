@@ -1,0 +1,21 @@
+services:
+  # SmokePing - Network latency Monitoring
+  smokeping:
+    image: lscr.io/linuxserver/smokeping:latest
+    container_name: smokeping
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "monitoring", "all"]
+    networks:
+      - default
+    ports:
+      - "$SMOKEPING_PORT:80"
+    volumes:
+      - $DOCKERDIR/appdata/smokeping/config:/config
+      - $DOCKERDIR/appdata/smokeping/data:/data
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+    # DOCKER-LABELS-PLACEHOLDER

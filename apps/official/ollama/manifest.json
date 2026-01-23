@@ -1,0 +1,74 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "ollama",
+    "pname": "Ollama",
+    "description": "Ollama is a tool for running large language models locally. It provides an easy way to run open-source AI models like Llama, Mistral, and others on your own hardware.",
+    "descriptionShort": "Local open-source AI models",
+    "icon": "sh-ollama",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["ai", "llm", "machine-learning"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": false,
+    "port": 11434,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "preInstall": {
+    "dialog": {
+      "type": "warning",
+      "title": "Ollama Warning",
+      "message": "\\n\\Z1WARNING!\\Zn\\n\\nDeployrr sets up a CPU-use-only Ollama container. While in use, it can easily overwhelm CPU and RAM. If you have a dedicated GPU, you will have to customize the Ollama docker compose set up by Deployrr.\\n\\nDo you wish to proceed with installing Ollama?",
+      "cancelable": true
+    }
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "other",
+    "showStats": true,
+    "portVariable": "OLLAMA_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "OLLAMA_PORT",
+        "description": "API port",
+        "type": "port",
+        "default": 11434,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_ollama_status",
+    "successMessage": "Ollama Setup Completed",
+    "telemetryAction": "ollama"
+  }
+}

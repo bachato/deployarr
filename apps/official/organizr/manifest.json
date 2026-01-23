@@ -1,0 +1,78 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "organizr",
+    "pname": "Organizr",
+    "description": "Organizr is a homelab dashboard that allows you to organize and access all your services in one place. It provides a unified interface for managing your homelab apps.",
+    "descriptionShort": "Homelab dashboard",
+    "icon": "sh-organizr",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["dashboard", "web", "homelab", "organization"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 82,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "First, go through the installation wizard at: http://$SERVER_LAN_IP:$ORGANIZR_PORT"
+      },
+      {
+        "type": "note",
+        "text": "Organizr will not be accessible via reverse proxy until the wizard is completed."
+      }
+    ]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "ORGANIZR_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "ORGANIZR_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 82,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_organizr_status",
+    "successMessage": "Organizr Setup Completed",
+    "telemetryAction": "organizr"
+  }
+}

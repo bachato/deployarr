@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "openhands",
+    "pname": "OpenHands",
+    "description": "OpenHands (formerly OpenDevin) is an AI-powered software development agent platform. It can autonomously write code, execute commands, and interact with the web.",
+    "descriptionShort": "AI Powered Software Development",
+    "icon": "sh-openhands",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["ai", "development", "automation"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["core", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 3001,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "OPENHANDS_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "OPENHANDS_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 3001,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_openhands_status",
+    "successMessage": "OpenHands Setup Completed",
+    "telemetryAction": "openhands"
+  }
+}

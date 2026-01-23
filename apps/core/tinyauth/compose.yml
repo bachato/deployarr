@@ -1,0 +1,48 @@
+services:
+  # TinyAuth - Self-Hosted Single Sign-On, 2-FA, and TOTP
+  # Version: v4 (upgraded from v3)
+  tinyauth:
+    container_name: tinyauth
+    image: ghcr.io/steveiliop56/tinyauth:${TINYAUTH_VERSION_PIN}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["core", "all"]
+    networks:
+      - default
+      - t3_proxy
+    # ports:
+    #   - "$TINYAUTH_PORT:3000"
+    volumes:
+      - $DOCKERDIR/appdata/tinyauth/users_file:/tinyauth/users_file
+      - $DOCKERDIR/appdata/tinyauth/data:/data  # v4: SQLite database for sessions
+    environment:
+      - SECRET_FILE=/run/secrets/tinyauth_secret
+      - APP_URL=https://tinyauth.$DOMAINNAME_1
+      - USERS_FILE=users_file
+      - LOG_LEVEL=info  # v4: changed from numeric (0) to string values (trace/debug/info/warn/error/fatal/panic)
+      - LOGIN_MAX_RETRIES=3
+      - LOGIN_TIMEOUT=300
+      # Note: DISABLE_CONTINUE removed in v4 (deprecated)
+      # OAuth providers use PROVIDERS_[PROVIDER]_* format in v4
+      # Google and GitHub auto-fill URLs/scopes - only ID and secret needed
+      # See: https://tinyauth.app/docs/breaking-updates/3-to-4/
+      # Google OAuth (uncomment to enable)
+      # - PROVIDERS_GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
+      # - PROVIDERS_GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
+      # GitHub OAuth (uncomment to enable)
+      # - PROVIDERS_GITHUB_CLIENT_ID=$GITHUB_CLIENT_ID
+      # - PROVIDERS_GITHUB_CLIENT_SECRET=$GITHUB_CLIENT_SECRET
+    secrets:
+      - tinyauth_secret
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.tinyauth-rtr.entrypoints=websecure-internal,websecure-external"
+      - "traefik.http.routers.tinyauth-rtr.rule=Host(`tinyauth.$DOMAINNAME_1`)"
+      ## Middlewares
+      - "traefik.http.routers.tinyauth-rtr.middlewares=chain-no-auth@file"
+      ## HTTP Services
+      - "traefik.http.routers.tinyauth-rtr.service=tinyauth-svc"
+      - "traefik.http.services.tinyauth-svc.loadbalancer.server.port=3000"
+    # DOCKER-LABELS-PLACEHOLDER

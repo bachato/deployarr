@@ -1,0 +1,45 @@
+services:
+  authentik:
+    image: ghcr.io/goauthentik/server:${AUTHENTIK_VERSION_PIN}
+    container_name: authentik
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["core", "all"]
+    networks:
+      - default
+      - t3_proxy
+    command: server
+    user: ${PUID}:${PGID}
+    depends_on:
+      authentik-postgresql:
+        condition: service_healthy
+    environment:
+      - AUTHENTIK_POSTGRESQL__HOST=authentik-postgresql
+      - AUTHENTIK_POSTGRESQL__NAME=authentik
+      - AUTHENTIK_POSTGRESQL__USER=authentik_db_user
+      - AUTHENTIK_POSTGRESQL__PASSWORD=${AUTHENTIK_POSTGRESQL__PASSWORD}
+      - AUTHENTIK_SECRET_KEY=${AUTHENTIK_SECRET_KEY}
+      - AUTHENTIK_LOG_LEVEL=info # debug, info, warning, error, trace
+      - AUTHENTIK_DISABLE_STARTUP_ANALYTICS=true
+      - AUTHENTIK_DISABLE_UPDATE_CHECK=false
+      - AUTHENTIK_ERROR_REPORTING__ENABLED=false
+    secrets:
+      - authentik_postgresql_password
+      - authentik_secret_key
+    volumes:
+      - $DOCKERDIR/appdata/authentik/media:/media
+      - $DOCKERDIR/appdata/authentik/custom-templates:/templates
+    labels:
+      - "traefik.enable=true"
+      # HTTP Routers
+      - "traefik.http.routers.authentik-rtr.entrypoints=websecure-internal,websecure-external"
+      - "traefik.http.routers.authentik-rtr.rule=Host(`authentik.$DOMAINNAME_1`)"
+      # Middlewares
+      - "traefik.http.routers.authentik-rtr.middlewares=chain-no-auth@file"
+      # Individual Application forwardAuth regex (catch any subdomain using individual application forwardAuth)
+      - "traefik.http.routers.authentik-output-rtr.rule=HostRegexp(`{subdomain:[a-z0-9-]+}.${DOMAINNAME_1}`) && PathPrefix(`/outpost.goauthentik.io/`)"
+      # HTTP Services
+      - "traefik.http.routers.authentik-rtr.service=authentik-svc"
+      - "traefik.http.services.authentik-svc.loadbalancer.server.port=9000"
+    # DOCKER-LABELS-PLACEHOLDER

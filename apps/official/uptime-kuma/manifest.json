@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "uptime-kuma",
+    "pname": "Uptime-Kuma",
+    "description": "Uptime Kuma is a fancy, self-hosted monitoring tool. It supports monitoring uptime for HTTP(s), TCP, HTTP(s) Keyword, Ping, DNS, and more with a beautiful status page.",
+    "descriptionShort": "Self-hosted monitoring tool",
+    "icon": "sh-uptime-kuma",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["monitoring", "uptime", "status"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["core", "monitoring", "all"],
+    "networks": ["default", "socket_proxy"],
+    "webui": true,
+    "port": 3001,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "UPTIMEKUMA_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "UPTIMEKUMA_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 3001,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_uptimekuma_status",
+    "successMessage": "Uptime-Kuma Setup Completed",
+    "telemetryAction": "uptimekuma"
+  }
+}

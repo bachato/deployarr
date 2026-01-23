@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "adminer",
+    "pname": "Adminer",
+    "description": "Adminer is a full-featured database management tool written in PHP. It supports MySQL, MariaDB, PostgreSQL, SQLite, MS SQL, Oracle, Elasticsearch, MongoDB, and others.",
+    "descriptionShort": "Web UI for various databases",
+    "icon": "sh-adminer",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["database", "admin", "web"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8081,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "ADMINER_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "ADMINER_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8081,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_adminer_status",
+    "successMessage": "Adminer Setup Completed",
+    "telemetryAction": "adminer"
+  }
+}

@@ -1,0 +1,26 @@
+services:
+  # Huntarr - Missing Media and Upgrading Utility
+  huntarr:
+    image: huntarr/huntarr:latest
+    container_name: huntarr
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["all", "apps"]
+    networks:
+      - default
+    ports:
+      - "$HUNTARR_PORT:9705"
+    volumes:
+      - $DOCKERDIR/appdata/huntarr:/config
+    environment:
+      TZ: $TZ
+    stop_signal: SIGTERM
+    stop_grace_period: 30s
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9705/health"]
+      interval: 30s
+      timeout: 10s
+      start_period: 40s
+      retries: 3
+    # DOCKER-LABELS-PLACEHOLDER

@@ -1,0 +1,23 @@
+services:
+  # OpenHands - AI Powered Software Development
+  openhands:
+    image: docker.all-hands.dev/all-hands-ai/openhands:latest
+    container_name: openhands
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["core", "all"]
+    networks:
+      - default
+    ports:
+      - "$OPENHANDS_PORT:3000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $DOCKERDIR/appdata/openhands:/.openhands-state
+    environment:
+      - SANDBOX_RUNTIME_CONTAINER_IMAGE=docker.all-hands.dev/all-hands-ai/runtime:0.26-nikolaik
+      - LOG_ALL_EVENTS=true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    pull_policy: if_not_present
+    # DOCKER-LABELS-PLACEHOLDER

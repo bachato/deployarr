@@ -1,0 +1,72 @@
+{
+  "$schema": "../../../manifest-schema.json",
+  "version": "1.1",
+
+  "app": {
+    "sname": "traefik",
+    "pname": "Traefik",
+    "descriptionShort": "Reverse Proxy with SSL",
+    "icon": "sh-traefik",
+    "category": "core"
+  },
+
+  "deployment": {
+    "type": "custom",
+    "compose": "compose.yml",
+    "webui": true,
+    "port": 8080,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "hybrid_mode", "socket_proxy_running"],
+    "apps": ["socket-proxy"]
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "TRAEFIK_PORT"
+  },
+
+  "traefik": {
+    "supported": true,
+    "subdomain": "traefik"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "TRAEFIK_PORT",
+        "type": "port",
+        "default": "8080",
+        "prompt": false,
+        "required": true,
+        "validation": {
+          "minPort": 1024,
+          "maxPort": 65535
+        }
+      }
+    ]
+  },
+
+  "ufw": {
+    "rules": [
+      "allow 80/tcp",
+      "allow 81/tcp",
+      "allow 443/tcp",
+      "allow 443/udp",
+      "allow 444/tcp",
+      "allow 444/udp"
+    ]
+  },
+
+  "status": {
+    "file": "04_traefik_preparation_status",
+    "stagingFile": "04_traefik_staging_status",
+    "productionFile": "04_traefik_production_status",
+    "successMessage": "Traefik Setup Completed",
+    "telemetryAction": "traefik"
+  }
+}

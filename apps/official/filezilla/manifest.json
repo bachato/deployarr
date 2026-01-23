@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "filezilla",
+    "pname": "FileZilla",
+    "description": "FileZilla is a cross-platform FTP, FTPS, and SFTP client with a graphical user interface. This container provides web-accessible FileZilla with KasmVNC for remote access.",
+    "descriptionShort": "FTP client",
+    "icon": "sh-filezilla",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["files", "ftp", "remote"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 3002,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "FILEZILLA_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "FILEZILLA_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 3002,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_filezilla_status",
+    "successMessage": "FileZilla Setup Completed",
+    "telemetryAction": "filezilla"
+  }
+}

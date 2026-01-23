@@ -1,0 +1,69 @@
+{
+  "$schema": "../../../manifest-schema.json",
+  "version": "1.1",
+
+  "app": {
+    "sname": "socket-proxy",
+    "pname": "Socket Proxy",
+    "descriptionShort": "Proxy for Docker Socket",
+    "icon": "sh-docker",
+    "category": "core"
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "webui": false,
+    "port": null,
+    "protocol": null
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "placeholders": {
+    "compose": {
+      "# privileged: true": {
+        "condition": "SYSTEM_TYPE != 'Unprivileged LXC'",
+        "replace": "privileged: true"
+      }
+    }
+  },
+
+  "traefik": {
+    "supported": false
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "other",
+    "showStats": true,
+    "portVariable": null
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "DOCKER_HOST",
+        "type": "string",
+        "default": "tcp://socket-proxy:2375",
+        "prompt": false,
+        "required": false
+      }
+    ]
+  },
+
+  "ufw": {
+    "rules": [
+      "allow from 192.168.91.0/24"
+    ]
+  },
+
+  "status": {
+    "file": "03_socket-proxy_status",
+    "successMessage": "Socket Proxy Setup Completed",
+    "telemetryAction": "socket-proxy"
+  }
+}

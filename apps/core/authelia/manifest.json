@@ -1,0 +1,156 @@
+{
+  "$schema": "../../../manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "authelia",
+    "pname": "Authelia",
+    "descriptionShort": "Open-source Access/Identity Provider",
+    "icon": "sh-authelia",
+    "category": "core"
+  },
+
+  "deployment": {
+    "type": "multicontainer",
+    "compose": "compose.yml",
+    "webui": true,
+    "port": 9091,
+    "protocol": "https"
+  },
+
+  "dependencies": [
+    {
+      "sname": "authelia-redis",
+      "pname": "Authelia Redis",
+      "compose": "authelia-redis.yml",
+      "installOrder": 1,
+      "waitForHealthy": true,
+      "description": "Redis session store for Authelia"
+    }
+  ],
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "socket_proxy_running", "traefik_production", "traefik_running", "hybrid_mode"],
+    "apps": ["socket-proxy", "traefik"]
+  },
+
+  "files": [
+    {
+      "source": "files/configuration.yml",
+      "destination": "$DOCKER_FOLDER/appdata/authelia/configuration.yml",
+      "backup": true
+    },
+    {
+      "source": "files/users.yml",
+      "destination": "$DOCKER_FOLDER/appdata/authelia/users.yml",
+      "backup": true
+    },
+    {
+      "source": "files/middlewares-authelia.yml",
+      "destination": "$DOCKER_FOLDER/appdata/traefik3/rules/$HOSTNAME/middlewares-authelia.yml",
+      "backup": false
+    },
+    {
+      "source": "files/chain-authelia.yml",
+      "destination": "$DOCKER_FOLDER/appdata/traefik3/rules/$HOSTNAME/chain-authelia.yml",
+      "backup": false
+    }
+  ],
+
+  "placeholders": {
+    "config": {
+      "configuration.yml": {
+        "example.com": "$DOMAINNAME_1"
+      },
+      "users.yml": {
+        "AUTHELIA_USERNAME": "$AUTHELIA_USERNAME",
+        "AUTHELIA_USER_DISPLAY_NAME": "$AUTHELIA_USER_DISPLAY_NAME",
+        "AUTHELIA_HASHED_PASSWORD": "$AUTHELIA_HASHED_PASSWORD",
+        "AUTHELIA_USER_EMAIL": "$AUTHELIA_USER_EMAIL"
+      }
+    }
+  },
+
+  "traefik": {
+    "supported": true,
+    "subdomain": "authelia",
+    "chain": "chain-no-auth",
+    "middlewares": ["middlewares-authelia.yml", "chain-authelia.yml"]
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "other",
+    "showStats": true,
+    "portVariable": null
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "AUTHELIA_VERSION_PIN",
+        "type": "string",
+        "default": "latest",
+        "prompt": false,
+        "required": true
+      },
+      {
+        "name": "AUTHELIA_USERNAME",
+        "type": "string",
+        "default": "",
+        "prompt": true,
+        "required": true,
+        "promptText": "Enter/edit Authelia Username:"
+      },
+      {
+        "name": "AUTHELIA_USER_DISPLAY_NAME",
+        "type": "string",
+        "default": "",
+        "prompt": true,
+        "required": true,
+        "promptText": "Enter/edit Authelia User Display Name (use underscore in place of space):"
+      },
+      {
+        "name": "AUTHELIA_USER_EMAIL",
+        "type": "string",
+        "default": "",
+        "prompt": true,
+        "required": true,
+        "promptText": "Enter/edit Authelia User Email.\n\nIt can be anything because we won't actually be using email for device validation:"
+      }
+    ],
+    "secrets": [
+      {
+        "name": "authelia_text_password",
+        "type": "password",
+        "generateDefault": true,
+        "generateLength": 16,
+        "promptText": "Enter a strong password or use the suggested random password (note it down):"
+      },
+      {
+        "name": "authelia_jwt_secret",
+        "type": "random",
+        "generateDefault": true,
+        "generateLength": 64
+      },
+      {
+        "name": "authelia_session_secret",
+        "type": "random",
+        "generateDefault": true,
+        "generateLength": 64
+      },
+      {
+        "name": "authelia_storage_encryption_key",
+        "type": "random",
+        "generateDefault": true,
+        "generateLength": 64
+      }
+    ]
+  },
+
+  "status": {
+    "file": "05_authelia_status",
+    "successMessage": "Authelia Setup Completed",
+    "telemetryAction": "authelia"
+  }
+}

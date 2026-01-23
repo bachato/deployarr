@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "cleanuparr",
+    "pname": "Cleanuparr",
+    "description": "Cleanuparr is a cleanup tool for the *arr stack (Sonarr, Radarr, Lidarr, etc.) that helps manage and remove unwanted media files and entries.",
+    "descriptionShort": "Arr stack cleanup tool",
+    "icon": "sh-cleanuparr",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["media", "automation", "arr"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 11011,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "CLEANUPARR_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "CLEANUPARR_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 11011,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_cleanuparr_status",
+    "successMessage": "Cleanuparr Setup Completed",
+    "telemetryAction": "cleanuparr"
+  }
+}

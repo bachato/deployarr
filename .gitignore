@@ -12,6 +12,9 @@ dpf*
 dpm*
 *.sh
 
-!images
-!images/*
-!images/*/*
+!images/
+!images/**
+
+!apps/
+!apps/**
+

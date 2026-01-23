@@ -1,0 +1,58 @@
+# Deployrr Waiting Messages - Jokes and Tips
+# One message per line. Empty lines and lines starting with # are ignored.
+# Feel free to contribute! Submit a PR with your additions.
+
+# Knock-knock jokes
+Knock Knock! Who's there? Compose. Compose who? Compose yourself, Deployrr is still working!
+Knock Knock! Who's there? Container. Container who? Container your excitement, Deployrr is almost done!
+Knock Knock! Who's there? Service. Service who? Service yourself a cup of coffee, Deployrr is still working!
+Knock knock! Who's there? Ping. Ping who? Ping me back - I think my network's down!
+Knock knock! Who's there? Backup. Backup who? Backup your data before you regret it!
+Knock knock! Who's there? Sudo. Sudo who? Sudo open this door right now, or I'll escalate privileges!
+Knock knock! Who's there? SSH. SSH who? SSH me when you get in - securely, of course!
+
+# Dad jokes
+Patience, young grasshopper. The digital cogs are turning in Deployrr
+Just a moment, while the internet hamsters power up Deployrr
+Hold your horses! The electrons are sprinting through Deployrr
+Deployrr is thinking... or maybe it's just daydreaming
+It's like watching paint dry, but with Deployrr pixels
+Hang tight, Deployrr is still cooking
+What do you call a lazy Homelab admin? A Deployee
+What do you call a Homelab admin who's always calm and collected? A Deployrr user
+Deployrr is having a moment, a very long moment
+Deployrr is taking a scenic route to the finish line
+The computer's pondering the universe, one Deployrr byte at a time
+What's a sysadmin's favorite drink? Root beer
+Deployrr is playing a game of cat and mouse with itself
+Deployrr is taking a coffee break, but it's a very long coffee break
+Deployrr is doing the digital equivalent of a crossword puzzle
+I tried to meditate, but my mind kept wandering to my Homelab. I guess you could say I'm serverly stressed
+Deployrr is taking a detour through the land of infinite loops
+
+# Docker jokes
+Why did the container break up with the VM? It wanted less overhead in the relationship
+My Docker container and I have a lot in common - we both need isolation to function properly
+Docker containers are like introverts - they work best in isolation
+Why don't containers ever get invited to parties? They prefer to stay isolated
+
+# Sysadmin humor
+There are only 10 types of people: those who understand binary and those who don't
+A SQL query walks into a bar, walks up to two tables and asks... may I join you?
+I'm not lazy, I'm just in power-saving mode
+My code doesn't have bugs, it has random features
+Why do programmers prefer dark mode? Because light attracts bugs
+
+# Homelab tips (useful info!)
+[TIP] Remember to backup your Docker volumes regularly
+[TIP] Consider using Watchtower for automatic container updates
+[TIP] Always check container logs when troubleshooting issues
+[TIP] Document your homelab setup - future you will thank you
+[TIP] Join the Deployrr Discord community for help and ideas
+
+# More waiting messages
+Still working on it... Rome wasn't built in a day, and neither is a perfect homelab
+Good things come to those who wait... especially valid SSL certificates
+Certificates are like fine wine - they take time to mature
+Meanwhile, somewhere in the cloud, electrons are dancing to make this happen
+Trust the process - your homelab is about to level up

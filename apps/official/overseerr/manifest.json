@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "overseerr",
+    "pname": "Overseerr",
+    "description": "Overseerr is a request management and media discovery tool for your Plex ecosystem. It integrates with Radarr and Sonarr to automatically fulfill user requests.",
+    "descriptionShort": "Media requests and discovery for Plex",
+    "icon": "sh-overseerr",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["media", "requests", "plex"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 5055,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "OVERSEERR_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "OVERSEERR_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 5055,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_overseerr_status",
+    "successMessage": "Overseerr Setup Completed",
+    "telemetryAction": "overseerr"
+  }
+}

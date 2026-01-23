@@ -1,0 +1,527 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Deployrr App Manifest",
+  "description": "Manifest schema for Deployrr apps",
+  "type": "object",
+  "required": ["version", "app", "deployment", "requirements", "status"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Manifest schema version",
+      "pattern": "^[0-9]+\\.[0-9]+$"
+    },
+    "app": {
+      "type": "object",
+      "required": ["sname", "pname", "description", "descriptionShort", "icon", "category", "menuNumber"],
+      "properties": {
+        "sname": {
+          "type": "string",
+          "description": "Service name (container name)",
+          "maxLength": 32,
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "pname": {
+          "type": "string",
+          "description": "Proper/display name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Full description"
+        },
+        "descriptionShort": {
+          "type": "string",
+          "description": "Short description for dialog",
+          "maxLength": 42
+        },
+        "icon": {
+          "type": "string",
+          "description": "Icon identifier for dashboard"
+        },
+        "category": {
+          "type": "string",
+          "description": "App category",
+          "enum": ["core", "official", "community"]
+        },
+        "menuNumber": {
+          "type": "string",
+          "description": "Menu category number",
+          "pattern": "^0[3-7]$"
+        },
+        "tags": {
+          "type": "array",
+          "description": "Tags for filtering and categorization",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "deployment": {
+      "type": "object",
+      "required": ["compose", "profiles", "webui"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Deployment type: single container or multi-container app",
+          "enum": ["single", "multicontainer"],
+          "default": "single"
+        },
+        "compose": {
+          "type": "string",
+          "description": "Compose filename relative to app folder"
+        },
+        "profiles": {
+          "type": "array",
+          "description": "Docker compose profiles",
+          "items": {
+            "type": "string"
+          }
+        },
+        "networks": {
+          "type": "array",
+          "description": "Required networks",
+          "items": {
+            "type": "string"
+          }
+        },
+        "webui": {
+          "type": "boolean",
+          "description": "Has web interface"
+        },
+        "port": {
+          "type": "number",
+          "description": "Default host port (if webui)"
+        },
+        "protocol": {
+          "type": "string",
+          "description": "Protocol: http or https",
+          "enum": ["http", "https"]
+        }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "description": "Multi-container app dependencies (for deployment.type: multicontainer)",
+      "items": {
+        "type": "object",
+        "required": ["sname", "pname", "compose", "installOrder"],
+        "properties": {
+          "sname": {
+            "type": "string",
+            "description": "Service name (container name) of the dependency"
+          },
+          "pname": {
+            "type": "string",
+            "description": "Proper/display name of the dependency"
+          },
+          "compose": {
+            "type": "string",
+            "description": "Compose filename for this dependency (e.g., authelia-redis.yml)"
+          },
+          "installOrder": {
+            "type": "integer",
+            "description": "Installation/start order (1 = first, 2 = second, etc.)",
+            "minimum": 1
+          },
+          "waitForHealthy": {
+            "type": "boolean",
+            "description": "Whether to wait for container to be healthy before proceeding",
+            "default": false
+          },
+          "required": {
+            "type": "boolean",
+            "description": "Whether the dependency is required (default: true)",
+            "default": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of what this dependency does"
+          }
+        }
+      }
+    },
+    "requirements": {
+      "type": "object",
+      "required": ["prerequisites"],
+      "properties": {
+        "prerequisites": {
+          "type": "array",
+          "description": "Required prerequisites. Standard values: 'prerequisites' (basic setup), 'folder_permission' (requires folders.permissions config)",
+          "items": {
+            "type": "string",
+            "description": "Prerequisite type: 'prerequisites' for basic setup check, 'folder_permission' to enable appdata permission handling from folders.permissions"
+          }
+        },
+        "apps": {
+          "type": "array",
+          "description": "Required running apps",
+          "items": {
+            "type": "string"
+          }
+        },
+        "systemType": {
+          "type": "array",
+          "description": "Compatible system types",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "files": {
+      "type": "array",
+      "description": "Files to copy",
+      "items": {
+        "type": "object",
+        "required": ["source", "dest"],
+        "properties": {
+          "source": {
+            "type": "string",
+            "description": "Source file path relative to app folder"
+          },
+          "dest": {
+            "type": "string",
+            "description": "Destination path (placeholders allowed)"
+          },
+          "placeholders": {
+            "type": "object",
+            "description": "Placeholder substitutions for this file"
+          }
+        }
+      }
+    },
+    "placeholders": {
+      "type": "object",
+      "properties": {
+        "compose": {
+          "type": "object",
+          "description": "Compose file substitutions"
+        },
+        "config": {
+          "type": "object",
+          "description": "Config file substitutions"
+        }
+      }
+    },
+    "dashboard": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Show on dashboard"
+        },
+        "location": {
+          "type": "string",
+          "description": "Dashboard location",
+          "enum": ["other", "remote", "local"]
+        },
+        "showStats": {
+          "type": "boolean",
+          "description": "Show statistics"
+        },
+        "portVariable": {
+          "type": ["string", "null"],
+          "description": "Environment variable name that holds the webui port (e.g., 'NPM_ADMIN_PORT'). Used to construct service URL for local dashboard entry."
+        }
+      }
+    },
+    "hooks": {
+      "type": "object",
+      "description": "Pre/post install hooks for dialogs, messages, and scripts",
+      "properties": {
+        "preInstall": {
+          "type": "object",
+          "description": "Pre-install hooks (dialog and/or script)",
+          "properties": {
+            "dialog": {
+              "type": "object",
+              "description": "Dialog to show before installation",
+              "required": ["type", "title", "message"],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Dialog type: 'warning' (yesno, aborts if declined), 'info' (msgbox, informational only)",
+                  "enum": ["warning", "info"]
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Dialog title"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Dialog message. Use \\n for newlines. Use \\Z1...\\Zn for red (warning), \\Z4...\\Zn for blue (reference)."
+                }
+              }
+            },
+            "script": {
+              "type": ["string", "null"],
+              "description": "Pre-install script filename (runs after dialog if confirmed)"
+            }
+          }
+        },
+        "postInstall": {
+          "type": "object",
+          "description": "Post-install hooks (messages and/or script)",
+          "properties": {
+            "messages": {
+              "type": "array",
+              "description": "Messages to display in terminal after installation",
+              "items": {
+                "type": "object",
+                "required": ["style", "text"],
+                "properties": {
+                  "style": {
+                    "type": "string",
+                    "description": "Message style: 'note' (yellow info), 'warning' (red warning), 'info' (cyan info)",
+                    "enum": ["note", "warning", "info"]
+                  },
+                  "text": {
+                    "type": "string",
+                    "description": "Message text. Can include $VARIABLE placeholders that will be expanded."
+                  }
+                }
+              }
+            },
+            "script": {
+              "type": ["string", "null"],
+              "description": "Post-install script filename"
+            }
+          }
+        },
+        "preUninstall": {
+          "type": "object",
+          "description": "Pre-uninstall hooks",
+          "properties": {
+            "dialog": {
+              "type": "object",
+              "description": "Dialog to show before uninstallation",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": ["warning", "info"]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            },
+            "script": {
+              "type": ["string", "null"],
+              "description": "Pre-uninstall script filename"
+            }
+          }
+        },
+        "postUninstall": {
+          "type": "object",
+          "description": "Post-uninstall hooks",
+          "properties": {
+            "messages": {
+              "type": "array",
+              "description": "Messages to display after uninstallation",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "style": {
+                    "type": "string",
+                    "enum": ["note", "warning", "info"]
+                  },
+                  "text": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "script": {
+              "type": ["string", "null"],
+              "description": "Post-uninstall script filename"
+            }
+          }
+        }
+      }
+    },
+    "env": {
+      "type": "object",
+      "properties": {
+        "variables": {
+          "type": "array",
+          "description": "Environment variables to prompt/set",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Variable name (e.g., APP_PORT)"
+              },
+              "description": {
+                "type": "string",
+                "description": "Human-readable description"
+              },
+              "type": {
+                "type": "string",
+                "description": "Variable type: string, port, password",
+                "enum": ["string", "port", "password"]
+              },
+              "default": {
+                "description": "Default value"
+              },
+              "prompt": {
+                "type": "boolean",
+                "description": "Whether to prompt user for this value"
+              },
+              "required": {
+                "type": "boolean",
+                "description": "Whether this variable is required"
+              },
+              "fixed": {
+                "type": "boolean",
+                "description": "For port type: if true, port cannot be changed and must be available or installation fails. Use for mandatory ports like 80/443 on reverse proxies.",
+                "default": false
+              },
+              "validation": {
+                "type": "object",
+                "description": "Validation rules",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "min": {
+                    "type": "number"
+                  },
+                  "max": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "required": ["name", "type"]
+          }
+        },
+        "secrets": {
+          "type": "array",
+          "description": "Secrets to create",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "traefik": {
+      "type": "object",
+      "description": "Traefik reverse proxy configuration",
+      "properties": {
+        "supported": {
+          "type": "boolean",
+          "description": "Whether the app supports Traefik routing via file provider",
+          "default": true
+        },
+        "subdomain": {
+          "type": "string",
+          "description": "Subdomain for Traefik routing (e.g., 'authelia' for authelia.$DOMAINNAME_1). Used for apps with Docker labels instead of file providers.",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "chain": {
+          "type": "string",
+          "description": "Default middleware chain to use"
+        },
+        "middlewares": {
+          "type": "array",
+          "description": "Middleware files this app provides",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "folders": {
+      "type": "object",
+      "description": "Folder creation and permissions configuration",
+      "properties": {
+        "permissions": {
+          "type": "object",
+          "description": "Permission settings for appdata folder",
+          "properties": {
+            "appdata": {
+              "type": "string",
+              "description": "Owner:group for appdata folder (e.g., '$USERNAME:$USERNAME')",
+              "default": "$USERNAME:$USERNAME"
+            },
+            "fixAfterStart": {
+              "type": "boolean",
+              "description": "If true, stop container after start, fix permissions, then restart. Use when container creates files with wrong ownership on first start.",
+              "default": false
+            }
+          }
+        },
+        "appdata": {
+          "type": "array",
+          "description": "Subdirectories to create in appdata folder",
+          "items": {
+            "type": "string"
+          }
+        },
+        "custom": {
+          "type": "array",
+          "description": "Custom folders to create",
+          "items": {
+            "type": "object",
+            "required": ["path"],
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Folder path (can include variables like $DOCKER_FOLDER)"
+              },
+              "children": {
+                "type": "array",
+                "description": "Child subdirectories to create",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "owner": {
+                "type": "string",
+                "description": "Owner:group (e.g., '$USERNAME:$USERNAME')"
+              },
+              "permissions": {
+                "type": "string",
+                "description": "Permissions mode (e.g., '755')"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ufw": {
+      "type": "object",
+      "properties": {
+        "rules": {
+          "type": "array",
+          "description": "UFW firewall rules to add",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "object",
+      "required": ["file", "successMessage", "telemetryAction"],
+      "properties": {
+        "file": {
+          "type": "string",
+          "description": "Status file name"
+        },
+        "successMessage": {
+          "type": "string",
+          "description": "Success message to display"
+        },
+        "telemetryAction": {
+          "type": "string",
+          "description": "Telemetry action name"
+        }
+      }
+    }
+  }
+}

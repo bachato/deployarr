@@ -1,0 +1,26 @@
+services:
+  # Authentik PostgreSQL - Dedicated Database for Authentik
+  authentik-postgresql:
+    container_name: authentik-postgresql
+    image: postgres:${AUTHENTIKPOSTGRESQL_VERSION_PIN}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["core", "all"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d authentik -U authentik_db_user"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    networks:
+      - default
+    volumes:
+      - $DOCKERDIR/appdata/authentik-postgresql:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=authentik
+      - POSTGRES_USER=authentik_db_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/authentik_postgresql_password
+    secrets:
+      - authentik_postgresql_password
+    # DOCKER-LABELS-PLACEHOLDER

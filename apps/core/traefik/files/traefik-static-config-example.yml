@@ -1,0 +1,97 @@
+    # Static configuration in YAML format
+    global:
+      checkNewVersion: true
+      sendAnonymousUsage: false
+
+    entryPoints:
+      web-external:
+        address: ":81"
+        http:
+          redirections:
+            entrypoint:
+              to: websecure-external
+              scheme: https
+              permanent: true
+      web-internal:
+        address: ":80"
+        http:
+          redirections:
+            entrypoint:
+              to: websecure-internal
+              scheme: https
+              permanent: true
+      websecure-external:
+        address: ":444"
+        http3: true
+        forwardedHeaders:
+          trustedIPs:
+            - "$CLOUDFLARE_IPS"
+            - "$LOCAL_IPS"
+        http:
+          tls:
+            options:
+              tls-opts:
+                minVersion: VersionTLS12
+            certResolver: dns-cloudflare
+            domains:
+              - main: "$DOMAINNAME_1"
+                sans:
+                  - "*.$DOMAINNAME_1"
+      websecure-internal:
+        address: ":443"
+        http3: true
+        forwardedHeaders:
+          trustedIPs:
+            - "$CLOUDFLARE_IPS"
+            - "$LOCAL_IPS"
+        http:
+          tls:
+            options:
+              tls-opts:
+                minVersion: VersionTLS12
+            certResolver: dns-cloudflare
+            domains:
+              - main: "$DOMAINNAME_1"
+                sans:
+                  - "*.$DOMAINNAME_1"
+      traefik:
+        address: ":8080"
+
+    api:
+      dashboard: true
+      insecure: true
+
+    log:
+      filePath: "/logs/traefik.log"
+      level: DEBUG
+
+    accessLog:
+      filePath: "/logs/access.log"
+      bufferingSize: 100
+      filters:
+        statusCodes:
+          - "204-299"
+          - "400-499"
+          - "500-599"
+
+    providers:
+      docker:
+        endpoint: "tcp://socket-proxy:2375"
+        exposedByDefault: false
+        network: t3_proxy
+      file:
+        directory: "/rules"
+        watch: true
+
+    certificatesResolvers:
+      dns-cloudflare:
+        acme:
+          caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+          storage: "/acme.json"
+          dnsChallenge:
+            provider: cloudflare
+            resolvers:
+              - "1.1.1.1:53"
+              - "1.0.0.1:53"
+            propagation:
+              delayBeforeCheck: 120

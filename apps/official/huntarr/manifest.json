@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "huntarr",
+    "pname": "Huntarr",
+    "description": "Huntarr is a missing media finder and quality upgrader utility for the *arr stack that helps automate searching for missing content and upgrading existing media to better quality.",
+    "descriptionShort": "Missing media and upgrading utility",
+    "icon": "sh-huntarr",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["media", "automation", "arr"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 9705,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "HUNTARR_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "HUNTARR_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 9705,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_huntarr_status",
+    "successMessage": "Huntarr Setup Completed",
+    "telemetryAction": "huntarr"
+  }
+}

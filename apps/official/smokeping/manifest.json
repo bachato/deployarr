@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "smokeping",
+    "pname": "SmokePing",
+    "description": "SmokePing is a deluxe latency measurement tool that can measure, store, and display latency, latency distribution, and packet loss. It uses RRDtool to maintain a long-term data store.",
+    "descriptionShort": "Latency logging, graphing, and alerting",
+    "icon": "sh-smokeping",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["monitoring", "network", "latency"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "monitoring", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8081,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "SMOKEPING_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "SMOKEPING_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8081,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_smokeping_status",
+    "successMessage": "SmokePing Setup Completed",
+    "telemetryAction": "smokeping"
+  }
+}

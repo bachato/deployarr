@@ -1,0 +1,40 @@
+services:
+  # Nginx Proxy Manager - Reverse Proxy with SSL Management
+  npm:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: npm
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    ports:
+      - "80:80"
+      - "443:443"
+      - "$NPM_ADMIN_PORT:81"
+    volumes:
+      - $DOCKERDIR/appdata/npm/data:/data
+      - $DOCKERDIR/appdata/npm/letsencrypt:/etc/letsencrypt
+      # Custom Nginx Configuration (optional)
+      # - $DOCKERDIR/appdata/npm/custom:/data/nginx/custom
+      # Log Rotation Configuration (optional)
+      # - $DOCKERDIR/appdata/npm/logrotate:/etc/logrotate.d/nginx-proxy-manager
+    environment:
+      TZ: $TZ
+      PUID: $PUID
+      PGID: $PGID
+      # SQLite Database (default - no additional config needed)
+      # DB_SQLITE_FILE: "/data/database.sqlite"
+      # Network & Security
+      DISABLE_IPV6: "true"
+      X_FRAME_OPTIONS: "deny"
+      # CloudFront/Cloudflare IP Range Fetching (optional)
+      # IP_RANGES_FETCH_ENABLED: "true"
+    healthcheck:
+      test: ["CMD", "/usr/bin/check-health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # DOCKER-LABELS-PLACEHOLDER

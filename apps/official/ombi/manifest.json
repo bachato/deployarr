@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "ombi",
+    "pname": "Ombi",
+    "description": "Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves. It can connect to Sonarr, Radarr, and more.",
+    "descriptionShort": "Media requests for Plex and Emby",
+    "icon": "sh-ombi",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["media", "requests", "plex", "emby"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 3579,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "OMBI_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "OMBI_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 3579,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_ombi_status",
+    "successMessage": "Ombi Setup Completed",
+    "telemetryAction": "ombi"
+  }
+}

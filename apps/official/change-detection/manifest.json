@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "change-detection",
+    "pname": "Change-Detection",
+    "description": "Change-Detection monitors web pages for changes and sends notifications. It can detect visual changes, text changes, and specific element changes on any website.",
+    "descriptionShort": "Webpage change monitoring and notification",
+    "icon": "sh-changedetection",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["monitoring", "automation", "web"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "monitoring", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 5000,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "CHANGEDETECTION_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "CHANGEDETECTION_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 5000,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_changedetection_status",
+    "successMessage": "Change-Detection Setup Completed",
+    "telemetryAction": "changedetection"
+  }
+}

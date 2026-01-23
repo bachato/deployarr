@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "pulse",
+    "pname": "Pulse",
+    "description": "Pulse is a homelab monitoring solution that supports Proxmox VE, Proxmox Backup Server, Docker containers, and other infrastructure components.",
+    "descriptionShort": "Homelab monitoring (PVE,PBS,Docker,etc.)",
+    "icon": "sh-pulse",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["monitoring", "dashboard", "docker", "proxmox"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "monitoring", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 7655,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "PULSE_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "PULSE_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 7655,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_pulse_status",
+    "successMessage": "Pulse Setup Completed",
+    "telemetryAction": "pulse"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "chromium",
+    "pname": "Chromium",
+    "description": "Chromium is an open-source web browser project that forms the basis for Google Chrome. This container provides a web-accessible Chromium browser with KasmVNC for remote access.",
+    "descriptionShort": "Open-source web browser",
+    "icon": "sh-chromium",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["browser", "web", "remote"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 3001,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "CHROMIUM_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "CHROMIUM_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 3001,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_chromium_status",
+    "successMessage": "Chromium Setup Completed",
+    "telemetryAction": "chromium"
+  }
+}

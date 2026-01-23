@@ -1,0 +1,22 @@
+services:
+  # Change-Detection - Webpage Change Monitoring and Notification
+  change-detection:
+    image: lscr.io/linuxserver/changedetection.io:latest
+    container_name: change-detection
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "monitoring", "all"]
+    networks:
+      - default
+    ports:
+      - "$CHANGEDETECTION_PORT:5000"
+    volumes:
+      - $DOCKERDIR/appdata/change-detection:/config
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+      BASE_URL: /change-detection #optional
+      # PLAYWRIGHT_DRIVER_URL: #optional
+    # DOCKER-LABELS-PLACEHOLDER

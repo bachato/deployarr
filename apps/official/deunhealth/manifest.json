@@ -1,0 +1,46 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "deunhealth",
+    "pname": "DeUnhealth",
+    "description": "DeUnhealth monitors Docker containers and automatically restarts unhealthy ones. Useful for containers depending on VPN connections that may reconnect.",
+    "descriptionShort": "Restart unhealthy containers",
+    "icon": "sh-docker",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["docker", "monitoring", "automation", "health"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["socket_proxy"],
+    "webui": false
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": ["socket-proxy"]
+  },
+
+  "traefik": {
+    "supported": false
+  },
+
+  "dashboard": {
+    "enabled": false
+  },
+
+  "env": {
+    "variables": []
+  },
+
+  "status": {
+    "file": "06_deunhealth_status",
+    "successMessage": "DeUnhealth Setup Completed",
+    "telemetryAction": "deunhealth"
+  }
+}

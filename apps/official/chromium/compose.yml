@@ -1,0 +1,25 @@
+services:
+  # Chromium - Web Browser
+  chromium:
+    image: lscr.io/linuxserver/chromium:latest
+    container_name: chromium
+    security_opt:
+      - no-new-privileges:true
+      - seccomp:unconfined #optional
+    restart: "unless-stopped"
+    profiles: ["apps", "all"]
+    shm_size: "1gb"
+    # DEVICES-GPU-PLACEHOLDER-DO-NOT-DELETE    
+    networks:
+      - default
+    ports:
+      - "$CHROMIUM_PORT:3000" # HTTP
+      # - 3001:3001 # HTTPS
+    volumes:
+      - $DOCKERDIR/appdata/chromium:/config
+    environment:
+      TZ: $TZ
+      PUID: $PUID
+      PGID: $PGID
+      # CHROME_CLI: https://www.deployrr.app/ #optional
+    # DOCKER-LABELS-PLACEHOLDER

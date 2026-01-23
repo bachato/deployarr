@@ -1,0 +1,229 @@
+# Shell Prompt Configuration
+export PS1="[\[\e[32m\]\u\[\e[m\]@\[\e[33m\]\h\[\e[m\]: \\$\[\e[36m\]\w\[\e[m\]]\\$ "      # Colorized prompt showing user@host: path$
+
+# Load Configuration
+if [[ -f "$DEPLOYRR_CONFIG/deployrr_constants" ]]; then
+    source <(sudo cat $DEPLOYRR_CONFIG/deployrr_constants)      # Load Deployrr configuration if exists
+else
+    DOCKER_FOLDER=$HOME/docker      # Default Docker folder if no config exists
+fi
+
+#------------------------------------------------------------------------------
+# DOCKER MANAGEMENT
+#------------------------------------------------------------------------------
+
+# Basic Docker Commands
+alias dps='sudo docker ps -a'      # List all containers (running and stopped)
+alias dpss='sudo docker ps -a --format "table {{.Names}}\t{{.State}}\t{{.Status}}\t{{.Image}}" | (sed -u 1q; sort)'      # List containers in a nicely formatted table
+alias ddf='sudo docker system df'      # Show Docker disk usage for containers, images, and volumes
+alias dexec='sudo docker exec -ti'      # Execute command in running container (interactive mode)
+
+# Docker Logs and Monitoring
+alias dlogs='sudo docker logs -tf --tail="50" '      # Show last 50 lines of container logs and follow output
+alias dlogsize='sudo du -ch $(sudo docker inspect --format='{{.LogPath}}' $(sudo docker ps -qa)) | sort -h'      # Display size of container log files
+alias dips="sudo docker ps -q | xargs -n 1 sudo docker inspect -f '{{.Name}}%tab%{{range .NetworkSettings.Networks}}{{.IPAddress}}%tab%{{end}}' | sed 's#%tab%#\t#g' | sed 's#/##g' | sort | column -t -N NAME,IP\(s\) -o $'\t'"      # List IP addresses of all containers
+
+# Docker Container Management
+alias dstop='sudo docker stop'      # Stop a specific container
+alias dstopall='sudo docker stop $(sudo docker ps -aq)'      # Stop all running containers
+alias drm='sudo docker rm $(sudo docker ps -a -q)'      # Remove specified containers
+
+# Docker Cleanup and Maintenance
+alias dprunevol='sudo docker volume prune'      # Remove all unused volumes
+alias dprunesys='sudo docker system prune -a'      # Remove all unused containers, networks, images (both dangling and unreferenced)
+alias ddelimages='sudo docker rmi $(sudo docker images -q)'      # Delete all Docker images
+alias derase='dstopall ; drm ; ddelimages ; dprunevol ; dprunesys'      # Complete cleanup: stop and remove all containers, images, volumes
+alias dprune='ddelimages ; dprunevol ; dprunesys'      # Safe cleanup of unused resources
+
+#------------------------------------------------------------------------------
+# DOCKER COMPOSE & TRAEFIK
+#------------------------------------------------------------------------------
+
+# Docker Compose Basic Commands
+alias dcrun='sudo docker compose --profile all -f $DOCKER_FOLDER/docker-compose-$HOSTNAME.yml'      # Base command for docker-compose operations
+alias dcup='dcrun up -d --build --remove-orphans'      # Start all services, rebuild if needed, remove orphaned containers
+alias dcdown='dcrun down --remove-orphans'      # Stop and remove all containers, including orphaned ones
+alias dcstop='dcrun stop'      # Stop services without removing containers
+alias dcstart='dcrun start'      # Start existing containers
+alias dcrestart='dcrun restart'      # Restart services
+alias dcrec='dcrun up -d --force-recreate --remove-orphans'      # Force recreate containers even if no changes
+alias dcpull='dcrun --parallel 1 pull'      # Pull latest versions of all service images
+alias dclogs='dcrun logs -tf --tail="50"'      # Show and follow last 50 lines of service logs
+
+# Traefik Specific
+alias traefiklogs='tail -f $DOCKER_FOLDER/logs/$HOSTNAME/traefik/traefik.log'      # Monitor Traefik reverse proxy logs
+
+#------------------------------------------------------------------------------
+# CROWDSEC SECURITY
+#------------------------------------------------------------------------------
+
+# CrowdSec CLI Commands
+alias cscli='dcrun exec -t crowdsec cscli'      # Execute CrowdSec CLI commands
+alias csdecisions='cscli decisions list'      # List current IP ban decisions
+alias csalerts='cscli alerts list'      # List security alerts
+alias csinspect='cscli alerts inspect -d'      # Detailed inspection of specific alerts
+alias cshubs='cscli hub list'      # List available CrowdSec hubs
+alias csparsers='cscli parsers list'      # List installed parsers
+alias cscollections='cscli collections list'      # List installed collections
+alias cshubupdate='cscli hub update'      # Update CrowdSec hub index
+alias cshubupgrade='cscli hub upgrade'      # Upgrade all hub items
+alias csmetrics='cscli metrics'      # Show CrowdSec metrics
+alias csmachines='cscli machines list'      # List CrowdSec machines
+alias csbouncers='cscli bouncers list'      # List registered bouncers
+
+# CrowdSec Service Management
+alias csfbstatus='sudo systemctl status crowdsec-firewall-bouncer.service'      # Check firewall bouncer status
+alias csfbstart='sudo systemctl start crowdsec-firewall-bouncer.service'      # Start firewall bouncer
+alias csfbstop='sudo systemctl stop crowdsec-firewall-bouncer.service'      # Stop firewall bouncer
+alias csfbrestart='sudo systemctl restart crowdsec-firewall-bouncer.service'      # Restart firewall bouncer
+alias csbrestart='dcrec2 traefik-bouncer ; csfbrestart'      # Restart both Traefik bouncer and firewall bouncer
+
+# CrowdSec Logs
+alias tailkern='sudo tail -f /var/log/kern.log'      # Monitor kernel logs
+alias tailauth='sudo tail -f /var/log/auth.log'      # Monitor authentication logs
+alias tailcsfb='sudo tail -f /var/log/crowdsec-firewall-bouncer.log'      # Monitor firewall bouncer logs
+
+#------------------------------------------------------------------------------
+# SYSTEM ADMINISTRATION
+#------------------------------------------------------------------------------
+
+# File System Navigation
+alias cd..='cd ..'      # Fix common typo of cd.. instead of cd ..
+alias ..='cd ..'        # Move up one directory level
+alias ...='cd ../..'    # Move up two directory levels
+alias .3='cd ../../..'  # Move up three directory levels
+alias .4='cd ../../../..'  # Move up four directory levels
+alias .5='cd ../../../../..'  # Move up five directory levels
+alias cdd='cd $DOCKER_FOLDER' # Navigate to the Docker folder
+alias up='cd ..'        # Alternative way to move up one directory
+alias back='cd -'       # Return to previous directory (toggles between last two directories)
+alias home='cd ~'       # Navigate to home directory
+
+# File Listing and Management
+alias ls='ls -F --color=auto --group-directories-first'      # Colorized listing with directories first
+alias ll='ls -alh --color=auto --group-directories-first'      # Detailed list, human-readable sizes
+alias lt='ls --human-readable --color=auto --size -1 -S --classify'      # List files by size
+alias lsr='ls --color=auto -t -1'      # List files by modification time
+alias mkdir='mkdir -pv'      # Create parent directories as needed, verbose output
+alias cp='cp -iv'      # Interactive and verbose copy
+alias mv='mv -iv'      # Interactive and verbose move
+
+# Storage and Disk Management
+alias fdisk='sudo fdisk -l'      # List disk partitions
+alias uuid='sudo vol_id -u'      # Show UUID of volumes
+alias mounts='mount | column -t'      # Show mounted filesystems in clean output
+alias dirsize='sudo du -hx --max-depth=1'      # Show directory sizes at depth 1
+alias dirusage='du -ch | grep total'      # Show total disk usage in current directory
+alias diskusage='df -hl --total | grep total'      # Show total disk usage of system
+alias partusage='df -hlT --exclude-type=tmpfs --exclude-type=devtmpfs'      # Show partition usage excluding virtual filesystems
+alias space='du -sh * | sort -hr'      # List directory contents sorted by size
+alias disks='lsblk -o NAME,SIZE,TYPE,MOUNTPOINT'      # List block devices with details
+alias space-usage='df -h -x squashfs -x tmpfs -x devtmpfs'      # Show disk space usage excluding virtual filesystems
+alias inode-usage='df -ih'      # Show inode usage on mounted filesystems
+
+# File Analysis
+alias biggest='find . -type f -printf "%s %p\n" | sort -nr | head -10'      # Show 10 largest files in current directory
+alias recent='find . -type f -printf "%TY-%Tm-%Td %TT %p\n" | sort -r | head -10'      # Show 10 most recently modified files
+alias tree='tree -C'      # Show directory structure in tree format with colors
+
+#------------------------------------------------------------------------------
+# SYSTEM MONITORING & PERFORMANCE
+#------------------------------------------------------------------------------
+
+# Memory and CPU Monitoring
+alias meminfo='free -m -l -t'      # Display memory usage in megabytes
+alias psmem='ps auxf | sort -nr -k 4'      # List processes by memory usage
+alias psmem10='ps auxf | sort -nr -k 4 | head -10'      # Show top 10 memory-consuming processes
+alias pscpu='ps auxf | sort -nr -k 3'      # List processes by CPU usage
+alias pscpu10='ps auxf | sort -nr -k 3 | head -10'      # Show top 10 CPU-consuming processes
+alias cpuinfo='lscpu'      # Show CPU information
+alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'      # Show GPU memory information
+alias free='free -h'      # Show memory usage in human-readable format
+
+#------------------------------------------------------------------------------
+# NETWORKING
+#------------------------------------------------------------------------------
+
+# Network Monitoring and Analysis
+alias ports='netstat -tulanp'      # Show all active ports and their processes
+alias showlistening='lsof -i -n | egrep "COMMAND|LISTEN"'      # Show listening ports and their processes
+alias ping='ping -c 5'      # Ping with 5 packets only
+alias myip='curl -s ifconfig.me'      # Show external IP address
+alias localip='hostname -I | awk "{print \$1}"'      # Show primary local IP address
+alias header='curl -I'      # Show HTTP headers of a website
+alias dnscheck='dig +short'      # Quick DNS lookup
+alias connections='netstat -nat | awk "{print \$6}" | sort | uniq -c | sort -n'      # Count active network connections by state
+alias bandwidth='nethogs'      # Monitor bandwidth usage by process
+
+#------------------------------------------------------------------------------
+# PACKAGE MANAGEMENT
+#------------------------------------------------------------------------------
+
+# APT Package Management
+alias update='sudo apt-get update'      # Update package index
+alias upgrade='sudo apt-get update && sudo apt-get upgrade'      # Update package index and upgrade all packages
+alias install='sudo apt-get install'      # Install a package
+alias finstall='sudo apt-get -f install'      # Fix broken package installations
+alias rinstall='sudo apt-get -f install --reinstall'      # Reinstall a package
+alias uninstall='sudo apt-get remove'      # Remove a package
+alias search='sudo apt-cache search'      # Search for a package
+alias addkey='sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com'      # Add a repository key
+
+#------------------------------------------------------------------------------
+# SYSTEM SERVICES
+#------------------------------------------------------------------------------
+
+# Systemd Service Management
+alias ctlreload='sudo systemctl daemon-reload'      # Reload systemd manager configuration
+alias ctlstart='sudo systemctl start'      # Start a systemd service
+alias ctlstop='sudo systemctl stop'      # Stop a systemd service
+alias ctlrestart='sudo systemctl restart'      # Restart a systemd service
+alias ctlstatus='sudo systemctl status'      # Check status of a systemd service
+alias ctlenable='sudo systemctl enable'      # Enable a service to start at boot
+alias ctldisable='sudo systemctl disable'      # Disable a service from starting at boot
+alias ctlactive='sudo systemctl is-active'      # Check if a service is currently active
+
+# UFW Firewall Management
+alias ufwenable='sudo ufw enable'      # Enable the UFW firewall
+alias ufwdisable='sudo ufw disable'      # Disable the UFW firewall
+alias ufwallow='sudo ufw allow'      # Allow a port through UFW
+alias ufwlimit='sudo ufw limit'      # Limit connections to a port
+alias ufwlist='sudo ufw status numbered'      # List UFW rules with numbers
+alias ufwdelete='sudo ufw delete'      # Delete a UFW rule
+alias ufwreload='sudo ufw reload'      # Reload UFW rules
+
+#------------------------------------------------------------------------------
+# SYNOLOGY DSM
+#------------------------------------------------------------------------------
+
+# Synology Service Management
+alias servicelist='sudo synoservicecfg --list'      # List all Synology services (DSM 6.x)
+alias servicestatus='sudo synosystemctl status'      # Check status of Synology service
+alias servicestop='sudo synosystemctl stop'      # Stop a Synology service
+alias servicehstop='sudo synoservicecfg --hard-stop'      # Hard stop a service (DSM 6.x)
+alias servicestart='sudo synosystemctl start'      # Start a Synology service
+alias servicehstart='sudo synoservicecfg --hard-start'      # Hard start a service (DSM 6.x)
+alias servicerestart='sudo synosystemctl restart'      # Restart a Synology service
+alias restartdocker='sudo synosystemctl restart pkgctl-Docker'      # Restart Docker package
+
+#------------------------------------------------------------------------------
+# FILE COMPRESSION
+#------------------------------------------------------------------------------
+
+# Archive Management
+alias untargz='tar --same-owner -zxvf'      # Extract .tar.gz archive preserving ownership
+alias untarbz='tar --same-owner -xjvf'      # Extract .tar.bz2 archive preserving ownership
+alias lstargz='tar -ztvf'      # List contents of .tar.gz archive
+alias lstarbz='tar -jtvf'      # List contents of .tar.bz2 archive
+alias targz='tar -zcvf'      # Create .tar.gz archive
+alias tarbz='tar -cjvf'      # Create .tar.bz2 archive
+
+#------------------------------------------------------------------------------
+# CONFIGURATION
+#------------------------------------------------------------------------------
+
+# Quick Configuration Edits
+alias reload='. ~/.bashrc'      # Reload bash configuration
+alias aliases='nano ~/.bash_aliases'      # Edit aliases file
+alias hosts='sudo nano /etc/hosts'      # Edit hosts file
+alias bashrc='nano ~/.bashrc'      # Edit bash configuration file

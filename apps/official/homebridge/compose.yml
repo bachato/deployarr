@@ -1,0 +1,13 @@
+services:
+  # Homebridge - iOS HomeKit API
+  homebridge:
+    image: homebridge/homebridge:latest
+    container_name: homebridge
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    network_mode: host
+    volumes:
+      - $DOCKERDIR/appdata/homebridge:/homebridge
+    # DOCKER-LABELS-PLACEHOLDER

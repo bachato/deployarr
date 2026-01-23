@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "dozzle",
+    "pname": "Dozzle",
+    "description": "Dozzle is a real-time log viewer for Docker containers. It provides a lightweight web interface to monitor container logs without storing them.",
+    "descriptionShort": "Docker log monitoring",
+    "icon": "sh-dozzle",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["docker", "logs", "monitoring", "debugging"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default", "socket_proxy"],
+    "webui": true,
+    "port": 8081,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": ["socket-proxy"]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "DOZZLE_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "DOZZLE_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8081,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_dozzle_status",
+    "successMessage": "Dozzle Setup Completed",
+    "telemetryAction": "dozzle"
+  }
+}
