@@ -10,9 +10,8 @@
 !APPS.md
 dpf*
 dpm*
-*.sh 
+*.sh
 
 !images
 !images/*
 !images/*/*
-

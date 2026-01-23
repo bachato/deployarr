@@ -1,2 +1,0 @@
-SHARE-PLACEHOLDER MOUNT-POINT-PLACEHOLDER cifs credentials=CREDENTIALS-FILE-PATH-PLACEHOLDER,uid=UID-PLACEHOLDER,gid=GID-PLACEHOLDER,iocharset=utf8,file_mode=0775,dir_mode=0775,rw,noauto,x-systemd.automount,
-_netdev 0 0
