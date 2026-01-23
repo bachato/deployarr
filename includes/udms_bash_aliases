@@ -32,7 +32,7 @@ alias drm='sudo docker rm $(sudo docker ps -a -q)'      # Remove specified conta
 alias dprunevol='sudo docker volume prune'      # Remove all unused volumes
 alias dprunesys='sudo docker system prune -a'      # Remove all unused containers, networks, images (both dangling and unreferenced)
 alias ddelimages='sudo docker rmi $(sudo docker images -q)'      # Delete all Docker images
-alias derase='dstopcont ; drmcont ; ddelimages ; dvolprune ; dsysprune'      # Complete cleanup: stop and remove all containers, images, volumes
+alias derase='dstopall ; drm ; ddelimages ; dprunevol ; dprunesys'      # Complete cleanup: stop and remove all containers, images, volumes
 alias dprune='ddelimages ; dprunevol ; dprunesys'      # Safe cleanup of unused resources
 
 #------------------------------------------------------------------------------

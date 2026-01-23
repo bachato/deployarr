@@ -1,9 +1,6 @@
 *
 */
 
-!deployrr_v5.11.1.app 
-!deployrr_v5.11.1-arm.app 
-
 !.gitignore
 !announcement
 !CHANGELOG.md
@@ -15,18 +12,7 @@ dpf*
 dpm*
 *.sh 
 
-!compose
-compose/*
-!compose/*.yml
-
 !images
 !images/*
 !images/*/*
 
-!includes
-!includes/*
-!includes/*/*
-
-!scripts
-scripts/*
-!scripts/*.sh

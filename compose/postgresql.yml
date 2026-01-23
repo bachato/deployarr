@@ -18,7 +18,7 @@ services:
     ports:
       - "$POSTGRESQL_PORT:5432"
     volumes:
-      - $DOCKERDIR/appdata/postgresql:/var/lib/postgresql/18/data
+      - $DOCKERDIR/appdata/postgresql:/var/lib/postgresql
     environment:
       # - POSTGRES_DB=$POSTGRES_DB
       - POSTGRES_USER=$POSTGRES_USER
