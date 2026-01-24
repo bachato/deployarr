@@ -19,5 +19,5 @@ services:
     #           device_ids: ['all']
     #           capabilities: [gpu]
     environment:
-      - OLLAMA_KEEP_ALIVE=24h
+    - OLLAMA_KEEP_ALIVE=24h
     # DOCKER-LABELS-PLACEHOLDER

@@ -401,9 +401,60 @@
         },
         "secrets": {
           "type": "array",
-          "description": "Secrets to create",
+          "description": "Docker secrets to create before installation. Secrets are stored as files in $DOCKER_FOLDER/secrets/",
           "items": {
-            "type": "string"
+            "type": "object",
+            "required": ["name", "type"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Secret name (also used as filename in secrets folder)",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              "description": {
+                "type": "string",
+                "description": "Human-readable description shown in prompt dialog"
+              },
+              "type": {
+                "type": "string",
+                "description": "Secret generation type: 'random' (auto-generate, no prompt), 'random_with_prompt' (generate random, show as default in prompt), 'prompt' (text input), 'prompt_password' (masked password input with confirmation)",
+                "enum": ["random", "random_with_prompt", "prompt", "prompt_password"]
+              },
+              "length": {
+                "type": "integer",
+                "description": "Length of generated random password (for 'random' and 'random_with_prompt' types)",
+                "default": 16,
+                "minimum": 8,
+                "maximum": 64
+              },
+              "addToCompose": {
+                "type": "boolean",
+                "description": "If true, add this secret to the global compose file's secrets block",
+                "default": true
+              }
+            }
+          }
+        },
+        "constants": {
+          "type": "array",
+          "description": "Fixed environment variables that are set automatically without prompting the user",
+          "items": {
+            "type": "object",
+            "required": ["name", "value"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Variable name"
+              },
+              "value": {
+                "type": "string",
+                "description": "Fixed value to set"
+              },
+              "description": {
+                "type": "string",
+                "description": "Human-readable description (for documentation)"
+              }
+            }
           }
         }
       }

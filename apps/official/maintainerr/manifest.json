@@ -1,0 +1,72 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "maintainerr",
+    "pname": "Maintainerr",
+    "description": "Maintainerr makes managing your media easy. Create custom rules to automatically add or remove media from collections based on various criteria.",
+    "descriptionShort": "Manage Plex media",
+    "icon": "sh-maintainerr",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["plex", "media", "automation", "management"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 6246,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "folders": {
+    "appdata": [],
+    "permissions": {
+      "appdata": "$PUID:$PGID"
+    }
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "MAINTAINERR_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "MAINTAINERR_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 6246,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_maintainerr_status",
+    "successMessage": "Maintainerr Setup Completed",
+    "telemetryAction": "maintainerr"
+  }
+}

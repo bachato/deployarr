@@ -324,23 +324,17 @@ Add your app to `apps/community/apps.json`:
 
 ```json
 {
-  "version": "2.0",
+  "version": "2.1",
   "description": "Community Deployrr Apps Registry",
-  "lastUpdated": "2026-01-23",
+  "lastUpdated": "2026-01-24",
   "apps": [
-    { "sname": "existing-app", "tier": 1 },
-    { "sname": "your-app", "tier": 1 }
+    "existing-app",
+    "your-app"
   ]
 }
 ```
 
-### App Tiers
-
-| Tier | Description |
-|------|-------------|
-| 1 | Simple single-container apps (this guide) |
-| 2 | Apps with additional configuration files |
-| 3 | Multi-container apps with dependencies |
+Keep apps sorted alphabetically by name.
 
 ---
 

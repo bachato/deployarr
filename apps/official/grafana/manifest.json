@@ -1,0 +1,81 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "grafana",
+    "pname": "Grafana",
+    "description": "Grafana is the open source analytics and monitoring solution for every database. Create, explore, and share dashboards with your team.",
+    "descriptionShort": "Dashboarding and visualization",
+    "icon": "sh-grafana",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["monitoring", "visualization", "dashboards", "analytics"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 3001,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "folders": {
+    "appdata": [],
+    "permissions": {
+      "appdata": "$PUID:$PGID"
+    }
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "Grafana default username/password are: admin/admin."
+      }
+    ]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "GRAFANA_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "GRAFANA_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 3001,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_grafana_status",
+    "successMessage": "Grafana Setup Completed",
+    "telemetryAction": "grafana"
+  }
+}

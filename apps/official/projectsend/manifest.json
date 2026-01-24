@@ -1,0 +1,72 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "projectsend",
+    "pname": "ProjectSend",
+    "description": "ProjectSend is a self-hosted application that lets you upload files and assign them to specific clients. Clients can then access their uploaded files through a secure web interface.",
+    "descriptionShort": "Secure, Private File Sharing",
+    "icon": "sh-projectsend",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["file-sharing", "upload", "clients", "secure"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 80,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "folders": {
+    "appdata": ["config", "data"],
+    "permissions": {
+      "appdata": "$PUID:$PGID"
+    }
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "PROJECTSEND_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "PROJECTSEND_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 80,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_projectsend_status",
+    "successMessage": "ProjectSend Setup Completed",
+    "telemetryAction": "projectsend"
+  }
+}
