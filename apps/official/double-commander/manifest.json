@@ -3,14 +3,14 @@
   "version": "1.2",
 
   "app": {
-    "sname": "filezilla",
-    "pname": "FileZilla",
-    "description": "FileZilla is a cross-platform FTP, FTPS, and SFTP client with a graphical user interface. This container provides web-accessible FileZilla with KasmVNC for remote access.",
-    "descriptionShort": "FTP client",
-    "icon": "sh-filezilla",
+    "sname": "double-commander",
+    "pname": "Double Commander",
+    "description": "Double Commander is a free cross platform open source file manager with two panels side by side. It is inspired by Total Commander and features some new ideas.",
+    "descriptionShort": "Web-based File Manager",
+    "icon": "sh-docker",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["files", "ftp", "remote"]
+    "tags": ["files", "manager", "utility"]
   },
 
   "deployment": {
@@ -19,12 +19,12 @@
     "profiles": ["apps", "all"],
     "networks": ["default"],
     "webui": true,
-    "port": 3002,
+    "port": 3000,
     "protocol": "http"
   },
 
   "requirements": {
-    "prerequisites": ["prerequisites", "add_gpu"],
+    "prerequisites": ["prerequisites", "media_folder", "add_gpu"],
     "apps": []
   },
 
@@ -36,16 +36,16 @@
     "enabled": true,
     "location": "local",
     "showStats": true,
-    "portVariable": "FILEZILLA_PORT"
+    "portVariable": "DOUBLECOMMANDER_PORT"
   },
 
   "env": {
     "variables": [
       {
-        "name": "FILEZILLA_PORT",
+        "name": "DOUBLECOMMANDER_PORT",
         "description": "Web interface port",
         "type": "port",
-        "default": 3002,
+        "default": 3000,
         "prompt": true,
         "required": true,
         "validation": {
@@ -58,8 +58,8 @@
   },
 
   "status": {
-    "file": "06_filezilla_status",
-    "successMessage": "FileZilla Setup Completed",
-    "telemetryAction": "filezilla"
+    "file": "06_double-commander_status",
+    "successMessage": "Double Commander Setup Completed",
+    "telemetryAction": "double-commander"
   }
 }

@@ -3,23 +3,23 @@
   "version": "1.2",
 
   "app": {
-    "sname": "filezilla",
-    "pname": "FileZilla",
-    "description": "FileZilla is a cross-platform FTP, FTPS, and SFTP client with a graphical user interface. This container provides web-accessible FileZilla with KasmVNC for remote access.",
-    "descriptionShort": "FTP client",
-    "icon": "sh-filezilla",
+    "sname": "xpipe-webtop",
+    "pname": "XPipe Webtop",
+    "description": "XPipe Webtop is a web-based desktop environment that provides a full Linux desktop accessible through your browser with XPipe connection management built-in.",
+    "descriptionShort": "Web desktop environment",
+    "icon": "sh-xpipe",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["files", "ftp", "remote"]
+    "tags": ["desktop", "web", "remote", "xpipe"]
   },
 
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["apps", "all"],
+    "profiles": ["core", "all"],
     "networks": ["default"],
     "webui": true,
-    "port": 3002,
+    "port": 3004,
     "protocol": "http"
   },
 
@@ -36,16 +36,16 @@
     "enabled": true,
     "location": "local",
     "showStats": true,
-    "portVariable": "FILEZILLA_PORT"
+    "portVariable": "XPIPEWEBTOP_PORT"
   },
 
   "env": {
     "variables": [
       {
-        "name": "FILEZILLA_PORT",
+        "name": "XPIPEWEBTOP_PORT",
         "description": "Web interface port",
         "type": "port",
-        "default": 3002,
+        "default": 3004,
         "prompt": true,
         "required": true,
         "validation": {
@@ -58,8 +58,8 @@
   },
 
   "status": {
-    "file": "06_filezilla_status",
-    "successMessage": "FileZilla Setup Completed",
-    "telemetryAction": "filezilla"
+    "file": "06_xpipe-webtop_status",
+    "successMessage": "XPipe Webtop Setup Completed",
+    "telemetryAction": "xpipe-webtop"
   }
 }

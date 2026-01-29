@@ -3,14 +3,14 @@
   "version": "1.2",
 
   "app": {
-    "sname": "filezilla",
-    "pname": "FileZilla",
-    "description": "FileZilla is a cross-platform FTP, FTPS, and SFTP client with a graphical user interface. This container provides web-accessible FileZilla with KasmVNC for remote access.",
-    "descriptionShort": "FTP client",
-    "icon": "sh-filezilla",
+    "sname": "cloud-commander",
+    "pname": "Cloud Commander",
+    "description": "Cloud Commander is a file manager for the web with console and editor. It helps you manage your server files and folders.",
+    "descriptionShort": "Web-based file manager",
+    "icon": "sh-cloud-commander",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["files", "ftp", "remote"]
+    "tags": ["files", "manager", "web", "editor"]
   },
 
   "deployment": {
@@ -19,12 +19,12 @@
     "profiles": ["apps", "all"],
     "networks": ["default"],
     "webui": true,
-    "port": 3002,
+    "port": 8000,
     "protocol": "http"
   },
 
   "requirements": {
-    "prerequisites": ["prerequisites", "add_gpu"],
+    "prerequisites": ["prerequisites", "media_folder", "appfolder_permission"],
     "apps": []
   },
 
@@ -36,16 +36,16 @@
     "enabled": true,
     "location": "local",
     "showStats": true,
-    "portVariable": "FILEZILLA_PORT"
+    "portVariable": "CLOUDCOMMANDER_PORT"
   },
 
   "env": {
     "variables": [
       {
-        "name": "FILEZILLA_PORT",
+        "name": "CLOUDCOMMANDER_PORT",
         "description": "Web interface port",
         "type": "port",
-        "default": 3002,
+        "default": 8000,
         "prompt": true,
         "required": true,
         "validation": {
@@ -58,8 +58,8 @@
   },
 
   "status": {
-    "file": "06_filezilla_status",
-    "successMessage": "FileZilla Setup Completed",
-    "telemetryAction": "filezilla"
+    "file": "06_cloud-commander_status",
+    "successMessage": "Cloud Commander Setup Completed",
+    "telemetryAction": "cloud-commander"
   }
 }

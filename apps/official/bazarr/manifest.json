@@ -3,28 +3,28 @@
   "version": "1.2",
 
   "app": {
-    "sname": "filezilla",
-    "pname": "FileZilla",
-    "description": "FileZilla is a cross-platform FTP, FTPS, and SFTP client with a graphical user interface. This container provides web-accessible FileZilla with KasmVNC for remote access.",
-    "descriptionShort": "FTP client",
-    "icon": "sh-filezilla",
+    "sname": "bazarr",
+    "pname": "Bazarr",
+    "description": "Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles based on your requirements.",
+    "descriptionShort": "Subtitle downloader for Radarr/Sonarr",
+    "icon": "sh-bazarr",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["files", "ftp", "remote"]
+    "tags": ["media", "subtitles", "sonarr", "radarr", "starr"]
   },
 
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["apps", "all"],
+    "profiles": ["media", "starr", "all"],
     "networks": ["default"],
     "webui": true,
-    "port": 3002,
+    "port": 6767,
     "protocol": "http"
   },
 
   "requirements": {
-    "prerequisites": ["prerequisites", "add_gpu"],
+    "prerequisites": ["prerequisites", "media_folder", "appfolder_permission"],
     "apps": []
   },
 
@@ -36,16 +36,16 @@
     "enabled": true,
     "location": "local",
     "showStats": true,
-    "portVariable": "FILEZILLA_PORT"
+    "portVariable": "BAZARR_PORT"
   },
 
   "env": {
     "variables": [
       {
-        "name": "FILEZILLA_PORT",
+        "name": "BAZARR_PORT",
         "description": "Web interface port",
         "type": "port",
-        "default": 3002,
+        "default": 6767,
         "prompt": true,
         "required": true,
         "validation": {
@@ -58,8 +58,8 @@
   },
 
   "status": {
-    "file": "06_filezilla_status",
-    "successMessage": "FileZilla Setup Completed",
-    "telemetryAction": "filezilla"
+    "file": "06_bazarr_status",
+    "successMessage": "Bazarr Setup Completed",
+    "telemetryAction": "bazarr"
   }
 }

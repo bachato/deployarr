@@ -3,23 +3,23 @@
   "version": "1.2",
 
   "app": {
-    "sname": "filezilla",
-    "pname": "FileZilla",
-    "description": "FileZilla is a cross-platform FTP, FTPS, and SFTP client with a graphical user interface. This container provides web-accessible FileZilla with KasmVNC for remote access.",
-    "descriptionShort": "FTP client",
-    "icon": "sh-filezilla",
+    "sname": "dispatcharr",
+    "pname": "Dispatcharr",
+    "description": "Dispatcharr is an IPTV and stream companion that provides live TV streaming capabilities with EPG support and hardware acceleration.",
+    "descriptionShort": "IPTV and stream companion",
+    "icon": "sh-dispatcharr",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["files", "ftp", "remote"]
+    "tags": ["media", "iptv", "streaming", "tv"]
   },
 
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["apps", "all"],
+    "profiles": ["media", "all"],
     "networks": ["default"],
     "webui": true,
-    "port": 3002,
+    "port": 9191,
     "protocol": "http"
   },
 
@@ -36,16 +36,16 @@
     "enabled": true,
     "location": "local",
     "showStats": true,
-    "portVariable": "FILEZILLA_PORT"
+    "portVariable": "DISPATCHARR_PORT"
   },
 
   "env": {
     "variables": [
       {
-        "name": "FILEZILLA_PORT",
+        "name": "DISPATCHARR_PORT",
         "description": "Web interface port",
         "type": "port",
-        "default": 3002,
+        "default": 9191,
         "prompt": true,
         "required": true,
         "validation": {
@@ -58,8 +58,8 @@
   },
 
   "status": {
-    "file": "06_filezilla_status",
-    "successMessage": "FileZilla Setup Completed",
-    "telemetryAction": "filezilla"
+    "file": "06_dispatcharr_status",
+    "successMessage": "Dispatcharr Setup Completed",
+    "telemetryAction": "dispatcharr"
   }
 }

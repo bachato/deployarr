@@ -1,0 +1,21 @@
+services:
+  # Kavita - Cross-platform Reading Server
+  kavita:
+    image: lscr.io/linuxserver/kavita:latest
+    container_name: kavita
+    security_opt:
+      - no-new-privileges:true
+    restart: "no"
+    profiles: ["media", "all"]
+    networks:
+      - default
+    ports:
+      - "$KAVITA_PORT:5000" 
+    volumes:
+      - $DOCKERDIR/appdata/kavita:/config
+      - $BOOKSDIR:/data/books
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+    # DOCKER-LABELS-PLACEHOLDER

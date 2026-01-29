@@ -1,0 +1,78 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "gonic",
+    "pname": "Gonic",
+    "description": "Gonic is a free music server implementing the Subsonic API. It supports on-the-fly transcoding and audio scrobbling.",
+    "descriptionShort": "Music server",
+    "icon": "sh-gonic",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["music", "media", "streaming", "subsonic"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["media", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 82,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "media_folder", "appfolder_permission"],
+    "apps": []
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "$APP_PNAME default username/password are: admin/admin"
+      }
+    ]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "GONIC_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "GONIC_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 82,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "folders": {
+    "appdata": ["data", "podcasts", "cache", "playlists"]
+  },
+
+  "status": {
+    "file": "06_gonic_status",
+    "successMessage": "Gonic Setup Completed",
+    "telemetryAction": "gonic"
+  }
+}

@@ -1,0 +1,22 @@
+services:
+  # Komga - Media Server for Comics, eBooks, Magazines and Mangas
+  komga:
+    image: gotson/komga:latest
+    container_name: komga
+    security_opt:
+      - no-new-privileges:true
+    restart: "no"
+    profiles: ["media", "all"]
+    user: "$PUID:$PGID"
+    networks:
+      - default
+    ports:
+      - "$KOMGA_PORT:25600" 
+    volumes:
+      - $DOCKERDIR/appdata/komga/data:/data
+      - $DOCKERDIR/appdata/komga/config:/config
+      - $BOOKSDIR:/data/books
+      - $COMICSDIR:/data/comics
+    environment:
+      TZ: $TZ
+    # DOCKER-LABELS-PLACEHOLDER

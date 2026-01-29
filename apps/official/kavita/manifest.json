@@ -3,28 +3,28 @@
   "version": "1.2",
 
   "app": {
-    "sname": "filezilla",
-    "pname": "FileZilla",
-    "description": "FileZilla is a cross-platform FTP, FTPS, and SFTP client with a graphical user interface. This container provides web-accessible FileZilla with KasmVNC for remote access.",
-    "descriptionShort": "FTP client",
-    "icon": "sh-filezilla",
+    "sname": "kavita",
+    "pname": "Kavita",
+    "description": "Kavita is a fast, feature-rich, cross-platform reading server built with a focus on manga, comic, and book formats. It has a responsive web UI, OPDS support, and apps available for iOS and Android.",
+    "descriptionShort": "Cross-platform reading server",
+    "icon": "sh-kavita",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["files", "ftp", "remote"]
+    "tags": ["media", "books", "manga", "comics", "reading"]
   },
 
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["apps", "all"],
+    "profiles": ["media", "all"],
     "networks": ["default"],
     "webui": true,
-    "port": 3002,
+    "port": 5000,
     "protocol": "http"
   },
 
   "requirements": {
-    "prerequisites": ["prerequisites", "add_gpu"],
+    "prerequisites": ["prerequisites", "books_folder", "appfolder_permission"],
     "apps": []
   },
 
@@ -36,16 +36,16 @@
     "enabled": true,
     "location": "local",
     "showStats": true,
-    "portVariable": "FILEZILLA_PORT"
+    "portVariable": "KAVITA_PORT"
   },
 
   "env": {
     "variables": [
       {
-        "name": "FILEZILLA_PORT",
+        "name": "KAVITA_PORT",
         "description": "Web interface port",
         "type": "port",
-        "default": 3002,
+        "default": 5000,
         "prompt": true,
         "required": true,
         "validation": {
@@ -58,8 +58,8 @@
   },
 
   "status": {
-    "file": "06_filezilla_status",
-    "successMessage": "FileZilla Setup Completed",
-    "telemetryAction": "filezilla"
+    "file": "06_kavita_status",
+    "successMessage": "Kavita Setup Completed",
+    "telemetryAction": "kavita"
   }
 }

@@ -1,0 +1,73 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "flame",
+    "pname": "Flame",
+    "description": "Flame is a self-hosted startpage for your server. Its design is inspired by SUI with easy docker integration and bookmarks editor.",
+    "descriptionShort": "Homelab dashboard",
+    "icon": "sh-flame",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["dashboard", "startpage", "bookmarks", "docker"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default", "socket_proxy"],
+    "webui": true,
+    "port": 5005,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": ["socket-proxy"]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "FLAME_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "FLAME_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 5005,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      },
+      {
+        "name": "FLAME_PASSWORD",
+        "description": "Password for Flame dashboard",
+        "type": "password",
+        "prompt": true,
+        "required": true,
+        "promptText": "Create a strong password for Flame dashboard:"
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_flame_status",
+    "successMessage": "Flame Setup Completed",
+    "telemetryAction": "flame"
+  }
+}

@@ -3,28 +3,28 @@
   "version": "1.2",
 
   "app": {
-    "sname": "filezilla",
-    "pname": "FileZilla",
-    "description": "FileZilla is a cross-platform FTP, FTPS, and SFTP client with a graphical user interface. This container provides web-accessible FileZilla with KasmVNC for remote access.",
-    "descriptionShort": "FTP client",
-    "icon": "sh-filezilla",
+    "sname": "komga",
+    "pname": "Komga",
+    "description": "Komga is a free and open source comics/mangas/ebooks media server. It supports CBZ, CBR, PDF and EPUB formats with metadata management, web reader, and OPDS support.",
+    "descriptionShort": "Comics, mangas, eBooks, etc. server",
+    "icon": "sh-komga",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["files", "ftp", "remote"]
+    "tags": ["media", "books", "comics", "manga", "reading"]
   },
 
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["apps", "all"],
+    "profiles": ["media", "all"],
     "networks": ["default"],
     "webui": true,
-    "port": 3002,
+    "port": 25600,
     "protocol": "http"
   },
 
   "requirements": {
-    "prerequisites": ["prerequisites", "add_gpu"],
+    "prerequisites": ["prerequisites", "books_folder", "comics_folder"],
     "apps": []
   },
 
@@ -36,16 +36,16 @@
     "enabled": true,
     "location": "local",
     "showStats": true,
-    "portVariable": "FILEZILLA_PORT"
+    "portVariable": "KOMGA_PORT"
   },
 
   "env": {
     "variables": [
       {
-        "name": "FILEZILLA_PORT",
+        "name": "KOMGA_PORT",
         "description": "Web interface port",
         "type": "port",
-        "default": 3002,
+        "default": 25600,
         "prompt": true,
         "required": true,
         "validation": {
@@ -58,8 +58,8 @@
   },
 
   "status": {
-    "file": "06_filezilla_status",
-    "successMessage": "FileZilla Setup Completed",
-    "telemetryAction": "filezilla"
+    "file": "06_komga_status",
+    "successMessage": "Komga Setup Completed",
+    "telemetryAction": "komga"
   }
 }

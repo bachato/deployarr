@@ -1,0 +1,20 @@
+services:
+  # Audiobookshelf - Audiobook Server
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    container_name: audiobookshelf
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "media", "all"]
+    networks:
+      - default
+    user: $PUID:$PGID
+    ports:
+      - "$AUDIOBOOKSHELF_PORT:80"
+    volumes:
+      - $AUDIOBOOKSDIR:/audiobooks
+      - $PODCASTSDIR:/podcasts
+      - $DOCKERDIR/appdata/audiobookshelf/metadata:/metadata
+      - $DOCKERDIR/appdata/audiobookshelf/config:/config
+    # DOCKER-LABELS-PLACEHOLDER

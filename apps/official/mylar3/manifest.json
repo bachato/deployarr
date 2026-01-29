@@ -3,28 +3,28 @@
   "version": "1.2",
 
   "app": {
-    "sname": "filezilla",
-    "pname": "FileZilla",
-    "description": "FileZilla is a cross-platform FTP, FTPS, and SFTP client with a graphical user interface. This container provides web-accessible FileZilla with KasmVNC for remote access.",
-    "descriptionShort": "FTP client",
-    "icon": "sh-filezilla",
+    "sname": "mylar3",
+    "pname": "Mylar3",
+    "description": "Mylar3 is an automated Comic Book (cbr/cbz) downloader program for use with NZB and torrents. It supports SABnzbd, NZBGET, and various torrent clients. It can also post-process downloaded comics.",
+    "descriptionShort": "Automated comic book downloader",
+    "icon": "sh-mylar3",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["files", "ftp", "remote"]
+    "tags": ["media", "comics", "downloads", "automation"]
   },
 
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["apps", "all"],
+    "profiles": ["media", "all"],
     "networks": ["default"],
     "webui": true,
-    "port": 3002,
+    "port": 8090,
     "protocol": "http"
   },
 
   "requirements": {
-    "prerequisites": ["prerequisites", "add_gpu"],
+    "prerequisites": ["prerequisites", "comics_folder", "downloads_folder", "appfolder_permission"],
     "apps": []
   },
 
@@ -36,16 +36,16 @@
     "enabled": true,
     "location": "local",
     "showStats": true,
-    "portVariable": "FILEZILLA_PORT"
+    "portVariable": "MYLAR3_PORT"
   },
 
   "env": {
     "variables": [
       {
-        "name": "FILEZILLA_PORT",
+        "name": "MYLAR3_PORT",
         "description": "Web interface port",
         "type": "port",
-        "default": 3002,
+        "default": 8090,
         "prompt": true,
         "required": true,
         "validation": {
@@ -58,8 +58,8 @@
   },
 
   "status": {
-    "file": "06_filezilla_status",
-    "successMessage": "FileZilla Setup Completed",
-    "telemetryAction": "filezilla"
+    "file": "06_mylar3_status",
+    "successMessage": "Mylar3 Setup Completed",
+    "telemetryAction": "mylar3"
   }
 }

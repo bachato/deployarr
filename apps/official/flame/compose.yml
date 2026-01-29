@@ -1,0 +1,21 @@
+services:
+  # Flame - Application Dashboard
+  flame:
+    image: pawelmalak/flame
+    container_name: flame
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - default
+      - socket_proxy
+    ports:
+      - "$FLAME_PORT:5005"
+    volumes:
+      - $DOCKERDIR/appdata/flame:/app/data
+    environment:
+      TZ: $TZ
+      PASSWORD: $FLAME_PASSWORD
+      DOCKER_HOST: $DOCKER_HOST
+    # DOCKER-LABELS-PLACEHOLDER

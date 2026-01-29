@@ -3,23 +3,23 @@
   "version": "1.2",
 
   "app": {
-    "sname": "filezilla",
-    "pname": "FileZilla",
-    "description": "FileZilla is a cross-platform FTP, FTPS, and SFTP client with a graphical user interface. This container provides web-accessible FileZilla with KasmVNC for remote access.",
-    "descriptionShort": "FTP client",
-    "icon": "sh-filezilla",
+    "sname": "remmina",
+    "pname": "Remmina",
+    "description": "Remmina is a remote desktop client that supports multiple protocols including RDP, VNC, SSH, and more. This container provides web-accessible Remmina with KasmVNC.",
+    "descriptionShort": "Remote desktop client",
+    "icon": "sh-remmina",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["files", "ftp", "remote"]
+    "tags": ["remote", "desktop", "rdp", "vnc", "ssh"]
   },
 
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["apps", "all"],
+    "profiles": ["core", "all"],
     "networks": ["default"],
     "webui": true,
-    "port": 3002,
+    "port": 3003,
     "protocol": "http"
   },
 
@@ -36,16 +36,16 @@
     "enabled": true,
     "location": "local",
     "showStats": true,
-    "portVariable": "FILEZILLA_PORT"
+    "portVariable": "REMMINA_PORT"
   },
 
   "env": {
     "variables": [
       {
-        "name": "FILEZILLA_PORT",
+        "name": "REMMINA_PORT",
         "description": "Web interface port",
         "type": "port",
-        "default": 3002,
+        "default": 3003,
         "prompt": true,
         "required": true,
         "validation": {
@@ -58,8 +58,8 @@
   },
 
   "status": {
-    "file": "06_filezilla_status",
-    "successMessage": "FileZilla Setup Completed",
-    "telemetryAction": "filezilla"
+    "file": "06_remmina_status",
+    "successMessage": "Remmina Setup Completed",
+    "telemetryAction": "remmina"
   }
 }

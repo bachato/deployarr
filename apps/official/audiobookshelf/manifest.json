@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "audiobookshelf",
+    "pname": "Audiobookshelf",
+    "description": "Audiobookshelf is a self-hosted audiobook and podcast server. It streams all audio formats, keeps and syncs progress across devices, has native apps for Android and iOS, and supports Chromecast.",
+    "descriptionShort": "Audiobooks server",
+    "icon": "sh-audiobookshelf",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["media", "audiobooks", "podcasts", "streaming"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "media", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 83,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "audiobooks_folder", "podcasts_folder", "appfolder_permission"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "AUDIOBOOKSHELF_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "AUDIOBOOKSHELF_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 83,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_audiobookshelf_status",
+    "successMessage": "Audiobookshelf Setup Completed",
+    "telemetryAction": "audiobookshelf"
+  }
+}

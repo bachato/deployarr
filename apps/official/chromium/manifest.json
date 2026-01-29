@@ -24,7 +24,7 @@
   },
 
   "requirements": {
-    "prerequisites": ["prerequisites"],
+    "prerequisites": ["prerequisites", "add_gpu"],
     "apps": []
   },
 

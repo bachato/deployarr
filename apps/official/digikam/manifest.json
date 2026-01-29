@@ -3,14 +3,14 @@
   "version": "1.2",
 
   "app": {
-    "sname": "filezilla",
-    "pname": "FileZilla",
-    "description": "FileZilla is a cross-platform FTP, FTPS, and SFTP client with a graphical user interface. This container provides web-accessible FileZilla with KasmVNC for remote access.",
-    "descriptionShort": "FTP client",
-    "icon": "sh-filezilla",
+    "sname": "digikam",
+    "pname": "DigiKam",
+    "description": "DigiKam is an advanced open-source digital photo management application. It provides comprehensive tools for organizing, editing, and sharing photos.",
+    "descriptionShort": "Open-source photo manager",
+    "icon": "sh-digikam",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["files", "ftp", "remote"]
+    "tags": ["photos", "images", "media", "management"]
   },
 
   "deployment": {
@@ -19,12 +19,12 @@
     "profiles": ["apps", "all"],
     "networks": ["default"],
     "webui": true,
-    "port": 3002,
+    "port": 3005,
     "protocol": "http"
   },
 
   "requirements": {
-    "prerequisites": ["prerequisites", "add_gpu"],
+    "prerequisites": ["prerequisites", "photos_folder", "add_gpu", "appfolder_permission"],
     "apps": []
   },
 
@@ -36,16 +36,16 @@
     "enabled": true,
     "location": "local",
     "showStats": true,
-    "portVariable": "FILEZILLA_PORT"
+    "portVariable": "DIGIKAM_PORT"
   },
 
   "env": {
     "variables": [
       {
-        "name": "FILEZILLA_PORT",
+        "name": "DIGIKAM_PORT",
         "description": "Web interface port",
         "type": "port",
-        "default": 3002,
+        "default": 3005,
         "prompt": true,
         "required": true,
         "validation": {
@@ -58,8 +58,8 @@
   },
 
   "status": {
-    "file": "06_filezilla_status",
-    "successMessage": "FileZilla Setup Completed",
-    "telemetryAction": "filezilla"
+    "file": "06_digikam_status",
+    "successMessage": "DigiKam Setup Completed",
+    "telemetryAction": "digikam"
   }
 }

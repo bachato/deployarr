@@ -3,14 +3,14 @@
   "version": "1.2",
 
   "app": {
-    "sname": "filezilla",
-    "pname": "FileZilla",
-    "description": "FileZilla is a cross-platform FTP, FTPS, and SFTP client with a graphical user interface. This container provides web-accessible FileZilla with KasmVNC for remote access.",
-    "descriptionShort": "FTP client",
-    "icon": "sh-filezilla",
+    "sname": "piwigo",
+    "pname": "Piwigo",
+    "description": "Piwigo is an open-source photo gallery software for the web. It allows you to organize, manage, and share your photo collection with powerful features for albums, tags, and user management.",
+    "descriptionShort": "Open-source photo gallery",
+    "icon": "sh-piwigo",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["files", "ftp", "remote"]
+    "tags": ["photos", "gallery", "images", "media"]
   },
 
   "deployment": {
@@ -19,12 +19,12 @@
     "profiles": ["apps", "all"],
     "networks": ["default"],
     "webui": true,
-    "port": 3002,
+    "port": 8081,
     "protocol": "http"
   },
 
   "requirements": {
-    "prerequisites": ["prerequisites", "add_gpu"],
+    "prerequisites": ["prerequisites", "photos_folder", "basicpluspro", "appfolder_permission"],
     "apps": []
   },
 
@@ -36,16 +36,16 @@
     "enabled": true,
     "location": "local",
     "showStats": true,
-    "portVariable": "FILEZILLA_PORT"
+    "portVariable": "PIWIGO_PORT"
   },
 
   "env": {
     "variables": [
       {
-        "name": "FILEZILLA_PORT",
+        "name": "PIWIGO_PORT",
         "description": "Web interface port",
         "type": "port",
-        "default": 3002,
+        "default": 8081,
         "prompt": true,
         "required": true,
         "validation": {
@@ -58,8 +58,8 @@
   },
 
   "status": {
-    "file": "06_filezilla_status",
-    "successMessage": "FileZilla Setup Completed",
-    "telemetryAction": "filezilla"
+    "file": "06_piwigo_status",
+    "successMessage": "Piwigo Setup Completed",
+    "telemetryAction": "piwigo"
   }
 }

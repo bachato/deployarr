@@ -3,28 +3,28 @@
   "version": "1.2",
 
   "app": {
-    "sname": "filezilla",
-    "pname": "FileZilla",
-    "description": "FileZilla is a cross-platform FTP, FTPS, and SFTP client with a graphical user interface. This container provides web-accessible FileZilla with KasmVNC for remote access.",
-    "descriptionShort": "FTP client",
-    "icon": "sh-filezilla",
+    "sname": "jackett",
+    "pname": "Jackett",
+    "description": "Jackett works as a proxy server: it translates queries from apps (Sonarr, Radarr, Lidarr, etc.) into tracker-site-specific http queries, parses the response, and then sends results back to the requesting software.",
+    "descriptionShort": "Indexer proxy manager",
+    "icon": "sh-jackett",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["files", "ftp", "remote"]
+    "tags": ["media", "indexer", "torrent"]
   },
 
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["apps", "all"],
+    "profiles": ["media", "all"],
     "networks": ["default"],
     "webui": true,
-    "port": 3002,
+    "port": 9117,
     "protocol": "http"
   },
 
   "requirements": {
-    "prerequisites": ["prerequisites", "add_gpu"],
+    "prerequisites": ["prerequisites", "downloads_folder", "appfolder_permission"],
     "apps": []
   },
 
@@ -36,16 +36,16 @@
     "enabled": true,
     "location": "local",
     "showStats": true,
-    "portVariable": "FILEZILLA_PORT"
+    "portVariable": "JACKETT_PORT"
   },
 
   "env": {
     "variables": [
       {
-        "name": "FILEZILLA_PORT",
+        "name": "JACKETT_PORT",
         "description": "Web interface port",
         "type": "port",
-        "default": 3002,
+        "default": 9117,
         "prompt": true,
         "required": true,
         "validation": {
@@ -58,8 +58,8 @@
   },
 
   "status": {
-    "file": "06_filezilla_status",
-    "successMessage": "FileZilla Setup Completed",
-    "telemetryAction": "filezilla"
+    "file": "06_jackett_status",
+    "successMessage": "Jackett Setup Completed",
+    "telemetryAction": "jackett"
   }
 }
