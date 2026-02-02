@@ -1,0 +1,85 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "plex",
+    "pname": "Plex",
+    "description": "Plex is a media server that organizes your video, music, and photo collections and streams them to all of your screens. It offers a rich media experience with metadata, artwork, and transcoding.",
+    "descriptionShort": "Media Server",
+    "icon": "sh-plex",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["media", "streaming", "video", "music", "photos"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["media", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 32400,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "media_folder", "add_gpu", "appfolder_permission"],
+    "apps": []
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "PLEX_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 32400,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      },
+      {
+        "name": "PLEX_SERVER_NAME",
+        "description": "What you want to name this Plex server?",
+        "type": "string",
+        "default": "Plex Server",
+        "prompt": true,
+        "required": true
+      }
+    ],
+    "secrets": [
+      {
+        "name": "plex_claim",
+        "description": "Plex claim token (optional) from https://www.plex.tv/claim:",
+        "type": "prompt",
+        "addToCompose": true
+      }
+    ]
+  },
+
+  "hooks": {
+    "preInstall": "files/pre-install.sh"
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "PLEX_PORT"
+  },
+
+  "status": {
+    "file": "06_plex_status",
+    "successMessage": "Plex Setup Completed",
+    "telemetryAction": "plex"
+  }
+}

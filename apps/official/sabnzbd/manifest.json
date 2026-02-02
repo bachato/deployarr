@@ -3,33 +3,40 @@
   "version": "1.2",
 
   "app": {
-    "sname": "cadvisor",
-    "pname": "cAdvisor",
-    "description": "cAdvisor (Container Advisor) provides container users an understanding of the resource usage and performance characteristics of their running containers.",
-    "descriptionShort": "Docker server monitoring",
-    "icon": "sh-cadvisor",
+    "sname": "sabnzbd",
+    "pname": "SABnzbd",
+    "description": "SABnzbd is a free and easy binary newsreader. It simplifies the process of downloading from Usenet with automation and a clean web interface.",
+    "descriptionShort": "Usenet downloader",
+    "icon": "sh-sabnzbd",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["monitoring", "docker", "containers", "metrics"]
+    "tags": ["downloads", "usenet", "automation"]
   },
 
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["apps", "all"],
+    "profiles": ["apps", "downloads", "all"],
     "networks": ["default"],
     "webui": true,
-    "port": 8081,
+    "port": 8080,
     "protocol": "http"
   },
 
   "requirements": {
     "prerequisites": ["prerequisites"],
+    "folders": ["downloads"],
     "apps": []
   },
 
+  "folders": {
+    "permissions": {
+      "appdata": "$PUID:$PGID"
+    }
+  },
+
   "hooks": {
-    "preInstall": "files/pre-install.sh"
+    "postInstall": "files/post-install.sh"
   },
 
   "traefik": {
@@ -40,16 +47,16 @@
     "enabled": true,
     "location": "local",
     "showStats": true,
-    "portVariable": "CADVISOR_PORT"
+    "portVariable": "SABNZBD_PORT"
   },
 
   "env": {
     "variables": [
       {
-        "name": "CADVISOR_PORT",
+        "name": "SABNZBD_PORT",
         "description": "Web interface port",
         "type": "port",
-        "default": 8081,
+        "default": 8080,
         "prompt": true,
         "required": true,
         "validation": {
@@ -62,8 +69,8 @@
   },
 
   "status": {
-    "file": "06_cadvisor_status",
-    "successMessage": "cAdvisor Setup Completed",
-    "telemetryAction": "cadvisor"
+    "file": "06_sabnzbd_status",
+    "successMessage": "SABnzbd Setup Completed",
+    "telemetryAction": "sabnzbd"
   }
 }

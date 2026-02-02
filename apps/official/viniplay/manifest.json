@@ -3,14 +3,14 @@
   "version": "1.2",
 
   "app": {
-    "sname": "cadvisor",
-    "pname": "cAdvisor",
-    "description": "cAdvisor (Container Advisor) provides container users an understanding of the resource usage and performance characteristics of their running containers.",
-    "descriptionShort": "Docker server monitoring",
-    "icon": "sh-cadvisor",
+    "sname": "viniplay",
+    "pname": "Viniplay",
+    "description": "Viniplay is a self-hosted IPTV player for streaming live TV channels.",
+    "descriptionShort": "Self-hosted IPTV Player",
+    "icon": "mdi-play-box",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["monitoring", "docker", "containers", "metrics"]
+    "tags": ["media", "iptv", "streaming"]
   },
 
   "deployment": {
@@ -19,7 +19,7 @@
     "profiles": ["apps", "all"],
     "networks": ["default"],
     "webui": true,
-    "port": 8081,
+    "port": 8998,
     "protocol": "http"
   },
 
@@ -32,38 +32,32 @@
     "preInstall": "files/pre-install.sh"
   },
 
-  "traefik": {
-    "supported": true
-  },
+  "traefik": { "supported": true },
 
   "dashboard": {
     "enabled": true,
     "location": "local",
     "showStats": true,
-    "portVariable": "CADVISOR_PORT"
+    "portVariable": "VINIPLAY_PORT"
   },
 
   "env": {
     "variables": [
       {
-        "name": "CADVISOR_PORT",
+        "name": "VINIPLAY_PORT",
         "description": "Web interface port",
         "type": "port",
-        "default": 8081,
+        "default": 8998,
         "prompt": true,
         "required": true,
-        "validation": {
-          "type": "port",
-          "min": 1,
-          "max": 65535
-        }
+        "validation": { "type": "port", "min": 1, "max": 65535 }
       }
     ]
   },
 
   "status": {
-    "file": "06_cadvisor_status",
-    "successMessage": "cAdvisor Setup Completed",
-    "telemetryAction": "cadvisor"
+    "file": "06_viniplay_status",
+    "successMessage": "Viniplay Setup Completed",
+    "telemetryAction": "viniplay"
   }
 }

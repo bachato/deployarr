@@ -3,23 +3,23 @@
   "version": "1.2",
 
   "app": {
-    "sname": "cadvisor",
-    "pname": "cAdvisor",
-    "description": "cAdvisor (Container Advisor) provides container users an understanding of the resource usage and performance characteristics of their running containers.",
-    "descriptionShort": "Docker server monitoring",
-    "icon": "sh-cadvisor",
+    "sname": "tautulli",
+    "pname": "Tautulli",
+    "description": "Tautulli is a monitoring and tracking tool for Plex Media Server. It provides analytics and statistics about your Plex usage, including watch history, streaming information, and library statistics.",
+    "descriptionShort": "Plex media server monitoring",
+    "icon": "sh-tautulli",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["monitoring", "docker", "containers", "metrics"]
+    "tags": ["media", "monitoring", "plex", "statistics"]
   },
 
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["apps", "all"],
+    "profiles": ["media", "monitoring", "all"],
     "networks": ["default"],
     "webui": true,
-    "port": 8081,
+    "port": 8181,
     "protocol": "http"
   },
 
@@ -40,16 +40,16 @@
     "enabled": true,
     "location": "local",
     "showStats": true,
-    "portVariable": "CADVISOR_PORT"
+    "portVariable": "TAUTULLI_PORT"
   },
 
   "env": {
     "variables": [
       {
-        "name": "CADVISOR_PORT",
+        "name": "TAUTULLI_PORT",
         "description": "Web interface port",
         "type": "port",
-        "default": 8081,
+        "default": 8181,
         "prompt": true,
         "required": true,
         "validation": {
@@ -62,8 +62,8 @@
   },
 
   "status": {
-    "file": "06_cadvisor_status",
-    "successMessage": "cAdvisor Setup Completed",
-    "telemetryAction": "cadvisor"
+    "file": "06_tautulli_status",
+    "successMessage": "Tautulli Setup Completed",
+    "telemetryAction": "tautulli"
   }
 }

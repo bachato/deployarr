@@ -3,14 +3,14 @@
   "version": "1.2",
 
   "app": {
-    "sname": "cadvisor",
-    "pname": "cAdvisor",
-    "description": "cAdvisor (Container Advisor) provides container users an understanding of the resource usage and performance characteristics of their running containers.",
-    "descriptionShort": "Docker server monitoring",
-    "icon": "sh-cadvisor",
+    "sname": "dashy",
+    "pname": "Dashy",
+    "description": "Dashy is a self-hostable personal dashboard with widgets, status checking, and a built-in editor. It provides a central place to monitor and access your homelab services.",
+    "descriptionShort": "Homelab dashboard",
+    "icon": "sh-dashy",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["monitoring", "docker", "containers", "metrics"]
+    "tags": ["dashboard", "monitoring", "widgets"]
   },
 
   "deployment": {
@@ -25,12 +25,15 @@
 
   "requirements": {
     "prerequisites": ["prerequisites"],
-    "apps": []
+    "apps": ["socket-proxy"]
   },
 
-  "hooks": {
-    "preInstall": "files/pre-install.sh"
-  },
+  "files": [
+    {
+      "source": "files/starter-conf.yml",
+      "dest": "$DOCKERDIR/appdata/dashy/conf.yml"
+    }
+  ],
 
   "traefik": {
     "supported": true
@@ -40,13 +43,13 @@
     "enabled": true,
     "location": "local",
     "showStats": true,
-    "portVariable": "CADVISOR_PORT"
+    "portVariable": "DASHY_PORT"
   },
 
   "env": {
     "variables": [
       {
-        "name": "CADVISOR_PORT",
+        "name": "DASHY_PORT",
         "description": "Web interface port",
         "type": "port",
         "default": 8081,
@@ -62,8 +65,8 @@
   },
 
   "status": {
-    "file": "06_cadvisor_status",
-    "successMessage": "cAdvisor Setup Completed",
-    "telemetryAction": "cadvisor"
+    "file": "06_dashy_status",
+    "successMessage": "Dashy Setup Completed",
+    "telemetryAction": "dashy"
   }
 }

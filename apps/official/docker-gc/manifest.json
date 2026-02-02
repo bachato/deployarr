@@ -1,0 +1,57 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "docker-gc",
+    "pname": "Docker Garbage Collection",
+    "description": "Docker GC automatically cleans up unused Docker images, containers, and volumes on a scheduled basis. It helps keep your Docker host clean and reclaim disk space.",
+    "descriptionShort": "Docker garbage collection",
+    "icon": "sh-docker",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["docker", "cleanup", "maintenance"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["socket_proxy"],
+    "webui": false,
+    "port": 0,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": ["socket-proxy"]
+  },
+
+  "files": [
+    {
+      "source": "files/docker-gc-exclude",
+      "dest": "$DOCKERDIR/appdata/docker-gc/docker-gc-exclude"
+    }
+  ],
+
+  "traefik": {
+    "supported": false
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "other",
+    "showStats": true
+  },
+
+  "env": {
+    "variables": []
+  },
+
+  "status": {
+    "file": "06_dockergc_status",
+    "successMessage": "Docker Garbage Collection Setup Completed",
+    "telemetryAction": "docker-gc"
+  }
+}

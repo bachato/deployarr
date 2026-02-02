@@ -1,0 +1,27 @@
+services:
+  # Mosquitto - MQTT Broker for Teslmate
+  # Create mosquitto.conf, passwd, mosquitto.log files  and set permissions to 775 user:docker
+  # dexec mosquitto /bin/sh -> mosquitto_passwd -b /mosquitto/config/passwd username passwd
+  teslamate-mosquitto:
+    container_name: teslamate-mosquitto
+    image: eclipse-mosquitto:latest
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    # ports:
+    #   - "1883:1883" #http
+    #   - "9001:9001" #websockets
+    volumes:
+      - $DOCKERDIR/appdata/teslamate-mosquitto/config:/mosquitto/config
+      - $DOCKERDIR/appdata/teslamate-mosquitto/data:/mosquitto/data
+      - $DOCKERDIR/appdata/teslamate-mosquitto/log:/mosquitto/log
+      - $DOCKERDIR/appdata/teslamate-mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - $DOCKERDIR/appdata/teslamate-mosquitto/config/passwd:/mosquitto/config/passwd
+    environment:
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
+    # DOCKER-LABELS-PLACEHOLDER

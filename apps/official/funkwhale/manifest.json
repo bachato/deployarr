@@ -3,33 +3,33 @@
   "version": "1.2",
 
   "app": {
-    "sname": "cadvisor",
-    "pname": "cAdvisor",
-    "description": "cAdvisor (Container Advisor) provides container users an understanding of the resource usage and performance characteristics of their running containers.",
-    "descriptionShort": "Docker server monitoring",
-    "icon": "sh-cadvisor",
+    "sname": "funkwhale",
+    "pname": "Funkwhale",
+    "description": "Funkwhale is a community-driven project that lets you listen and share music and audio within a decentralized, open network.",
+    "descriptionShort": "Music server",
+    "icon": "sh-funkwhale",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["monitoring", "docker", "containers", "metrics"]
+    "tags": ["media", "music", "streaming"]
   },
 
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["apps", "all"],
+    "profiles": ["media", "all"],
     "networks": ["default"],
     "webui": true,
-    "port": 8081,
+    "port": 82,
     "protocol": "http"
   },
 
   "requirements": {
-    "prerequisites": ["prerequisites"],
+    "prerequisites": ["prerequisites", "media_folder", "appfolder_permission"],
     "apps": []
   },
 
   "hooks": {
-    "preInstall": "files/pre-install.sh"
+    "postInstall": "files/post-install.sh"
   },
 
   "traefik": {
@@ -40,16 +40,16 @@
     "enabled": true,
     "location": "local",
     "showStats": true,
-    "portVariable": "CADVISOR_PORT"
+    "portVariable": "FUNKWHALE_PORT"
   },
 
   "env": {
     "variables": [
       {
-        "name": "CADVISOR_PORT",
+        "name": "FUNKWHALE_PORT",
         "description": "Web interface port",
         "type": "port",
-        "default": 8081,
+        "default": 82,
         "prompt": true,
         "required": true,
         "validation": {
@@ -62,8 +62,8 @@
   },
 
   "status": {
-    "file": "06_cadvisor_status",
-    "successMessage": "cAdvisor Setup Completed",
-    "telemetryAction": "cadvisor"
+    "file": "06_funkwhale_status",
+    "successMessage": "Funkwhale Setup Completed",
+    "telemetryAction": "funkwhale"
   }
 }

@@ -556,6 +556,43 @@
         }
       }
     },
+    "database": {
+      "type": "object",
+      "description": "Database configuration metadata for apps with dedicated database containers. This is informational/documentation - the actual database is deployed via the dependencies array.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Database type",
+          "enum": ["postgresql", "mariadb", "mysql", "redis", "mongodb", "influxdb"]
+        },
+        "containerSname": {
+          "type": "string",
+          "description": "Service name of the database container (e.g., 'n8n-postgresql')",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "name": {
+          "type": "string",
+          "description": "Database/schema name (typically same as app sname)"
+        },
+        "user": {
+          "type": "string",
+          "description": "Database username (convention: {sname}_db_user)"
+        },
+        "passwordSecret": {
+          "type": "string",
+          "description": "Name of the secret containing the database password",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "host": {
+          "type": "string",
+          "description": "Database host (typically same as containerSname for dedicated databases)"
+        },
+        "port": {
+          "type": "integer",
+          "description": "Database port (e.g., 5432 for PostgreSQL, 3306 for MariaDB)"
+        }
+      }
+    },
     "status": {
       "type": "object",
       "required": ["file", "successMessage", "telemetryAction"],

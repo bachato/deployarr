@@ -1,0 +1,81 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "dweebui",
+    "pname": "DweebUI",
+    "description": "DweebUI is a lightweight Docker management web interface that provides a simple way to manage containers, images, and volumes through your browser.",
+    "descriptionShort": "WebUI for Docker management",
+    "icon": "sh-dweebui",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["docker", "management", "admin", "web"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8000,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": ["socket-proxy"]
+  },
+
+  "preInstall": {
+    "dialog": {
+      "type": "warning",
+      "title": "DweebUI Warning",
+      "message": "\\n\\Z1WARNING!\\Zn\\n\\nApps installed via DweebUI may not be compatible with Deployrr.\\n\\nDo you wish to proceed with installing DweebUI?",
+      "cancelable": true
+    }
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "DWEEBUI_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "DWEEBUI_SECRET",
+        "description": "Set a DweebUI Secret keyword/password (needed to register an account)",
+        "type": "password",
+        "prompt": true,
+        "required": true
+      },
+      {
+        "name": "DWEEBUI_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8000,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_dweebui_status",
+    "successMessage": "DweebUI Setup Completed",
+    "telemetryAction": "dweebui"
+  }
+}

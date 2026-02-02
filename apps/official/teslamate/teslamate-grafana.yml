@@ -1,0 +1,22 @@
+services:
+  # Grafana - Dashboard for Teslamate
+  teslamate-grafana:
+    image: teslamate/grafana:latest
+    container_name: teslamate-grafana
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    environment:
+      - DATABASE_USER=$TESLAMATE_PGSQL_USER
+      - DATABASE_PASS=$TESLAMATE_PGSQL_PASSWD
+      - DATABASE_NAME=teslamate
+      - DATABASE_HOST=teslamate-pgsql
+    ports:
+      - $TESLAMATEGRAFANA_PORT:3000
+    user: $PUID
+    volumes:
+      - $DOCKERDIR/appdata/teslamate-grafana:/var/lib/grafana
+    # DOCKER-LABELS-PLACEHOLDER

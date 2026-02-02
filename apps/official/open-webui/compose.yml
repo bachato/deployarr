@@ -1,0 +1,21 @@
+services:
+  # Open-WebUI - User-friendly AI Interface
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    depends_on:
+     - ollama
+    ports:
+      - "$OPENWEBUI_PORT:8080"
+    environment:
+      - OLLAMA_BASE_URL=http://$SERVER_LAN_IP:$OLLAMA_PORT
+      - WEBUI_SECRET_KEY=$OPENWEBUI_SECRET_KEY
+      # - CORS_ALLOW_ORIGIN=
+      - USER_AGENT=Open-WebUI
+    volumes:
+      - $DOCKERDIR/appdata/open-webui:/app/backend/data
+    # DOCKER-LABELS-PLACEHOLDER

@@ -1,0 +1,107 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "n8n",
+    "pname": "n8n",
+    "description": "n8n is a workflow automation tool that allows you to connect various services and automate tasks. It features a visual workflow editor and supports hundreds of integrations including AI/LLM providers, databases, APIs, and more.",
+    "descriptionShort": "Workflow automation",
+    "icon": "sh-n8n",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["automation", "workflow", "ai", "integration", "low-code"]
+  },
+
+  "deployment": {
+    "type": "multicontainer",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 5678,
+    "protocol": "http"
+  },
+
+  "dependencies": [
+    {
+      "sname": "n8n-postgresql",
+      "pname": "n8n PostgreSQL",
+      "compose": "n8n-postgresql.yml",
+      "installOrder": 1,
+      "waitForHealthy": true,
+      "required": true,
+      "description": "Dedicated PostgreSQL database for n8n"
+    }
+  ],
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "database": {
+    "type": "postgresql",
+    "containerSname": "n8n-postgresql",
+    "name": "n8n",
+    "user": "n8n_db_user",
+    "passwordVariable": "N8N_POSTGRESQL_PASSWORD",
+    "host": "n8n-postgresql",
+    "port": 5432
+  },
+
+  "folders": {
+    "permissions": {
+      "appdata": "1000:1000"
+    }
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "N8N_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "N8N_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 5678,
+        "prompt": true,
+        "required": true,
+        "validation": { "type": "port", "min": 1, "max": 65535 }
+      },
+      {
+        "name": "N8N_POSTGRESQL_PASSWORD",
+        "description": "PostgreSQL database password (auto-generated)",
+        "type": "password",
+        "generate": "random",
+        "length": 32,
+        "prompt": false,
+        "required": true
+      }
+    ]
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "n8n uses a dedicated PostgreSQL database (n8n-postgresql). Database password is stored in $DOCKER_FOLDER/.env."
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_n8n_status",
+    "successMessage": "n8n Setup Completed",
+    "telemetryAction": "n8n"
+  }
+}
