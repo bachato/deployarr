@@ -10,7 +10,7 @@ Deployrr revolutionizes homelab setup by automating the deployment and configura
 
 ### Key Features
 
-- **Extensive App Support**: 150+ pre-configured applications ready for deployment
+- **Extensive App Support**: 147+ pre-configured applications ready for deployment
 - **Intelligent Automation**: Automated environment setup with smart system checks
 - **Enterprise-Grade Security**:
   - Socket-Proxy protection

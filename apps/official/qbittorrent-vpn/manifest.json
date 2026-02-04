@@ -1,0 +1,108 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "qbittorrent-vpn",
+    "pname": "qBittorrent VPN",
+    "description": "qBittorrent with VPN protection via Gluetun. All torrent traffic is routed through your VPN tunnel for privacy. Automatically restarts if VPN connection drops.",
+    "descriptionShort": "Bittorrent client with VPN",
+    "icon": "sh-qbittorrent",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["downloads", "torrent", "bittorrent", "vpn", "privacy"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "downloads", "all"],
+    "networks": [],
+    "webui": true,
+    "port": 8082,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "downloads_folder"],
+    "apps": ["gluetun", "deunhealth"]
+  },
+
+  "folders": {
+    "custom": [
+      {
+        "path": "$DOWNLOADSDIR/torrents",
+        "children": ["movies", "tv", "others", "indexes"],
+        "owner": "$USERNAME:$USERNAME",
+        "permissions": "755"
+      }
+    ]
+  },
+
+  "files": [
+    {
+      "source": "files/qBittorrent.conf",
+      "dest": "$DOCKERDIR/appdata/qbittorrent-vpn/qBittorrent/qBittorrent.conf"
+    }
+  ],
+
+  "preInstall": {
+    "dialog": {
+      "type": "info",
+      "title": "qBittorrent VPN Setup",
+      "message": "\\n\\Z1NOTE:\\Zn\\n\\nqBittorrent VPN routes all traffic through Gluetun's VPN tunnel.\\n\\n\\Z4Requirements:\\Zn\\n- Gluetun must be running and connected to VPN\\n- DeUnhealth monitors container health\\n\\nThe web interface will be accessible via Gluetun's exposed port.\\n\\n\\Z4Reference:\\Zn https://www.simplehomelab.com/gluetun-docker-guide/"
+    }
+  },
+
+  "hooks": {
+    "preInstall": "files/pre-install.sh",
+    "postInstall": {
+      "script": "files/post-install.sh",
+      "messages": [
+        {
+          "style": "info",
+          "text": "$APP_PNAME default username/password are: admin/adminadmin"
+        },
+        {
+          "style": "note",
+          "text": "To add qBittorrent VPN to Arr apps, use 'gluetun' for host and port $QBITTORRENTVPN_PORT"
+        }
+      ]
+    }
+  },
+
+  "traefik": {
+    "supported": false
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "QBITTORRENTVPN_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "QBITTORRENTVPN_PORT",
+        "description": "Web interface port (exposed via Gluetun)",
+        "type": "port",
+        "default": 8082,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_qbittorrent-vpn_status",
+    "successMessage": "qBittorrent VPN Setup Completed",
+    "telemetryAction": "qbittorrent-vpn"
+  }
+}

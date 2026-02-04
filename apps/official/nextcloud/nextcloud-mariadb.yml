@@ -1,0 +1,26 @@
+services:
+  # Nextcloud MariaDB - Dedicated Database for Nextcloud
+  nextcloud-mariadb:
+    container_name: nextcloud-mariadb
+    image: mariadb:${NEXTCLOUDMARIADB_VERSION_PIN}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 1m
+      start_interval: 10s
+      interval: 1m
+      timeout: 5s
+      retries: 3
+    networks:
+      - default
+    volumes:
+      - $DOCKERDIR/appdata/nextcloud-mariadb:/var/lib/mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=$NEXTCLOUD_MARIADB_ROOT_PASSWORD
+      - MARIADB_DATABASE=nextcloud
+      - MARIADB_USER=nextcloud_db_user
+      - MARIADB_PASSWORD=$NEXTCLOUD_MARIADB_PASSWORD
+    # DOCKER-LABELS-PLACEHOLDER

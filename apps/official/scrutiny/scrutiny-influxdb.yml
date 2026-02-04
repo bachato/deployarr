@@ -1,0 +1,28 @@
+services:
+  # Scrutiny InfluxDB - Dedicated Database for Scrutiny
+  scrutiny-influxdb:
+    container_name: scrutiny-influxdb
+    image: influxdb:${SCRUTINYINFLUXDB_VERSION_PIN}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "monitoring", "all"]
+    healthcheck:
+      test: ["CMD", "influx", "ping"]
+      start_period: 30s
+      interval: 30s
+      retries: 5
+      timeout: 10s
+    networks:
+      - default
+    volumes:
+      - $DOCKERDIR/appdata/scrutiny-influxdb/config:/etc/influxdb2
+      - $DOCKERDIR/appdata/scrutiny-influxdb/db:/var/lib/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=scrutiny_admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=$SCRUTINY_INFLUXDB_PASSWORD
+      - DOCKER_INFLUXDB_INIT_ORG=scrutiny
+      - DOCKER_INFLUXDB_INIT_BUCKET=scrutiny
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=$SCRUTINY_INFLUXDB_TOKEN
+    # DOCKER-LABELS-PLACEHOLDER

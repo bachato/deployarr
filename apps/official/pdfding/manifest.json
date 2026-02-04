@@ -107,7 +107,7 @@
     "messages": [
       {
         "type": "note",
-        "text": "PdfDing uses a dedicated PostgreSQL database (pdfding-postgresql). Credentials are stored in $DOCKER_FOLDER/.env."
+        "text": "PdfDing uses a dedicated PostgreSQL database (\\Z5pdfding-postgresql\\Zn). Credentials are stored in \\Z4$DOCKER_FOLDER/.env\\Zn."
       }
     ]
   },

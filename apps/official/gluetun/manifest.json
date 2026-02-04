@@ -1,0 +1,88 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "gluetun",
+    "pname": "Gluetun",
+    "description": "Gluetun is a lightweight, portable VPN client for Docker that supports multiple VPN providers. It acts as a VPN killswitch and can route traffic from other containers through the VPN tunnel.",
+    "descriptionShort": "Docker VPN Client",
+    "icon": "sh-gluetun",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["vpn", "networking", "security", "privacy"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["core", "all"],
+    "networks": ["default"],
+    "webui": false,
+    "port": 0,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "network_adapter"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": false
+  },
+
+  "dashboard": {
+    "enabled": false,
+    "location": "local",
+    "showStats": false,
+    "portVariable": null
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "GLUETUN_VPN_SERVICE_PROVIDER",
+        "description": "VPN Provider (case-sensitive, e.g. surfshark, nordvpn, mullvad)",
+        "type": "string",
+        "prompt": true,
+        "required": true
+      },
+      {
+        "name": "GLUETUN_VPN_TYPE",
+        "description": "VPN Type (openvpn or wireguard)",
+        "type": "string",
+        "default": "wireguard",
+        "prompt": true,
+        "required": true
+      }
+    ]
+  },
+
+  "hooks": {
+    "postInstall": {
+      "script": "files/post-install.sh",
+      "messages": [
+        {
+          "style": "note",
+          "text": "Gluetun allows advanced configurations (e.g. selecting VPN countries). Reference: https://www.simplehomelab.com/gluetun-docker-guide/"
+        }
+      ]
+    }
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "info",
+        "text": "To route other containers through Gluetun, add 'network_mode: service:gluetun' to their compose configuration."
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_gluetun_status",
+    "successMessage": "Gluetun Setup Completed",
+    "telemetryAction": "gluetun"
+  }
+}

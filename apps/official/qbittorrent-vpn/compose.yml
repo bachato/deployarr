@@ -1,0 +1,26 @@
+services:
+  # qBittorrent VPN - Torrent downloader with VPN via Gluetun
+  qbittorrent-vpn:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent-vpn
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "downloads", "all"]
+    network_mode: "service:gluetun"
+    volumes:
+      - $DOCKERDIR/appdata/qbittorrent-vpn:/config
+      - $DOWNLOADSDIR:/data/downloads
+    environment:
+      TZ: $TZ
+      PUID: $PUID
+      PGID: $PGID
+      UMASK_SET: 002
+    healthcheck:
+      test: "curl -sf https://example.com || exit 1"
+      interval: 1m
+      timeout: 10s
+      retries: 1
+    labels:
+      - "deunhealth.restart.on.unhealthy=true"
+    # DOCKER-LABELS-PLACEHOLDER

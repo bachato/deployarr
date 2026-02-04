@@ -36,12 +36,8 @@
   ],
 
   "requirements": {
-    "prerequisites": ["prerequisites"],
+    "prerequisites": ["prerequisites", "games_folder"],
     "apps": []
-  },
-
-  "folders": {
-    "requirements": ["games_folder"]
   },
 
   "database": {
@@ -92,7 +88,7 @@
     "messages": [
       {
         "type": "note",
-        "text": "GameVault uses a dedicated PostgreSQL database (gamevault-postgresql). Database password is stored in $DOCKER_FOLDER/.env."
+        "text": "GameVault uses a dedicated PostgreSQL database (\\Z5gamevault-postgresql\\Zn). Database password is stored in \\Z4$DOCKER_FOLDER/.env\\Zn."
       }
     ]
   },

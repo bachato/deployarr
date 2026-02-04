@@ -16,7 +16,7 @@ services:
     networks:
       - default
     volumes:
-      - $DOCKERDIR/appdata/flowise-postgresql:/var/lib/postgresql/data
+      - $DOCKERDIR/appdata/flowise-postgresql:/var/lib/postgresql
     environment:
       - POSTGRES_DB=flowise
       - POSTGRES_USER=flowise_db_user

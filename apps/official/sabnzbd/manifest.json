@@ -24,8 +24,7 @@
   },
 
   "requirements": {
-    "prerequisites": ["prerequisites"],
-    "folders": ["downloads"],
+    "prerequisites": ["prerequisites", "downloads_folder"],
     "apps": []
   },
 

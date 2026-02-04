@@ -1,0 +1,12 @@
+services:
+  # Guacamole Daemon - Connection proxy for Guacamole
+  guacd:
+    image: guacamole/guacd:${GUACD_VERSION_PIN}
+    container_name: guacd
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    # DOCKER-LABELS-PLACEHOLDER

@@ -1,0 +1,12 @@
+services:
+  # Tika - Document Text Extraction for Paperless-NGX
+  tika:
+    image: docker.io/apache/tika:${TIKA_VERSION_PIN}
+    container_name: tika
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    # DOCKER-LABELS-PLACEHOLDER

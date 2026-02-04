@@ -112,7 +112,7 @@
     "messages": [
       {
         "type": "note",
-        "text": "Flowise uses dedicated PostgreSQL (flowise-postgresql) and Redis (flowise-redis) containers. Database password is stored in $DOCKER_FOLDER/.env."
+        "text": "Flowise uses dedicated PostgreSQL (\\Z5flowise-postgresql\\Zn) and Redis (\\Z5flowise-redis\\Zn) containers. Database password is stored in \\Z4$DOCKER_FOLDER/.env\\Zn."
       }
     ]
   },

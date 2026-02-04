@@ -1,0 +1,92 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "sshwifty",
+    "pname": "Sshwifty",
+    "description": "Sshwifty is a web-based SSH and Telnet client that allows you to connect to remote servers directly from your browser without any additional software.",
+    "descriptionShort": "Web SSH & Telnet Client",
+    "icon": "sh-sshwifty",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["ssh", "telnet", "terminal", "remote-access"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": [],
+    "webui": true,
+    "port": 9182,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "appfolder_permission"],
+    "apps": []
+  },
+
+  "hooks": {
+    "preInstall": {
+      "script": "files/pre-install.sh"
+    }
+  },
+
+  "files": [
+    {
+      "source": "files/sshwifty.conf.json",
+      "dest": "$DOCKERDIR/appdata/sshwifty/conf.json"
+    }
+  ],
+
+  "folders": {
+    "permissions": {
+      "appdata": "$USERNAME:$USERNAME"
+    }
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "SSHWIFTY_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "SSHWIFTY_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 9182,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ],
+    "secrets": [
+      {
+        "name": "sshwifty_password",
+        "description": "Sshwifty Web Access Password",
+        "type": "prompt_password",
+        "addToCompose": false
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_sshwifty_status",
+    "successMessage": "Sshwifty Setup Completed",
+    "telemetryAction": "sshwifty"
+  }
+}

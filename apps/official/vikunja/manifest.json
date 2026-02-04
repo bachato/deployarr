@@ -1,0 +1,122 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "vikunja",
+    "pname": "Vikunja",
+    "description": "Vikunja is an open-source, self-hosted to-do app and task manager. Organize your tasks with lists, kanban boards, gantt charts, and more. Features team collaboration, reminders, and CalDAV support.",
+    "descriptionShort": "To-do app and task manager",
+    "icon": "sh-vikunja",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["productivity", "tasks", "todo", "kanban", "project-management"]
+  },
+
+  "deployment": {
+    "type": "multicontainer",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 3456,
+    "protocol": "http"
+  },
+
+  "dependencies": [
+    {
+      "sname": "vikunja-mariadb",
+      "pname": "Vikunja MariaDB",
+      "compose": "vikunja-mariadb.yml",
+      "installOrder": 1,
+      "waitForHealthy": true,
+      "required": true,
+      "description": "Dedicated MariaDB database for Vikunja"
+    }
+  ],
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "database": {
+    "type": "mariadb",
+    "containerSname": "vikunja-mariadb",
+    "name": "vikunja",
+    "user": "vikunja_db_user",
+    "passwordVariable": "VIKUNJA_MARIADB_PASSWORD",
+    "host": "vikunja-mariadb",
+    "port": 3306
+  },
+
+  "folders": {
+    "permissions": {
+      "appdata": "$PUID:$PGID"
+    }
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "VIKUNJA_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "VIKUNJA_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 3456,
+        "prompt": true,
+        "required": true,
+        "validation": { "type": "port", "min": 1, "max": 65535 }
+      },
+      {
+        "name": "VIKUNJA_JWT_SECRET",
+        "description": "JWT secret for authentication (auto-generated)",
+        "type": "string",
+        "generate": "openssl_rand_base64_64",
+        "prompt": false,
+        "required": true
+      },
+      {
+        "name": "VIKUNJA_MARIADB_PASSWORD",
+        "description": "MariaDB database password (auto-generated)",
+        "type": "password",
+        "generate": "random",
+        "length": 32,
+        "prompt": false,
+        "required": true
+      }
+    ],
+    "constants": [
+      {
+        "name": "VIKUNJA_MARIADB_USERNAME",
+        "value": "vikunja_db_user",
+        "description": "MariaDB database username"
+      }
+    ]
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "Vikunja uses a dedicated MariaDB database (\\Z5vikunja-mariadb\\Zn). Database credentials are stored in \\Z4$DOCKER_FOLDER/.env\\Zn."
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_vikunja_status",
+    "successMessage": "Vikunja Setup Completed",
+    "telemetryAction": "vikunja"
+  }
+}

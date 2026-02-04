@@ -1,0 +1,26 @@
+services:
+  # Guacamole MariaDB - Dedicated Database for Guacamole
+  guacamole-mariadb:
+    container_name: guacamole-mariadb
+    image: mariadb:${GUACAMOLEMARIADB_VERSION_PIN}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 1m
+      start_interval: 10s
+      interval: 1m
+      timeout: 5s
+      retries: 3
+    networks:
+      - default
+    volumes:
+      - $DOCKERDIR/appdata/guacamole-mariadb:/var/lib/mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=$GUACAMOLE_MARIADB_ROOT_PASSWORD
+      - MARIADB_DATABASE=guacamole
+      - MARIADB_USER=guacamole_db_user
+      - MARIADB_PASSWORD=$GUACAMOLE_MARIADB_PASSWORD
+    # DOCKER-LABELS-PLACEHOLDER

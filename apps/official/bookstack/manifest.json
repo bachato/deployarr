@@ -1,0 +1,120 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "bookstack",
+    "pname": "Bookstack",
+    "description": "Bookstack is a simple, self-hosted, easy-to-use platform for organizing and storing information. Create documentation, wikis, and knowledge bases with a simple WYSIWYG editor.",
+    "descriptionShort": "Simple wiki and documentation",
+    "icon": "sh-bookstack",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["wiki", "documentation", "knowledge-base", "notes"]
+  },
+
+  "deployment": {
+    "type": "multicontainer",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 6875,
+    "protocol": "http"
+  },
+
+  "dependencies": [
+    {
+      "sname": "bookstack-mariadb",
+      "pname": "Bookstack MariaDB",
+      "compose": "bookstack-mariadb.yml",
+      "installOrder": 1,
+      "waitForHealthy": true,
+      "required": true,
+      "description": "Dedicated MariaDB database for Bookstack"
+    }
+  ],
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "database": {
+    "type": "mariadb",
+    "containerSname": "bookstack-mariadb",
+    "name": "bookstack",
+    "user": "bookstack_db_user",
+    "passwordVariable": "BOOKSTACK_MARIADB_PASSWORD",
+    "host": "bookstack-mariadb",
+    "port": 3306
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "BOOKSTACK_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "BOOKSTACK_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 6875,
+        "prompt": true,
+        "required": true,
+        "validation": { "type": "port", "min": 1, "max": 65535 }
+      },
+      {
+        "name": "BOOKSTACK_APP_KEY",
+        "description": "Application encryption key (auto-generated)",
+        "type": "string",
+        "generate": "base64_prefixed_32",
+        "prompt": false,
+        "required": true
+      },
+      {
+        "name": "BOOKSTACK_MARIADB_PASSWORD",
+        "description": "MariaDB database password (auto-generated)",
+        "type": "password",
+        "generate": "random",
+        "length": 32,
+        "prompt": false,
+        "required": true
+      }
+    ],
+    "constants": [
+      {
+        "name": "BOOKSTACK_MARIADB_USERNAME",
+        "value": "bookstack_db_user",
+        "description": "MariaDB database username"
+      }
+    ]
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "info",
+        "text": "Default login: \\Z5admin@admin.com\\Zn / \\Z5password\\Zn"
+      },
+      {
+        "type": "note",
+        "text": "Bookstack uses a dedicated MariaDB database (\\Z5bookstack-mariadb\\Zn). Database credentials are stored in \\Z4$DOCKER_FOLDER/.env\\Zn."
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_bookstack_status",
+    "successMessage": "Bookstack Setup Completed",
+    "telemetryAction": "bookstack"
+  }
+}

@@ -12,7 +12,7 @@ dpf*
 dpm*
 *.sh
 
-!deployrr_v6.0-alpha.app
+!deployrr_v6.0-beta1.app
 
 !images/
 !images/**

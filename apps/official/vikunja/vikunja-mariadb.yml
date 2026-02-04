@@ -1,0 +1,26 @@
+services:
+  # Vikunja MariaDB - Dedicated Database for Vikunja
+  vikunja-mariadb:
+    container_name: vikunja-mariadb
+    image: mariadb:latest
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 1m
+      start_interval: 10s
+      interval: 1m
+      timeout: 5s
+      retries: 3
+    networks:
+      - default
+    volumes:
+      - $DOCKERDIR/appdata/vikunja-mariadb:/var/lib/mysql
+    environment:
+      - MARIADB_DATABASE=vikunja
+      - MARIADB_USER=$VIKUNJA_MARIADB_USERNAME
+      - MARIADB_PASSWORD=$VIKUNJA_MARIADB_PASSWORD
+      - MARIADB_ROOT_PASSWORD=$VIKUNJA_MARIADB_PASSWORD
+    # DOCKER-LABELS-PLACEHOLDER

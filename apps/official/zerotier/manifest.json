@@ -1,0 +1,78 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "zerotier",
+    "pname": "ZeroTier",
+    "description": "ZeroTier creates secure networks between on-premise, cloud, desktop, and mobile devices. It enables direct connections for remote access, gaming, and IoT without complex firewall configurations.",
+    "descriptionShort": "Private network over internet",
+    "icon": "sh-zerotier",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["networking", "vpn", "security", "zerotier"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["core", "all"],
+    "networks": [],
+    "webui": false,
+    "port": 0,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "network_adapter"],
+    "apps": []
+  },
+
+  "hooks": {
+    "preInstall": {
+      "dialog": {
+        "type": "warning",
+        "title": "ZeroTier Host Networking",
+        "message": "\\n\\Z1NOTE!\\Zn\\n\\nZeroTier client will be installed in \\Z2host networking\\Zn mode.\\n\\nThis means all apps on the Docker host can be accessed using ZEROTIER-IP:PORT (e.g. \\Z4http://XXX.XXX.XXX.XXX:3050\\Zn for Deployrr Dashboard).\\n\\nIf you provide a Network ID, Deployrr will automatically connect your Docker host to the ZeroTier network after installation.\\n\\nDo you wish to proceed?"
+      }
+    },
+    "postInstall": {
+      "script": "files/post-install.sh",
+      "messages": [
+        {
+          "style": "note",
+          "text": "Remember to authorize this device in your ZeroTier Central dashboard at https://my.zerotier.com"
+        }
+      ]
+    }
+  },
+
+  "traefik": {
+    "supported": false
+  },
+
+  "dashboard": {
+    "enabled": false,
+    "location": "local",
+    "showStats": false,
+    "portVariable": ""
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "ZEROTIER_NETWORKID",
+        "description": "ZeroTier Network ID (from my.zerotier.com)",
+        "type": "string",
+        "prompt": true,
+        "required": false
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_zerotier_status",
+    "successMessage": "ZeroTier Setup Completed",
+    "telemetryAction": "zerotier"
+  }
+}

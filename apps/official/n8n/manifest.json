@@ -94,7 +94,7 @@
     "messages": [
       {
         "type": "note",
-        "text": "n8n uses a dedicated PostgreSQL database (n8n-postgresql). Database password is stored in $DOCKER_FOLDER/.env."
+        "text": "n8n uses a dedicated PostgreSQL database (\\Z5n8n-postgresql\\Zn). Database password is stored in \\Z4$DOCKER_FOLDER/.env\\Zn."
       }
     ]
   },

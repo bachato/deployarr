@@ -1,4 +1,4 @@
-# Deployarr Apps - 150 (and increasing)
+# Deployarr Apps - 147 (and increasing)
 
 ## Reverse Proxy and Tunnels
 - **Traefik**: A modern HTTP reverse proxy and load balancer that makes deploying microservices easy.
@@ -47,7 +47,6 @@
 - **qBittorrent with VPN**: An open-source BitTorrent client with Gluetun VPN Client integration.
 
 ## Network Tools
-- **Wireguard**: A simple, fast, and modern VPN that utilizes state-of-the-art cryptography.
 - **Gluetun**: A VPN client in a thin Docker container for multiple VPN providers.
 - **WG-Easy**: A web UI for WireGuard.
 - **DDNS Updater**: A tool to update dynamic DNS records.
@@ -109,7 +108,7 @@
 - **Redis Commander**: A web-based management tool for Redis.
 
 ## Smart Home and Automation
-- **Home Assistant Core**: An open-source home automation platform. Core version (no Add-on support).
+- <del>**Home Assistant Core**: An open-source home automation platform. Core version (no Add-on support)</del> (Removed - recommend official installation method).
 - **Homebridge**: A lightweight Node.js server that emulates the iOS HomeKit API.
 - **Mosquitto**: An open-source message broker that implements the MQTT protocol.
 - **MQTTX Web**: A web-based MQTT 5.0 client tool.
@@ -142,8 +141,6 @@
 - **Stirling PDF**: A self-hosted PDF manipulation tool.
 - **Paperless-NGX**: A document management system.
 - **Paperless-AI**: AI Doc Analyzer for Paperless-NGX
-- **Gotenberg**: A document conversion server for Paperless-NGX.
-- **Tika**: A document text extraction tool for Paperless-NGX.
 - **PdfDing**: PDF Viewing/Editing Tool
 - **Privatebin**: A minimalist, open-source online pastebin.
 - **ProjectSend**: A secure, private file sharing application.

@@ -1,0 +1,87 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "searxng",
+    "pname": "SearXNG",
+    "description": "SearXNG is a free internet metasearch engine which aggregates results from various search services and databases. Users are neither tracked nor profiled.",
+    "descriptionShort": "Privacy-respecting metasearch engine",
+    "icon": "sh-searxng",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["search", "privacy", "metasearch"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8081,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": ["redis"]
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "SEARXNG_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8081,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      },
+      {
+        "name": "SEARXNG_SECRET",
+        "description": "SearXNG secret key (auto-generated)",
+        "type": "password",
+        "generate": "random",
+        "length": 32,
+        "prompt": false,
+        "required": true
+      }
+    ]
+  },
+
+  "hooks": {
+    "postInstall": "files/post-install.sh"
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "SearXNG requires Redis for rate limiting and caching. Ensure Redis remains running while using SearXNG."
+      }
+    ]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "SEARXNG_PORT"
+  },
+
+  "status": {
+    "file": "06_searxng_status",
+    "successMessage": "SearXNG Setup Completed",
+    "telemetryAction": "searxng"
+  }
+}
