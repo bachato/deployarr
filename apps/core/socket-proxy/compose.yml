@@ -31,7 +31,7 @@ services:
       # Security critical
       - AUTH=0
       - SECRETS=0
-      - POST=1 # Watchtower
+      - POST=1
       # Not always needed
       - BUILD=0
       - COMMIT=0

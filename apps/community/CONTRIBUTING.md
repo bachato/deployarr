@@ -571,7 +571,7 @@ services:
     # DOCKER-LABELS-PLACEHOLDER
 ```
 
-### Example 3: App Without Web UI (Watchtower)
+### Example 3: App Without Web UI (DeUnhealth)
 
 **manifest.json:**
 ```json
@@ -580,14 +580,14 @@ services:
   "version": "1.2",
 
   "app": {
-    "sname": "watchtower",
-    "pname": "Watchtower",
-    "description": "Watchtower automatically updates running Docker containers when new images are available.",
-    "descriptionShort": "Container auto-updater",
-    "icon": "sh-watchtower",
+    "sname": "deunhealth",
+    "pname": "DeUnhealth",
+    "description": "DeUnhealth monitors and restarts unhealthy Docker containers automatically.",
+    "descriptionShort": "Unhealthy container restarter",
+    "icon": "sh-deunhealth",
     "category": "community",
     "menuNumber": "07",
-    "tags": ["docker", "automation", "updates"]
+    "tags": ["docker", "automation", "health"]
   },
 
   "deployment": {
@@ -620,9 +620,9 @@ services:
   },
 
   "status": {
-    "file": "07_watchtower_status",
-    "successMessage": "Watchtower Setup Completed",
-    "telemetryAction": "watchtower"
+    "file": "07_deunhealth_status",
+    "successMessage": "DeUnhealth Setup Completed",
+    "telemetryAction": "deunhealth"
   }
 }
 ```
@@ -630,10 +630,10 @@ services:
 **compose.yml:**
 ```yaml
 services:
-  # Watchtower - Container Monitoring and Management
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
+  # DeUnhealth - Unhealthy Container Restarter
+  deunhealth:
+    image: qmcgaw/deunhealth
+    container_name: deunhealth
     security_opt:
       - no-new-privileges:true
     restart: always
@@ -641,12 +641,11 @@ services:
     networks:
       - default
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       TZ: $TZ
-      WATCHTOWER_CLEANUP: true
-      WATCHTOWER_INCLUDE_RESTARTING: true
-      WATCHTOWER_POLL_INTERVAL: 36000
+      LOG_LEVEL: info
+      HEALTH_CHECK_INTERVAL: 5s
     # DOCKER-LABELS-PLACEHOLDER
 ```
 

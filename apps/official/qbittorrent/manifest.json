@@ -46,7 +46,7 @@
   "files": [
     {
       "source": "files/qBittorrent.conf",
-      "dest": "$DOCKERDIR/appdata/qbittorrent/qBittorrent/qBittorrent.conf"
+      "dest": "$DOCKER_FOLDER/appdata/qbittorrent/qBittorrent/qBittorrent.conf"
     }
   ],
 

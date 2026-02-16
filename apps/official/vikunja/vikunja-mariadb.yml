@@ -20,7 +20,7 @@ services:
       - $DOCKERDIR/appdata/vikunja-mariadb:/var/lib/mysql
     environment:
       - MARIADB_DATABASE=vikunja
-      - MARIADB_USER=$VIKUNJA_MARIADB_USERNAME
+      - MARIADB_USER=vikunja_db_user
       - MARIADB_PASSWORD=$VIKUNJA_MARIADB_PASSWORD
       - MARIADB_ROOT_PASSWORD=$VIKUNJA_MARIADB_PASSWORD
     # DOCKER-LABELS-PLACEHOLDER

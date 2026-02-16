@@ -89,13 +89,6 @@
         "prompt": false,
         "required": true
       }
-    ],
-    "constants": [
-      {
-        "name": "BOOKSTACK_MARIADB_USERNAME",
-        "value": "bookstack_db_user",
-        "description": "MariaDB database username"
-      }
     ]
   },
 

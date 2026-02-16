@@ -31,7 +31,7 @@
   "files": [
     {
       "source": "files/glances.conf",
-      "dest": "$DOCKERDIR/appdata/glances/glances.conf"
+      "dest": "$DOCKER_FOLDER/appdata/glances/glances.conf"
     }
   ],
 

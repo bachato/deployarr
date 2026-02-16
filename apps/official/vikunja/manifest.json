@@ -87,6 +87,14 @@
         "required": true
       },
       {
+        "name": "VIKUNJA_SUBDOMAIN",
+        "description": "Subdomain for Vikunja (used for public URL)",
+        "type": "string",
+        "default": "vikunja",
+        "prompt": true,
+        "required": true
+      },
+      {
         "name": "VIKUNJA_MARIADB_PASSWORD",
         "description": "MariaDB database password (auto-generated)",
         "type": "password",
@@ -94,13 +102,6 @@
         "length": 32,
         "prompt": false,
         "required": true
-      }
-    ],
-    "constants": [
-      {
-        "name": "VIKUNJA_MARIADB_USERNAME",
-        "value": "vikunja_db_user",
-        "description": "MariaDB database username"
       }
     ]
   },

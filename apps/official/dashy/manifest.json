@@ -31,7 +31,7 @@
   "files": [
     {
       "source": "files/starter-conf.yml",
-      "dest": "$DOCKERDIR/appdata/dashy/conf.yml"
+      "dest": "$DOCKER_FOLDER/appdata/dashy/conf.yml"
     }
   ],
 

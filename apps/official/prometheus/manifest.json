@@ -38,7 +38,7 @@
   "files": [
     {
       "source": "files/prometheus.yml",
-      "dest": "$DOCKERDIR/appdata/prometheus/config/prometheus.yml"
+      "dest": "$DOCKER_FOLDER/appdata/prometheus/config/prometheus.yml"
     }
   ],
 

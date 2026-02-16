@@ -7,7 +7,7 @@
     "pname": "The Lounge",
     "description": "The Lounge is a modern, responsive, cross-platform, self-hosted web IRC client. It provides an always-connected experience with push notifications and link previews.",
     "descriptionShort": "Self-hosted web IRC client",
-    "icon": "sh-thelounge",
+    "icon": "sh-the-lounge",
     "category": "official",
     "menuNumber": "06",
     "tags": ["chat", "irc", "communication"]

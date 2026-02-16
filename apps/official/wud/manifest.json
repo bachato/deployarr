@@ -7,7 +7,7 @@
     "pname": "What's Up Docker",
     "description": "What's Up Docker (WUD) monitors Docker containers and notifies you when new images are available. It supports various notification methods including Discord, Slack, email, and more.",
     "descriptionShort": "Docker image updates notification",
-    "icon": "sh-whats-up-docker",
+    "icon": "sh-wud",
     "category": "official",
     "menuNumber": "06",
     "tags": ["docker", "monitoring", "notifications", "updates"]

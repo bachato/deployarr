@@ -14,7 +14,7 @@
   },
 
   "deployment": {
-    "type": "single",
+    "type": "multicontainer",
     "compose": "compose.yml",
     "profiles": ["apps", "all"],
     "networks": ["default"],
@@ -23,9 +23,21 @@
     "protocol": "http"
   },
 
+  "dependencies": [
+    {
+      "sname": "searxng-valkey",
+      "pname": "SearXNG Valkey",
+      "compose": "searxng-valkey.yml",
+      "installOrder": 1,
+      "waitForHealthy": true,
+      "required": true,
+      "description": "Dedicated Valkey cache for SearXNG"
+    }
+  ],
+
   "requirements": {
     "prerequisites": ["prerequisites"],
-    "apps": ["redis"]
+    "apps": []
   },
 
   "env": {
@@ -45,10 +57,8 @@
       },
       {
         "name": "SEARXNG_SECRET",
-        "description": "SearXNG secret key (auto-generated)",
+        "description": "SearXNG secret key (auto-generated via pre-install hook)",
         "type": "password",
-        "generate": "random",
-        "length": 32,
         "prompt": false,
         "required": true
       }
@@ -56,16 +66,7 @@
   },
 
   "hooks": {
-    "postInstall": "files/post-install.sh"
-  },
-
-  "postInstall": {
-    "messages": [
-      {
-        "type": "note",
-        "text": "SearXNG requires Redis for rate limiting and caching. Ensure Redis remains running while using SearXNG."
-      }
-    ]
+    "preInstall": "files/pre-install.sh"
   },
 
   "traefik": {

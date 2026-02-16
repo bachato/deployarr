@@ -12,16 +12,15 @@ echo
 
 f_print_step "2/3" "Initializing $APP_PNAME database schema..."
 
-# Get database credentials from .env
+# Get database credentials (inherited from exported env vars set by _write_variable)
 GUACAMOLE_DB_USER="guacamole_db_user"
-GUACAMOLE_DB_PASSWORD=$(grep "^GUACAMOLE_MARIADB_PASSWORD=" "$DOCKER_FOLDER/.env" | cut -d'=' -f2)
+GUACAMOLE_DB_PASSWORD="${GUACAMOLE_MARIADB_PASSWORD}"
 
-# Get version pin from .env (fallback to latest)
-GUACAMOLE_VERSION_PIN=$(grep "^GUACAMOLE_VERSION_PIN=" "$DOCKER_FOLDER/.env" | cut -d'=' -f2)
+# Get version pin (inherited from exported env vars, fallback to latest)
 GUACAMOLE_VERSION_PIN="${GUACAMOLE_VERSION_PIN:-latest}"
 
 # Check if database is already initialized (check for guacamole_user table)
-DB_INITIALIZED=$(sudo docker exec guacamole-mariadb mariadb -u"$GUACAMOLE_DB_USER" -p"$GUACAMOLE_DB_PASSWORD" guacamole -e "SHOW TABLES LIKE 'guacamole_user';" 2>/dev/null | grep -c "guacamole_user" || echo "0")
+DB_INITIALIZED=$(sudo docker exec guacamole-mariadb mariadb -u"$GUACAMOLE_DB_USER" -p"$GUACAMOLE_DB_PASSWORD" guacamole -e "SHOW TABLES LIKE 'guacamole_user';" 2>/dev/null | grep -c "guacamole_user" || true)
 
 if [[ "$DB_INITIALIZED" -gt 0 ]]; then
     f_print_substep "Database schema already initialized, skipping..."

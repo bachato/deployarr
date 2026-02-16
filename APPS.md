@@ -1,4 +1,4 @@
-# Deployarr Apps - 147 (and increasing)
+# Deployarr Apps - 146 (and increasing)
 
 ## Reverse Proxy and Tunnels
 - **Traefik**: A modern HTTP reverse proxy and load balancer that makes deploying microservices easy.
@@ -129,7 +129,7 @@
 - **Dockwatch**: A monitoring tool for Docker containers.
 - **What's Up Docker (WUD)**: A tool to monitor and update your Docker containers.
 - **DweebUI**: A customizable web-based user interface for managing various Docker applications.
-- **Watchtower**: A container-based solution for automating Docker container base image updates.
+- <del>**Watchtower**: A container-based solution for automating Docker container base image updates</del> (Deprecated. Not maintained).
 - **Lazydocker**: A terminal UI for Docker management.
 
 ## File Management

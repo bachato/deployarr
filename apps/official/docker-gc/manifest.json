@@ -28,12 +28,9 @@
     "apps": ["socket-proxy"]
   },
 
-  "files": [
-    {
-      "source": "files/docker-gc-exclude",
-      "dest": "$DOCKERDIR/appdata/docker-gc/docker-gc-exclude"
-    }
-  ],
+  "hooks": {
+    "preInstall": "files/pre-install.sh"
+  },
 
   "traefik": {
     "supported": false

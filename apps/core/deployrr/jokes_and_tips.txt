@@ -45,7 +45,7 @@ Why do programmers prefer dark mode? Because light attracts bugs
 
 # Homelab tips (useful info!)
 [TIP] Remember to backup your Docker volumes regularly
-[TIP] Consider using Watchtower for automatic container updates
+[TIP] Consider using Dockwatch or WUD (What's Up Docker) for automatic container updates
 [TIP] Always check container logs when troubleshooting issues
 [TIP] Document your homelab setup - future you will thank you
 [TIP] Join the Deployrr Discord community for help and ideas

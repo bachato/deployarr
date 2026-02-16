@@ -38,7 +38,7 @@
   "files": [
     {
       "source": "files/mosquitto.conf",
-      "dest": "$DOCKERDIR/appdata/mosquitto/config/mosquitto.conf"
+      "dest": "$DOCKER_FOLDER/appdata/mosquitto/config/mosquitto.conf"
     }
   ],
 

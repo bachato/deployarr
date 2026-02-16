@@ -6,8 +6,8 @@ CONFIG_FILE="$DOCKER_FOLDER/appdata/sshwifty/conf.json"
 
 # Read password from secret file
 SSHWIFTY_PASSWORD=""
-if [[ -f "$DOCKER_FOLDER/secrets/sshwifty_password" ]]; then
-    SSHWIFTY_PASSWORD=$(cat "$DOCKER_FOLDER/secrets/sshwifty_password")
+if sudo test -f "$DOCKER_FOLDER/secrets/sshwifty_password"; then
+    SSHWIFTY_PASSWORD=$(sudo cat "$DOCKER_FOLDER/secrets/sshwifty_password")
 fi
 
 # Replace password placeholder
@@ -26,9 +26,9 @@ fi
 if [[ "$ssh_port" =~ ^[0-9]+$ ]] && [[ "$ssh_port" -ge 1 ]] && [[ "$ssh_port" -le 65535 ]]; then
     f_sed_replace "PORT-PLACEHOLDER" "$ssh_port" "$CONFIG_FILE"
     f_sed_replace "HOSTNAME-PLACEHOLDER" "$HOSTNAME" "$CONFIG_FILE"
-    f_sed_replace "USER-PLACEHOLDER" "$PRIMARY_USERNAME" "$CONFIG_FILE"
+    f_sed_replace "USER-PLACEHOLDER" "$USERNAME" "$CONFIG_FILE"
 fi
 
 # Set secure permissions on config file (contains password)
 sudo chmod 600 "$CONFIG_FILE"
-sudo chown "$PRIMARY_USERNAME:$PRIMARY_USERNAME" "$CONFIG_FILE"
+sudo chown "$USERNAME:$USERNAME" "$CONFIG_FILE"

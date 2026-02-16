@@ -20,7 +20,7 @@ services:
       - $DOCKERDIR/appdata/bookstack-mariadb:/var/lib/mysql
     environment:
       - MARIADB_DATABASE=bookstack
-      - MARIADB_USER=$BOOKSTACK_MARIADB_USERNAME
+      - MARIADB_USER=bookstack_db_user
       - MARIADB_PASSWORD=$BOOKSTACK_MARIADB_PASSWORD
       - MARIADB_ROOT_PASSWORD=$BOOKSTACK_MARIADB_PASSWORD
     # DOCKER-LABELS-PLACEHOLDER

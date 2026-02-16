@@ -41,7 +41,7 @@
   "files": [
     {
       "source": "files/conf.php",
-      "dest": "$DOCKERDIR/appdata/privatebin/conf.php"
+      "dest": "$DOCKER_FOLDER/appdata/privatebin/conf.php"
     }
   ],
 

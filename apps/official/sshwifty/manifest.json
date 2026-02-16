@@ -37,7 +37,7 @@
   "files": [
     {
       "source": "files/sshwifty.conf.json",
-      "dest": "$DOCKERDIR/appdata/sshwifty/conf.json"
+      "dest": "$DOCKER_FOLDER/appdata/sshwifty/conf.json"
     }
   ],
 
@@ -45,6 +45,15 @@
     "permissions": {
       "appdata": "$USERNAME:$USERNAME"
     }
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "style": "warning",
+        "text": "Sshwifty requires HTTPS to function. Access it through your reverse proxy (e.g. Traefik) — direct HTTP access via server IP will NOT work due to Web Crypto API browser restrictions."
+      }
+    ]
   },
 
   "traefik": {
