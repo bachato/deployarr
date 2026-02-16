@@ -1,4 +1,4 @@
-# Deployarr Apps - 146 (and increasing)
+# Deployarr Apps - 150 (and increasing)
 
 ## Reverse Proxy and Tunnels
 - **Traefik**: A modern HTTP reverse proxy and load balancer that makes deploying microservices easy.
@@ -6,6 +6,7 @@
 - **Traefik Error Logs**: Pass Traefik Error Logs to Dozzle
 - **Traefik Certs Dumper**: A tool to dump Traefik's certificates to disk.
 - **Cloudflare Tunnel**: A secure way to connect your resources to Cloudflare without a public IP.
+- **Nginx Proxy Manager**: A reverse proxy management system with SSL support and a web-based UI.
 
 ## Media Servers and Players
 - **Plex**: A media server that organizes video, music, and photos from personal media libraries and streams them to smart TVs, streaming boxes, and mobile devices.
@@ -38,6 +39,7 @@
 - **Huntarr**: Missing media and upgrade utility.
 - **Cleanuparr**: Arr stack and media cleanup utility.
 - **Dispatcharr**: An IPTV and stream companion.
+- **Boxarr**: Monitors box office charts and integrates with Radarr for automated movie additions.
 
 ## Downloaders
 - **NZBGet**: A Usenet downloader optimized for performance and efficiency.
@@ -45,6 +47,7 @@
 - **qBittorrent**: An open-source BitTorrent client without VPN integration.
 - **Transmission**: A fast, easy, and free BitTorrent client without VPN integration.
 - **qBittorrent with VPN**: An open-source BitTorrent client with Gluetun VPN Client integration.
+- **Autobrr**: A versatile download automation tool for torrents and Usenet.
 
 ## Network Tools
 - **Gluetun**: A VPN client in a thin Docker container for multiple VPN providers.
@@ -126,11 +129,13 @@
 - **Portainer**: A lightweight management UI which allows you to easily manage your Docker environments.
 - **Docker Garbage Collection**: A tool for cleaning up unused Docker containers, images, and volumes.
 - **DeUnhealth**: A tool to monitor and manage the health of your Docker containers.
+- **Dockpeek**: A lightweight, self-hosted Docker dashboard for quick access to containers.
 - **Dockwatch**: A monitoring tool for Docker containers.
 - **What's Up Docker (WUD)**: A tool to monitor and update your Docker containers.
 - **DweebUI**: A customizable web-based user interface for managing various Docker applications.
 - <del>**Watchtower**: A container-based solution for automating Docker container base image updates</del> (Deprecated. Not maintained).
 - **Lazydocker**: A terminal UI for Docker management.
+- **Dockhand**: A Docker container management tool with web interface and PostgreSQL-backed persistence.
 
 ## File Management
 - **FileZilla**: A fast and reliable FTP, FTPS and SFTP client with GUI.
@@ -151,12 +156,14 @@
 - **CyberChef**: A web app for encryption, encoding, compression, and data analysis.
 - **GPTWOL**: Wake On LAN Docker GUI.
 - **SSHwifty**: A web-based SSH client.
+- **Termix**: A web-based server management platform with SSH terminal and file editing.
 
 ## Remote Access
 - **Guacamole**: A clientless remote desktop gateway.
 - **Chromium**: An open-source web browser project.
 - **Kasm**: A web-based workspace / remote desktop solution.
 - **Remmina**: A remote desktop client written in GTK.
+- **XPipe Webtop**: A web-based desktop environment with XPipe connection management.
 
 ## Social 
 - **The Lounge**: A self-hosted web IRC client.

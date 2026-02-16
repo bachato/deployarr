@@ -9,7 +9,7 @@ services:
     profiles: ["core", "all"]
     networks:
       - default
-      - t3_proxy
+      - traefik_proxy
     depends_on:
       authelia-redis:
         condition: service_healthy

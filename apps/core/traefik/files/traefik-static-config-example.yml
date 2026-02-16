@@ -78,7 +78,7 @@
       docker:
         endpoint: "tcp://socket-proxy:2375"
         exposedByDefault: false
-        network: t3_proxy
+        network: traefik_proxy
       file:
         directory: "/rules"
         watch: true

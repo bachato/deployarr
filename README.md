@@ -10,7 +10,7 @@ Deployrr revolutionizes homelab setup by automating the deployment and configura
 
 ### Key Features
 
-- **Extensive App Support**: 147+ pre-configured applications ready for deployment
+- **Extensive App Support**: 150+ pre-configured applications ready for deployment
 - **Intelligent Automation**: Automated environment setup with smart system checks
 - **Enterprise-Grade Security**:
   - Socket-Proxy protection
@@ -20,6 +20,7 @@ Deployrr revolutionizes homelab setup by automating the deployment and configura
   - Advanced Traefik reverse proxy configuration
   - Flexible exposure modes (Internal, External, or Hybrid)
   - Multi-server and multi-domain support
+- **AI & Automation Stacks**: Curated app bundles for self-hosted AI (Ollama, Open-WebUI, Flowise) and automation (n8n, Node-RED)
 - **Smart Management**:
   - Intuitive stack management interface
   - Automated backup and restoration

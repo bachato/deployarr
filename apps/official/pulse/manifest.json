@@ -32,6 +32,19 @@
     "supported": true
   },
 
+  "hooks": {
+    "postInstall": "files/post-install.sh"
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "Use the bootstrap token shown in the terminal to register on the Pulse WebUI. Token saved to \\Z4$DOCKER_FOLDER/secrets/pulse_bootstrap_token\\Zn"
+      }
+    ]
+  },
+
   "dashboard": {
     "enabled": true,
     "location": "local",

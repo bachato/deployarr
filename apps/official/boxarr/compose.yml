@@ -1,0 +1,18 @@
+services:
+  # Boxarr - Box Office to Radarr Automation
+  boxarr:
+    image: ghcr.io/iongpt/boxarr:latest
+    container_name: boxarr
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    ports:
+      - "$BOXARR_PORT:8888"
+    volumes:
+      - $DOCKERDIR/appdata/boxarr:/config
+    environment:
+      TZ: $TZ
+    # DOCKER-LABELS-PLACEHOLDER

@@ -1,0 +1,24 @@
+services:
+  # Dockhand PostgreSQL - Dedicated Database for Dockhand
+  dockhand-postgresql:
+    container_name: dockhand-postgresql
+    image: postgres:${DOCKHANDPOSTGRESQL_VERSION_PIN}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d dockhand -U dockhand_db_user"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    networks:
+      - default
+    volumes:
+      - $DOCKERDIR/appdata/dockhand-postgresql:/var/lib/postgresql
+    environment:
+      - POSTGRES_DB=dockhand
+      - POSTGRES_USER=dockhand_db_user
+      - POSTGRES_PASSWORD=$DOCKHAND_POSTGRESQL_PASSWORD
+    # DOCKER-LABELS-PLACEHOLDER

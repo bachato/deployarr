@@ -10,7 +10,7 @@ services:
     profiles: ["core", "all"]
     networks:
       - default
-      - t3_proxy
+      - traefik_proxy
     # ports:
     #   - "$TINYAUTH_PORT:3000"
     volumes:

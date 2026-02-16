@@ -1,5 +1,5 @@
-  t3_proxy:
-    name: t3_proxy
+  traefik_proxy:
+    name: traefik_proxy
     driver: bridge
     ipam:
       config:
