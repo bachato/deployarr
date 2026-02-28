@@ -50,6 +50,13 @@ Total Supported Apps: 150+
 <li>FIX: Fixed UFW firewall rules being corrupted during socket proxy setup.</li>
 <li>FIX: Fixed Rclone requirements checking.</li>
 <li>FIX: Fixed environment variables not being cleaned up after removal.</li>
+<li>FIX: Replaced Python TCP listeners in domain checks with netcat (nc), removing Python as an explicit required dependency.</li>
+<li>FIX: Fixed v5-to-v6 migration detection (previously checked for a file v5 never created).</li>
+<li>FIX: Tier 3 cold upgrade detection no longer falsely triggers on existing v6 installations (checks for appdata/ without compose/).</li>
+<li>FIX: DP_VERSION auto-stamp blocked while DP_MODE=MIGRATION to prevent premature version stamping before wizard completes.</li>
+<li>ENHANCEMENT: v5 main menu now includes "Upgrade to v6" option that creates a handoff file for seamless v6 migration.</li>
+<li>ENHANCEMENT: DP_VERSION tracking in deployrr_constants — auto-stamps current version on every boot for future upgrade detection.</li>
+<li>ENHANCEMENT: Migration detection log now shows which tier triggered (DP_VERSION, handoff file, or cold upgrade).</li>
 <li>ENHANCEMENT: Domain checks now support UFW Port Address Translation (PAT) configurations with intelligent port detection.</li>
 <li>ENHANCEMENT: App manifests support runOnUpdate field for triggering pre-install hooks during app updates.</li>
 <li>ENHANCEMENT: OS-aware package lists in installation dialogs for Arch, Fedora/RHEL, and Debian/Ubuntu.</li>
