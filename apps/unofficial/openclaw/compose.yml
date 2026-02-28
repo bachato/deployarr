@@ -1,0 +1,30 @@
+services:
+  # OpenClaw - Self-hosted AI Coding Assistant
+  openclaw:
+    image: deployrr/openclaw:latest
+    container_name: openclaw
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: [ "apps", "all" ]
+    networks:
+      - default
+    ports:
+      - "$OPENCLAW_PORT:18789"
+    volumes:
+      - $DOCKERDIR/appdata/shared/openclaw-cli:/home/node/.openclaw
+      - $DOCKERDIR/appdata/openclaw/workspace:/home/node/.openclaw/workspace
+    environment:
+      - TZ=$TZ
+      - PUID=$PUID
+      - PGID=$PGID
+      - HOME=/home/node
+      - TERM=xterm-256color
+      - NODE_ENV=production
+    # env_file injects OPENCLAW_GATEWAY_TOKEN as an env var.
+    # Docker daemon reads this file as root — host file stays root:root 0600.
+    # The container process never needs to read any secret file directly.
+    env_file:
+      - $DOCKERDIR/secrets/openclaw.env
+    command: [ "node", "openclaw.mjs", "gateway", "--allow-unconfigured", "--bind", "lan", "--port", "18789" ]
+    # DOCKER-LABELS-PLACEHOLDER

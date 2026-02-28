@@ -1,0 +1,32 @@
+services:
+  # 9Router - Universal AI Proxy & Smart Router
+  9router:
+    image: deployrr/9router:latest
+    container_name: 9router
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: [ "apps", "all" ]
+    networks:
+      - default
+    ports:
+      - "$NINEROUTER_PORT:20128"
+    volumes:
+      - $DOCKERDIR/appdata/9router/data:/app/data
+      - $DOCKERDIR/appdata/9router/usage:/root/.9router
+      - $DOCKERDIR/appdata/shared/openclaw-cli:/root/.openclaw
+      - $DOCKERDIR/appdata/shared/openclaw-cli/openclaw:/usr/local/bin/openclaw:ro
+    environment:
+      - TZ=$TZ
+      - PUID=$PUID
+      - PGID=$PGID
+      - PORT=20128
+      - HOSTNAME=0.0.0.0
+      - NODE_ENV=production
+      - NEXT_PUBLIC_BASE_URL=http://localhost:20128
+      - JWT_SECRET=JWT-SECRET-PLACEHOLDER
+      - INITIAL_PASSWORD=INITIAL-PASSWORD-PLACEHOLDER
+      - API_KEY_SECRET=API-KEY-SECRET-PLACEHOLDER
+      - MACHINE_ID_SALT=MACHINE-ID-SALT-PLACEHOLDER
+      - REQUIRE_API_KEY=false
+    # DOCKER-LABELS-PLACEHOLDER

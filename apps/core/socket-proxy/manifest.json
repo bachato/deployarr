@@ -1,7 +1,6 @@
 {
   "$schema": "../../../manifest-schema.json",
   "version": "1.1",
-
   "app": {
     "sname": "socket-proxy",
     "pname": "Socket Proxy",
@@ -9,7 +8,6 @@
     "icon": "sh-docker",
     "category": "core"
   },
-
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
@@ -17,12 +15,12 @@
     "port": null,
     "protocol": null
   },
-
   "requirements": {
-    "prerequisites": ["prerequisites"],
+    "prerequisites": [
+      "prerequisites"
+    ],
     "apps": []
   },
-
   "placeholders": {
     "compose": {
       "# privileged: true": {
@@ -31,18 +29,15 @@
       }
     }
   },
-
   "traefik": {
     "supported": false
   },
-
   "dashboard": {
     "enabled": true,
     "location": "other",
     "showStats": true,
     "portVariable": null
   },
-
   "env": {
     "variables": [
       {
@@ -54,13 +49,11 @@
       }
     ]
   },
-
-  "ufw": {
+  "firewall": {
     "rules": [
       "allow from 192.168.91.0/24"
     ]
   },
-
   "status": {
     "file": "03_socket-proxy_status",
     "successMessage": "Socket Proxy Setup Completed",

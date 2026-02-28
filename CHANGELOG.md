@@ -3,8 +3,8 @@
 <h5>v6.0 - February 28, 2026</h5>
 Total Supported Apps: 150+
 <ul>
-<li>WARNING ⚠️: Deployrr v6 is NOT backward compatible with v5. A full reinstallation from scratch is required to migrate to v6. App data can be preserved but apps must be reinstalled.</li>
-<li>NEW: Complete rewrite of Deployrr with faster menus, improved reliability, and a modernized interface 🚀.</li>
+<li>WARNING: Deployrr v6 is NOT backward compatible with v5. A full reinstallation from scratch is required to migrate to v6. App data can be preserved but apps must be reinstalled.</li>
+<li>NEW: Complete rewrite of Deployrr with faster menus, improved reliability, and a modernized interface.</li>
 <li>NEW: Microservice architecture - every app now gets its own dedicated database and supporting services instead of sharing. This makes setup, management, and troubleshooting significantly easier.</li>
 <li>NEW: Added Nginx Proxy Manager as an alternative to Traefik reverse proxy. Users can now choose their preferred proxy type.</li>
 <li>NEW: Added Termix - web-based server management with SSH terminal, tunneling, and file editing.</li>
@@ -15,28 +15,33 @@ Total Supported Apps: 150+
 <li>NEW: Added Dockpeek - lightweight Docker dashboard for quick container access.</li>
 <li>NEW: Completely redesigned Apps menu - browse, install, and manage apps all from one place, in addition to the existing Stack Manager.</li>
 <li>NEW: Remote Assist feature via Tmate for secure remote troubleshooting (Help menu).</li>
-<li>NEW: SMTP Mail Relay configuration with ssmtp - sends system emails to your admin email (System menu).</li>
+<li>NEW: SMTP Mail Relay configuration with ssmtp - sends system emails (e.g. pin reminders) to your admin email (System menu).</li>
 <li>NEW: Dashify tool to manually add any app to the Deployrr Dashboard (Tools menu).</li>
 <li>NEW: ReDash tool to refresh and manage dashboard entries (Tools menu).</li>
-<li>NEW: Manifest-based app framework 📦 - apps are now defined by simple JSON manifest files, making the system more extensible and consistent.</li>
+<li>NEW: Manifest-based app framework - apps are now defined by simple JSON manifest files, making the system more extensible and consistent.</li>
 <li>NEW: Laid the foundation to support community-contributed apps in future releases.</li>
+<li>NEW: Multi-OS support - Arch Linux (pacman), RHEL/CentOS/Rocky Linux (dnf/rpm), and Fedora now supported alongside Debian/Ubuntu.</li>
+<li>NEW: Intelligent GPU scanner detecting NVIDIA, AMD, and Intel GPUs with toolkit verification (NVIDIA Container Toolkit, AMD ROCm/DRI, Intel DRI).</li>
+<li>NEW: Smart stack updates with local-build detection - automatically performs git pull + docker build for locally-built apps instead of failing on docker pull.</li>
+<li>NEW: Added Ollama GPU application for GPU-accelerated AI inference.</li>
 <li>ENHANCEMENT: Significantly faster app menus and navigation with intelligent caching.</li>
 <li>ENHANCEMENT: Improved Deployrr Dashboard reliability.</li>
 <li>ENHANCEMENT: Standardized UI output and logging throughout the application.</li>
 <li>ENHANCEMENT: More reliable Request PIN and Reset PIN functionality.</li>
 <li>ENHANCEMENT: Package installation now verifies availability in the repo before attempting install, avoiding failures.</li>
 <li>ENHANCEMENT: Traefik HTTP/3 (QUIC) support on ports 443/udp and 444/udp.</li>
+<li>ENHANCEMENT: Traefik secrets dialog consolidated with pre-filled values and password confirmation.</li>
 <li>ENHANCEMENT: CrowdSec Traefik Bouncer now supports plugin-based deployment method.</li>
 <li>ENHANCEMENT: Backup and Restore now support custom locations.</li>
 <li>ENHANCEMENT: Diagnostics and System Health now includes Remote Assist status.</li>
 <li>ENHANCEMENT: Version Pins moved to Settings menu for easier access.</li>
 <li>ENHANCEMENT: Improved Docker Disk Usage metrics display.</li>
 <li>ENHANCEMENT: SearXNG converted to multi-container setup with dedicated Valkey (Redis) instance.</li>
-<li>ENHANCEMENT: Renamed t3_proxy Docker network to traefik_proxy for clarity and consistency with socket_proxy naming. End of the 6-year t2_proxy and then t3_proxy era 😢.</li>
+<li>ENHANCEMENT: Renamed t3_proxy Docker network to traefik_proxy for clarity and consistency with socket_proxy naming.</li>
 <li>ENHANCEMENT: Improved Manage Auth menu with single app selection.</li>
 <li>ENHANCEMENT: Improved Manage Exposure menu.</li>
 <li>ENHANCEMENT: Updated version pins: TinyAuth v4, Authelia 4.39.15, Deployrr Dashboard 1.9.0, Authentik 2025.12.1.</li>
-<li>ENHANCEMENT: Security improvement 🔒 - script now enforces non-root execution.</li>
+<li>ENHANCEMENT: Security improvement - script now enforces non-root execution.</li>
 <li>FIX: Fixed Prometheus and other app installation failures.</li>
 <li>FIX: Fixed Guacamole post-install issues.</li>
 <li>FIX: Fixed SSHwifty pre-install password file operations.</li>
@@ -45,6 +50,15 @@ Total Supported Apps: 150+
 <li>FIX: Fixed UFW firewall rules being corrupted during socket proxy setup.</li>
 <li>FIX: Fixed Rclone requirements checking.</li>
 <li>FIX: Fixed environment variables not being cleaned up after removal.</li>
+<li>ENHANCEMENT: Domain checks now support UFW Port Address Translation (PAT) configurations with intelligent port detection.</li>
+<li>ENHANCEMENT: App manifests support runOnUpdate field for triggering pre-install hooks during app updates.</li>
+<li>ENHANCEMENT: OS-aware package lists in installation dialogs for Arch, Fedora/RHEL, and Debian/Ubuntu.</li>
+<li>FIX: Traefik exposure defaults now correctly set to Internal instead of Both for new app registrations.</li>
+<li>FIX: Traefik sed toggle scripts in Manage Exposure menus now work reliably.</li>
+<li>FIX: Secrets editor delete operation now functions correctly.</li>
+<li>FIX: Python package name corrected from python3 to python for Arch/RHEL compatibility.</li>
+<li>FIX: Firewalld rich rules word-splitting bug resolved for RHEL/CentOS systems.</li>
+<li>FIX: LICENSE_TYPE normalization to lowercase for consistent license checks across platforms.</li>
 <li>REMOVED: Watchtower (deprecated).</li>
 <li>REMOVED: Home Assistant Core (recommend official installation method).</li>
 <li>REMOVED: UFW Docker integration.</li>

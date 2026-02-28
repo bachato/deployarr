@@ -1,0 +1,144 @@
+{
+    "$schema": "../../../apps/manifest-schema.json",
+    "version": "1.2",
+    "app": {
+        "sname": "9router",
+        "pname": "9Router",
+        "description": "9Router is a universal AI proxy that smart-routes requests across Claude, GPT, Gemini, and other LLMs. It maximizes subscription usage with auto-fallback, quota tracking, multi-account support, and format translation — all through a single OpenAI-compatible endpoint.",
+        "descriptionShort": "Universal AI proxy & smart router",
+        "icon": "https://raw.githubusercontent.com/decolua/9router/master/public/favicon.svg",
+        "category": "unofficial",
+        "menuNumber": "05",
+        "tags": [
+            "ai",
+            "proxy",
+            "llm",
+            "router",
+            "pro"
+        ]
+    },
+    "deployment": {
+        "type": "single",
+        "compose": "compose.yml",
+        "profiles": [
+            "apps",
+            "all"
+        ],
+        "networks": [
+            "default"
+        ],
+        "build": {
+            "imageName": "deployrr/9router:latest",
+            "localBuild": true,
+            "repoUrl": "https://github.com/decolua/9router.git"
+        },
+        "webui": true,
+        "port": 20128,
+        "protocol": "http"
+    },
+    "requirements": {
+        "prerequisites": [
+            "prerequisites",
+            "pro"
+        ]
+    },
+    "env": {
+        "variables": [
+            {
+                "name": "NINEROUTER_PORT",
+                "description": "9Router dashboard and API port",
+                "type": "port",
+                "default": 20128,
+                "prompt": true,
+                "required": true,
+                "validation": {
+                    "type": "port",
+                    "min": 1,
+                    "max": 65535
+                }
+            }
+        ],
+        "secrets": [
+            {
+                "name": "ninerouter_jwt_secret",
+                "description": "JWT secret for 9Router session authentication. Used to sign dashboard login tokens.",
+                "type": "random",
+                "length": 32,
+                "addToCompose": false
+            },
+            {
+                "name": "ninerouter_password",
+                "description": "Initial dashboard login password for 9Router.",
+                "type": "random",
+                "length": 16,
+                "addToCompose": false
+            }
+        ],
+        "constants": [
+            {
+                "name": "NINEROUTER_DATA_DIR",
+                "value": "$DOCKERDIR/appdata/9router/data",
+                "description": "9Router persistent data directory"
+            }
+        ]
+    },
+    "hooks": {
+        "preInstall": {
+            "dialog": {
+                "type": "warning",
+                "title": "9Router - Build from Source",
+                "message": "\\Z1IMPORTANT:\\Zn 9Router is an \\Z4unofficial\\Zn app that must be built from source.\\n\\nThe first install will:\\n• Clone the 9Router repository from GitHub\\n• Build the Docker image locally (may take 3-5 minutes)\\n• Require an active internet connection\\n\\nSubsequent starts will use the cached image.\\n\\nDo you want to proceed?"
+            },
+            "script": "files/pre-install.sh"
+        },
+        "postInstall": {
+            "messages": [
+                {
+                    "style": "warning",
+                    "text": "COPY THIS PASSWORD TO LOG IN: $INITIAL_PASSWORD"
+                },
+                {
+                    "style": "info",
+                    "text": "9Router dashboard is running at http://$SERVER_LAN_IP:$NINEROUTER_PORT/dashboard"
+                },
+                {
+                    "style": "note",
+                    "text": "Password also saved to $DOCKER_FOLDER/secrets/ninerouter_password"
+                },
+                {
+                    "style": "note",
+                    "text": "OpenAI-compatible API endpoint: http://$SERVER_LAN_IP:$NINEROUTER_PORT/v1"
+                },
+                {
+                    "style": "info",
+                    "text": "To connect OpenClaw: use http://9router:20128/v1 as the provider endpoint"
+                },
+                {
+                    "style": "info",
+                    "text": "For more info: https://github.com/decolua/9router"
+                }
+            ],
+            "copyValue": "$INITIAL_PASSWORD",
+            "copyLabel": "Copy Password"
+        }
+    },
+    "folders": {
+        "appdata": [
+            "data"
+        ]
+    },
+    "traefik": {
+        "supported": true
+    },
+    "dashboard": {
+        "enabled": true,
+        "location": "local",
+        "showStats": true,
+        "portVariable": "NINEROUTER_PORT"
+    },
+    "status": {
+        "file": "05_9router_status",
+        "successMessage": "9Router Setup Completed",
+        "telemetryAction": "9router"
+    }
+}

@@ -58,6 +58,7 @@ Deployrr can automatically setup Socket Proxy, Traefik (fetch LE SSL certificate
 ## Supported Environments
 
 - **Primary Platform**: Ubuntu and Debian-based systems
+- **Secondary Platform** (working but unsupported): Arch, CentOS/RHEL/Rocky
 - **Deployment Options**: Baremetal, VM, Windows WSL, and LXC environments
 
 ## License Options

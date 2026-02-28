@@ -1,7 +1,6 @@
 {
   "$schema": "../../../manifest-schema.json",
   "version": "1.1",
-
   "app": {
     "sname": "deployrr-dashboard",
     "pname": "Deployrr Dashboard",
@@ -11,59 +10,92 @@
     "category": "core",
     "menuNumber": "03"
   },
-
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["apps", "all"],
-    "networks": ["default", "socket_proxy"],
+    "profiles": [
+      "apps",
+      "all"
+    ],
+    "networks": [
+      "default",
+      "socket_proxy"
+    ],
     "webui": true,
     "port": 3050,
     "protocol": "http"
   },
-
   "requirements": {
-    "prerequisites": ["prerequisites", "folder_permission"],
-    "apps": ["socket-proxy"],
+    "prerequisites": [
+      "prerequisites",
+      "folder_permission"
+    ],
+    "apps": [
+      "socket-proxy"
+    ],
     "systemType": []
   },
-
   "folders": {
     "permissions": {
       "appdata": "$USERNAME:$USERNAME",
       "fixAfterStart": true
     }
   },
-
   "files": [
-    {"source": "files/bookmarks.yaml", "dest": "appdata/{sname}/config/bookmarks.yaml", "placeholders": {}},
-    {"source": "files/docker.yaml", "dest": "appdata/{sname}/config/docker.yaml", "placeholders": {"DOCKER-HOSTNAME-PLACEHOLDER": "{hostname}-Docker"}},
-    {"source": "files/services.yaml", "dest": "appdata/{sname}/config/services.yaml", "placeholders": {}},
-    {"source": "files/settings.yaml", "dest": "appdata/{sname}/config/settings.yaml", "placeholders": {}},
-    {"source": "files/widgets.yaml", "dest": "appdata/{sname}/config/widgets.yaml", "placeholders": {}},
-    {"source": "files/deployrr_icon.ico", "dest": "appdata/{sname}/images/deployrr_icon.ico", "placeholders": {}},
-    {"source": "files/deployrr_icon.png", "dest": "appdata/{sname}/images/deployrr_icon.png", "placeholders": {}}
+    {
+      "source": "files/bookmarks.yaml",
+      "dest": "appdata/{sname}/config/bookmarks.yaml",
+      "placeholders": {}
+    },
+    {
+      "source": "files/docker.yaml",
+      "dest": "appdata/{sname}/config/docker.yaml",
+      "placeholders": {
+        "DOCKER-HOSTNAME-PLACEHOLDER": "{hostname}-Docker"
+      }
+    },
+    {
+      "source": "files/services.yaml",
+      "dest": "appdata/{sname}/config/services.yaml",
+      "placeholders": {}
+    },
+    {
+      "source": "files/settings.yaml",
+      "dest": "appdata/{sname}/config/settings.yaml",
+      "placeholders": {}
+    },
+    {
+      "source": "files/widgets.yaml",
+      "dest": "appdata/{sname}/config/widgets.yaml",
+      "placeholders": {}
+    },
+    {
+      "source": "files/deployrr_icon.ico",
+      "dest": "appdata/{sname}/images/deployrr_icon.ico",
+      "placeholders": {}
+    },
+    {
+      "source": "files/deployrr_icon.png",
+      "dest": "appdata/{sname}/images/deployrr_icon.png",
+      "placeholders": {}
+    }
   ],
-
   "traefik": {
     "supported": true,
     "subdomain": "deployrr"
   },
-
   "dashboard": {
     "enabled": true,
     "location": "local",
     "showStats": true,
     "portVariable": "DEPLOYRRDASHBOARD_PORT"
   },
-
   "hooks": {
     "preInstall": null,
     "postInstall": null,
     "preUninstall": null,
     "postUninstall": null
   },
-
   "env": {
     "variables": [
       {
@@ -90,11 +122,9 @@
     ],
     "secrets": []
   },
-
-  "ufw": {
+  "firewall": {
     "rules": []
   },
-
   "status": {
     "file": "03_deployrr-dashboard_status",
     "successMessage": "Deployrr Dashboard Setup Completed",

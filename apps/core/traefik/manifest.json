@@ -1,7 +1,6 @@
 {
   "$schema": "../../../manifest-schema.json",
   "version": "1.1",
-
   "app": {
     "sname": "traefik",
     "pname": "Traefik",
@@ -9,7 +8,6 @@
     "icon": "sh-traefik",
     "category": "core"
   },
-
   "deployment": {
     "type": "custom",
     "compose": "compose.yml",
@@ -17,24 +15,26 @@
     "port": 8080,
     "protocol": "http"
   },
-
   "requirements": {
-    "prerequisites": ["prerequisites", "hybrid_mode", "socket_proxy_running"],
-    "apps": ["socket-proxy"]
+    "prerequisites": [
+      "prerequisites",
+      "hybrid_mode",
+      "socket_proxy_running"
+    ],
+    "apps": [
+      "socket-proxy"
+    ]
   },
-
   "dashboard": {
     "enabled": true,
     "location": "local",
     "showStats": true,
     "portVariable": "TRAEFIK_PORT"
   },
-
   "traefik": {
     "supported": true,
     "subdomain": "traefik"
   },
-
   "env": {
     "variables": [
       {
@@ -50,8 +50,7 @@
       }
     ]
   },
-
-  "ufw": {
+  "firewall": {
     "rules": [
       "allow 80/tcp",
       "allow 81/tcp",
@@ -61,7 +60,6 @@
       "allow 444/udp"
     ]
   },
-
   "status": {
     "file": "04_traefik_preparation_status",
     "stagingFile": "04_traefik_staging_status",

@@ -1,0 +1,97 @@
+{
+    "$schema": "../../../apps/manifest-schema.json",
+    "version": "1.2",
+    "app": {
+        "sname": "ollama-gpu",
+        "pname": "Ollama (GPU)",
+        "description": "Ollama with GPU acceleration for running large language models locally. Automatically detects your GPU hardware (NVIDIA or AMD) and configures the appropriate Docker image and device passthrough. Ideal for fast, low-latency local AI inference without burning CPU resources.",
+        "descriptionShort": "GPU-accelerated local AI models (NVIDIA/AMD)",
+        "icon": "sh-ollama",
+        "category": "official",
+        "menuNumber": "06",
+        "tags": [
+            "ai",
+            "llm",
+            "machine-learning",
+            "gpu"
+        ]
+    },
+    "deployment": {
+        "type": "single",
+        "compose": "compose.yml",
+        "profiles": [
+            "apps",
+            "all"
+        ],
+        "networks": [
+            "default"
+        ],
+        "webui": false,
+        "port": 11434,
+        "protocol": "http"
+    },
+    "requirements": {
+        "prerequisites": [
+            "prerequisites"
+        ],
+        "apps": []
+    },
+    "preInstall": {
+        "dialog": {
+            "type": "warning",
+            "title": "Ollama (GPU) — Hardware Check",
+            "message": "\\n\\Z1GPU REQUIRED:\\Zn\\n\\nThis app configures Ollama with GPU acceleration.\\n\\nSupported:  NVIDIA (requires nvidia-container-runtime)\\nSupported:  AMD (requires ROCm drivers)\\n\\nThe installer will auto-detect your GPU and configure appropriately. If no supported GPU is found, installation will be aborted.\\n\\nDo you wish to proceed?",
+            "cancelable": true
+        },
+        "script": "files/pre-install.sh"
+    },
+    "hooks": {
+        "postInstall": {
+            "messages": [
+                {
+                    "style": "info",
+                    "text": "GPU detected and configured: $GPU_LABEL"
+                },
+                {
+                    "style": "note",
+                    "text": "Ollama API: http://$SERVER_LAN_IP:$OLLAMA_GPU_PORT"
+                },
+                {
+                    "style": "note",
+                    "text": "Pull a model to get started: docker exec -it ollama-gpu ollama pull llama3.2:3b"
+                }
+            ]
+        }
+    },
+    "traefik": {
+        "supported": true
+    },
+    "dashboard": {
+        "enabled": true,
+        "location": "other",
+        "showStats": true,
+        "portVariable": "OLLAMA_GPU_PORT"
+    },
+    "env": {
+        "variables": [
+            {
+                "name": "OLLAMA_GPU_PORT",
+                "description": "API port for Ollama (GPU). Use a different port if CPU Ollama is also installed.",
+                "type": "port",
+                "default": 11435,
+                "prompt": true,
+                "required": true,
+                "validation": {
+                    "type": "port",
+                    "min": 1,
+                    "max": 65535
+                }
+            }
+        ]
+    },
+    "status": {
+        "file": "06_ollama-gpu_status",
+        "successMessage": "Ollama (GPU) Setup Completed",
+        "telemetryAction": "ollama-gpu"
+    }
+}

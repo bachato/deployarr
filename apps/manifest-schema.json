@@ -3,7 +3,13 @@
   "title": "Deployrr App Manifest",
   "description": "Manifest schema for Deployrr apps",
   "type": "object",
-  "required": ["version", "app", "deployment", "requirements", "status"],
+  "required": [
+    "version",
+    "app",
+    "deployment",
+    "requirements",
+    "status"
+  ],
   "properties": {
     "version": {
       "type": "string",
@@ -12,7 +18,15 @@
     },
     "app": {
       "type": "object",
-      "required": ["sname", "pname", "description", "descriptionShort", "icon", "category", "menuNumber"],
+      "required": [
+        "sname",
+        "pname",
+        "description",
+        "descriptionShort",
+        "icon",
+        "category",
+        "menuNumber"
+      ],
       "properties": {
         "sname": {
           "type": "string",
@@ -40,7 +54,12 @@
         "category": {
           "type": "string",
           "description": "App category",
-          "enum": ["core", "official", "community"]
+          "enum": [
+            "core",
+            "official",
+            "community",
+            "unofficial"
+          ]
         },
         "menuNumber": {
           "type": "string",
@@ -58,12 +77,19 @@
     },
     "deployment": {
       "type": "object",
-      "required": ["compose", "profiles", "webui"],
+      "required": [
+        "compose",
+        "profiles",
+        "webui"
+      ],
       "properties": {
         "type": {
           "type": "string",
           "description": "Deployment type: single container or multi-container app",
-          "enum": ["single", "multicontainer"],
+          "enum": [
+            "single",
+            "multicontainer"
+          ],
           "default": "single"
         },
         "compose": {
@@ -95,7 +121,38 @@
         "protocol": {
           "type": "string",
           "description": "Protocol: http or https",
-          "enum": ["http", "https"]
+          "enum": [
+            "http",
+            "https"
+          ]
+        },
+        "build": {
+          "type": "object",
+          "description": "Pre-build config for apps without published Docker images. Image is built locally before compose up.",
+          "properties": {
+            "context": {
+              "type": "string",
+              "description": "Build context directory relative to app folder",
+              "default": "."
+            },
+            "dockerfile": {
+              "type": "string",
+              "description": "Dockerfile path relative to app folder",
+              "default": "Dockerfile"
+            },
+            "imageName": {
+              "type": "string",
+              "description": "Local image name (e.g., deployrr/openclaw:latest). Must match image: in compose.yml"
+            },
+            "localBuild": {
+              "type": "boolean",
+              "description": "Set to true for apps whose Docker image is built locally rather than pulled from a registry. Enables intelligent update routing (build vs pull).",
+              "default": false
+            }
+          },
+          "required": [
+            "imageName"
+          ]
         }
       }
     },
@@ -104,7 +161,12 @@
       "description": "Multi-container app dependencies (for deployment.type: multicontainer)",
       "items": {
         "type": "object",
-        "required": ["sname", "pname", "compose", "installOrder"],
+        "required": [
+          "sname",
+          "pname",
+          "compose",
+          "installOrder"
+        ],
         "properties": {
           "sname": {
             "type": "string",
@@ -142,7 +204,9 @@
     },
     "requirements": {
       "type": "object",
-      "required": ["prerequisites"],
+      "required": [
+        "prerequisites"
+      ],
       "properties": {
         "prerequisites": {
           "type": "array",
@@ -173,7 +237,10 @@
       "description": "Files to copy",
       "items": {
         "type": "object",
-        "required": ["source", "dest"],
+        "required": [
+          "source",
+          "dest"
+        ],
         "properties": {
           "source": {
             "type": "string",
@@ -213,14 +280,21 @@
         "location": {
           "type": "string",
           "description": "Dashboard location",
-          "enum": ["other", "remote", "local"]
+          "enum": [
+            "other",
+            "remote",
+            "local"
+          ]
         },
         "showStats": {
           "type": "boolean",
           "description": "Show statistics"
         },
         "portVariable": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Environment variable name that holds the webui port (e.g., 'NPM_ADMIN_PORT'). Used to construct service URL for local dashboard entry."
         }
       }
@@ -236,12 +310,19 @@
             "dialog": {
               "type": "object",
               "description": "Dialog to show before installation",
-              "required": ["type", "title", "message"],
+              "required": [
+                "type",
+                "title",
+                "message"
+              ],
               "properties": {
                 "type": {
                   "type": "string",
                   "description": "Dialog type: 'warning' (yesno, aborts if declined), 'info' (msgbox, informational only)",
-                  "enum": ["warning", "info"]
+                  "enum": [
+                    "warning",
+                    "info"
+                  ]
                 },
                 "title": {
                   "type": "string",
@@ -254,8 +335,16 @@
               }
             },
             "script": {
-              "type": ["string", "null"],
+              "type": [
+                "string",
+                "null"
+              ],
               "description": "Pre-install script filename (runs after dialog if confirmed)"
+            },
+            "runOnUpdate": {
+              "type": "boolean",
+              "description": "If true, the pre-install script will be executed during a stack update (e.g., to regenerate tokens or perform custom builds) instead of performing a generic code pull and docker build.",
+              "default": false
             }
           }
         },
@@ -268,12 +357,19 @@
               "description": "Messages to display in terminal after installation",
               "items": {
                 "type": "object",
-                "required": ["style", "text"],
+                "required": [
+                  "style",
+                  "text"
+                ],
                 "properties": {
                   "style": {
                     "type": "string",
                     "description": "Message style: 'note' (yellow info), 'warning' (red warning), 'info' (cyan info)",
-                    "enum": ["note", "warning", "info"]
+                    "enum": [
+                      "note",
+                      "warning",
+                      "info"
+                    ]
                   },
                   "text": {
                     "type": "string",
@@ -283,7 +379,10 @@
               }
             },
             "script": {
-              "type": ["string", "null"],
+              "type": [
+                "string",
+                "null"
+              ],
               "description": "Post-install script filename"
             }
           }
@@ -298,7 +397,10 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "enum": ["warning", "info"]
+                  "enum": [
+                    "warning",
+                    "info"
+                  ]
                 },
                 "title": {
                   "type": "string"
@@ -309,7 +411,10 @@
               }
             },
             "script": {
-              "type": ["string", "null"],
+              "type": [
+                "string",
+                "null"
+              ],
               "description": "Pre-uninstall script filename"
             }
           }
@@ -326,7 +431,11 @@
                 "properties": {
                   "style": {
                     "type": "string",
-                    "enum": ["note", "warning", "info"]
+                    "enum": [
+                      "note",
+                      "warning",
+                      "info"
+                    ]
                   },
                   "text": {
                     "type": "string"
@@ -335,7 +444,10 @@
               }
             },
             "script": {
-              "type": ["string", "null"],
+              "type": [
+                "string",
+                "null"
+              ],
               "description": "Post-uninstall script filename"
             }
           }
@@ -362,7 +474,11 @@
               "type": {
                 "type": "string",
                 "description": "Variable type: string, port, password",
-                "enum": ["string", "port", "password"]
+                "enum": [
+                  "string",
+                  "port",
+                  "password"
+                ]
               },
               "default": {
                 "description": "Default value"
@@ -396,7 +512,10 @@
                 }
               }
             },
-            "required": ["name", "type"]
+            "required": [
+              "name",
+              "type"
+            ]
           }
         },
         "secrets": {
@@ -404,12 +523,15 @@
           "description": "Docker secrets to create before installation. Secrets are stored as files in $DOCKER_FOLDER/secrets/",
           "items": {
             "type": "object",
-            "required": ["name", "type"],
+            "required": [
+              "name",
+              "type"
+            ],
             "properties": {
               "name": {
                 "type": "string",
-                "description": "Secret name (also used as filename in secrets folder)",
-                "pattern": "^[a-z0-9_]+$"
+                "description": "Secret name (also used as filename in secrets folder). For derived files (type: derived), may include hyphens and dots (e.g. openclaw-full.env).",
+                "pattern": "^[a-z0-9_][a-z0-9_.\\-]*$"
               },
               "description": {
                 "type": "string",
@@ -417,8 +539,14 @@
               },
               "type": {
                 "type": "string",
-                "description": "Secret generation type: 'random' (auto-generate, no prompt), 'random_with_prompt' (generate random, show as default in prompt), 'prompt' (text input), 'prompt_password' (masked password input with confirmation)",
-                "enum": ["random", "random_with_prompt", "prompt", "prompt_password"]
+                "description": "Secret generation type: 'random' (auto-generate, no prompt), 'random_with_prompt' (generate random, show as default in prompt), 'prompt' (text input), 'prompt_password' (masked password input with confirmation), 'derived' (written by a pre-install hook, not generated by Deployrr — tracked for uninstall cleanup only)",
+                "enum": [
+                  "random",
+                  "random_with_prompt",
+                  "prompt",
+                  "prompt_password",
+                  "derived"
+                ]
               },
               "length": {
                 "type": "integer",
@@ -440,7 +568,10 @@
           "description": "Fixed environment variables that are set automatically without prompting the user",
           "items": {
             "type": "object",
-            "required": ["name", "value"],
+            "required": [
+              "name",
+              "value"
+            ],
             "properties": {
               "name": {
                 "type": "string",
@@ -518,7 +649,9 @@
           "description": "Custom folders to create",
           "items": {
             "type": "object",
-            "required": ["path"],
+            "required": [
+              "path"
+            ],
             "properties": {
               "path": {
                 "type": "string",
@@ -544,12 +677,13 @@
         }
       }
     },
-    "ufw": {
+    "firewall": {
       "type": "object",
+      "description": "Firewall rules (auto-translated to UFW or firewalld based on system). Rules use UFW syntax (e.g., 'allow 80/tcp', 'allow from 10.0.0.0/24'). Legacy 'ufw' key is also supported for backward compatibility.",
       "properties": {
         "rules": {
           "type": "array",
-          "description": "UFW firewall rules to add",
+          "description": "Firewall rules in UFW syntax (auto-translated to firewall-cmd on RHEL/CentOS)",
           "items": {
             "type": "string"
           }
@@ -563,7 +697,14 @@
         "type": {
           "type": "string",
           "description": "Database type",
-          "enum": ["postgresql", "mariadb", "mysql", "redis", "mongodb", "influxdb"]
+          "enum": [
+            "postgresql",
+            "mariadb",
+            "mysql",
+            "redis",
+            "mongodb",
+            "influxdb"
+          ]
         },
         "containerSname": {
           "type": "string",
@@ -595,7 +736,11 @@
     },
     "status": {
       "type": "object",
-      "required": ["file", "successMessage", "telemetryAction"],
+      "required": [
+        "file",
+        "successMessage",
+        "telemetryAction"
+      ],
       "properties": {
         "file": {
           "type": "string",
