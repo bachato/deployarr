@@ -14,8 +14,6 @@ services:
     volumes:
       - $DOCKERDIR/appdata/9router/data:/app/data
       - $DOCKERDIR/appdata/9router/usage:/root/.9router
-      - $DOCKERDIR/appdata/shared/openclaw-cli:/root/.openclaw
-      - $DOCKERDIR/appdata/shared/openclaw-cli/openclaw:/usr/local/bin/openclaw:ro
     environment:
       - TZ=$TZ
       - PUID=$PUID

@@ -1,7 +1,6 @@
 {
   "$schema": "../../../apps/manifest-schema.json",
   "version": "1.2",
-
   "app": {
     "sname": "plex",
     "pname": "Plex",
@@ -10,24 +9,52 @@
     "icon": "sh-plex",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["media", "streaming", "video", "music", "photos"]
+    "tags": [
+      "media",
+      "streaming",
+      "video",
+      "music",
+      "photos"
+    ]
   },
-
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["media", "all"],
-    "networks": ["default"],
+    "profiles": [
+      "media",
+      "all"
+    ],
+    "networks": [
+      "default"
+    ],
     "webui": true,
     "port": 32400,
     "protocol": "http"
   },
-
   "requirements": {
-    "prerequisites": ["prerequisites", "media_folder", "add_gpu", "appfolder_permission"],
+    "prerequisites": [
+      "prerequisites",
+      "media_folder",
+      "add_gpu",
+      "appfolder_permission"
+    ],
     "apps": []
   },
-
+  "gpu": {
+    "required": false,
+    "usage": "Hardware transcoding",
+    "vendors": {
+      "intel": {
+        "pattern": "dri"
+      },
+      "amd": {
+        "pattern": "dri"
+      },
+      "nvidia": {
+        "pattern": "runtime"
+      }
+    }
+  },
   "env": {
     "variables": [
       {
@@ -61,22 +88,18 @@
       }
     ]
   },
-
   "hooks": {
     "preInstall": "files/pre-install.sh"
   },
-
   "traefik": {
     "supported": true
   },
-
   "dashboard": {
     "enabled": true,
     "location": "local",
     "showStats": true,
     "portVariable": "PLEX_PORT"
   },
-
   "status": {
     "file": "06_plex_status",
     "successMessage": "Plex Setup Completed",

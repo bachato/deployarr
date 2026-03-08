@@ -1,7 +1,6 @@
 {
   "$schema": "../../../apps/manifest-schema.json",
   "version": "1.2",
-
   "app": {
     "sname": "filezilla",
     "pname": "FileZilla",
@@ -10,35 +9,54 @@
     "icon": "sh-filezilla",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["files", "ftp", "remote"]
+    "tags": [
+      "files",
+      "ftp",
+      "remote"
+    ]
   },
-
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["apps", "all"],
-    "networks": ["default"],
+    "profiles": [
+      "apps",
+      "all"
+    ],
+    "networks": [
+      "default"
+    ],
     "webui": true,
     "port": 3002,
     "protocol": "http"
   },
-
   "requirements": {
-    "prerequisites": ["prerequisites", "add_gpu"],
+    "prerequisites": [
+      "prerequisites",
+      "add_gpu"
+    ],
     "apps": []
   },
-
+  "gpu": {
+    "required": false,
+    "usage": "Hardware-accelerated rendering",
+    "vendors": {
+      "intel": {
+        "pattern": "dri"
+      },
+      "amd": {
+        "pattern": "dri"
+      }
+    }
+  },
   "traefik": {
     "supported": true
   },
-
   "dashboard": {
     "enabled": true,
     "location": "local",
     "showStats": true,
     "portVariable": "FILEZILLA_PORT"
   },
-
   "env": {
     "variables": [
       {
@@ -56,7 +74,6 @@
       }
     ]
   },
-
   "status": {
     "file": "06_filezilla_status",
     "successMessage": "FileZilla Setup Completed",

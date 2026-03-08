@@ -1,7 +1,6 @@
 {
   "$schema": "../../../apps/manifest-schema.json",
   "version": "1.2",
-
   "app": {
     "sname": "ollama",
     "pname": "Ollama",
@@ -10,44 +9,57 @@
     "icon": "sh-ollama",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["ai", "llm", "machine-learning"]
+    "tags": [
+      "ai",
+      "llm",
+      "machine-learning"
+    ]
   },
-
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["apps", "all"],
-    "networks": ["default"],
+    "profiles": [
+      "apps",
+      "all"
+    ],
+    "networks": [
+      "default"
+    ],
     "webui": false,
     "port": 11434,
     "protocol": "http"
   },
-
   "requirements": {
-    "prerequisites": ["prerequisites"],
+    "prerequisites": [
+      "prerequisites",
+      "add_gpu"
+    ],
     "apps": []
   },
-
-  "preInstall": {
-    "dialog": {
-      "type": "warning",
-      "title": "Ollama Warning",
-      "message": "\\n\\Z1WARNING!\\Zn\\n\\nDeployrr sets up a CPU-use-only Ollama container. While in use, it can easily overwhelm CPU and RAM. If you have a dedicated GPU, you will have to customize the Ollama docker compose set up by Deployrr.\\n\\nDo you wish to proceed with installing Ollama?",
-      "cancelable": true
+  "gpu": {
+    "required": false,
+    "usage": "AI inference acceleration",
+    "vendors": {
+      "nvidia": {
+        "pattern": "deploy"
+      },
+      "amd": {
+        "pattern": "rocm",
+        "envOverrides": {
+          "OLLAMA_IMAGE_TAG": "rocm"
+        }
+      }
     }
   },
-
   "traefik": {
     "supported": true
   },
-
   "dashboard": {
     "enabled": true,
     "location": "other",
     "showStats": true,
     "portVariable": "OLLAMA_PORT"
   },
-
   "env": {
     "variables": [
       {
@@ -65,7 +77,6 @@
       }
     ]
   },
-
   "status": {
     "file": "06_ollama_status",
     "successMessage": "Ollama Setup Completed",

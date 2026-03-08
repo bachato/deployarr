@@ -1,4 +1,4 @@
-# OpenClaw Full - Power-user Dockerfile
+# OpenClaw - Power-user Dockerfile
 # Faithful copy of upstream Dockerfile with power-user defaults enabled.
 # See: https://docs.openclaw.ai/install/docker#power-user-%2F-full-featured-container-opt-in
 #
@@ -54,11 +54,11 @@ RUN if [ -n "$OPENCLAW_INSTALL_BROWSER" ]; then \
 
 # ── Build ──────────────────────────────────────────────────────────
 COPY . .
+
 RUN pnpm build
 # Force pnpm for UI build (Bun may fail on ARM/Synology architectures)
 ENV OPENCLAW_PREFER_PNPM=1
-RUN pnpm ui:install
-RUN pnpm ui:build
+RUN pnpm ui:install && pnpm ui:build
 
 ENV NODE_ENV=production
 

@@ -1,0 +1,20 @@
+services:
+  # Supabase Meta - Postgres Introspection API
+  supabase-meta:
+    container_name: supabase-meta
+    image: supabase/postgres-meta:${SUPABASEMETA_VERSION_PIN}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    environment:
+      - PG_META_PORT=8080
+      - PG_META_DB_HOST=supabase-db
+      - PG_META_DB_PORT=5432
+      - PG_META_DB_NAME=postgres
+      - PG_META_DB_USER=supabase_admin
+      - PG_META_DB_PASSWORD=POSTGRES-PASSWORD-PLACEHOLDER
+      - CRYPTO_KEY=PG-META-CRYPTO-KEY-PLACEHOLDER
+    # DOCKER-LABELS-PLACEHOLDER

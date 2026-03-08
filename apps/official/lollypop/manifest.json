@@ -1,7 +1,6 @@
 {
   "$schema": "../../../apps/manifest-schema.json",
   "version": "1.2",
-
   "app": {
     "sname": "lollypop",
     "pname": "Lollypop",
@@ -10,35 +9,55 @@
     "icon": "sh-lollypop",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["media", "music", "player"]
+    "tags": [
+      "media",
+      "music",
+      "player"
+    ]
   },
-
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["apps", "all"],
-    "networks": ["default"],
+    "profiles": [
+      "apps",
+      "all"
+    ],
+    "networks": [
+      "default"
+    ],
     "webui": true,
     "port": 3001,
     "protocol": "http"
   },
-
   "requirements": {
-    "prerequisites": ["prerequisites", "media_folder", "add_gpu"],
+    "prerequisites": [
+      "prerequisites",
+      "media_folder",
+      "add_gpu"
+    ],
     "apps": []
   },
-
+  "gpu": {
+    "required": false,
+    "usage": "Hardware-accelerated rendering",
+    "vendors": {
+      "intel": {
+        "pattern": "dri"
+      },
+      "amd": {
+        "pattern": "dri"
+      }
+    }
+  },
   "traefik": {
     "supported": true
   },
-
   "dashboard": {
     "enabled": true,
     "location": "local",
     "showStats": true,
     "portVariable": "LOLLYPOP_PORT"
   },
-
   "env": {
     "variables": [
       {
@@ -56,7 +75,6 @@
       }
     ]
   },
-
   "status": {
     "file": "06_lollypop_status",
     "successMessage": "Lollypop Setup Completed",

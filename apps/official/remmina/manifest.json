@@ -1,7 +1,6 @@
 {
   "$schema": "../../../apps/manifest-schema.json",
   "version": "1.2",
-
   "app": {
     "sname": "remmina",
     "pname": "Remmina",
@@ -10,35 +9,56 @@
     "icon": "sh-remmina",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["remote", "desktop", "rdp", "vnc", "ssh"]
+    "tags": [
+      "remote",
+      "desktop",
+      "rdp",
+      "vnc",
+      "ssh"
+    ]
   },
-
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["core", "all"],
-    "networks": ["default"],
+    "profiles": [
+      "core",
+      "all"
+    ],
+    "networks": [
+      "default"
+    ],
     "webui": true,
     "port": 3003,
     "protocol": "http"
   },
-
   "requirements": {
-    "prerequisites": ["prerequisites", "add_gpu"],
+    "prerequisites": [
+      "prerequisites",
+      "add_gpu"
+    ],
     "apps": []
   },
-
+  "gpu": {
+    "required": false,
+    "usage": "Hardware-accelerated rendering",
+    "vendors": {
+      "intel": {
+        "pattern": "dri"
+      },
+      "amd": {
+        "pattern": "dri"
+      }
+    }
+  },
   "traefik": {
     "supported": true
   },
-
   "dashboard": {
     "enabled": true,
     "location": "local",
     "showStats": true,
     "portVariable": "REMMINA_PORT"
   },
-
   "env": {
     "variables": [
       {
@@ -56,7 +76,6 @@
       }
     ]
   },
-
   "status": {
     "file": "06_remmina_status",
     "successMessage": "Remmina Setup Completed",

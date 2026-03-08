@@ -6,3 +6,4 @@ http:
         #   - "user:$apsdfswWvC/6.$E3FtsfTntPC0wVJ7IUVtX1"
         usersFile: "/run/secrets/basic_auth_credentials" 
         realm: "Traefik Basic Auth"
+        headerField: "X-Forwarded-User"

@@ -1,7 +1,6 @@
 {
   "$schema": "../../../apps/manifest-schema.json",
   "version": "1.2",
-
   "app": {
     "sname": "chromium",
     "pname": "Chromium",
@@ -10,35 +9,54 @@
     "icon": "sh-chromium",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["browser", "web", "remote"]
+    "tags": [
+      "browser",
+      "web",
+      "remote"
+    ]
   },
-
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["apps", "all"],
-    "networks": ["default"],
+    "profiles": [
+      "apps",
+      "all"
+    ],
+    "networks": [
+      "default"
+    ],
     "webui": true,
     "port": 3001,
     "protocol": "http"
   },
-
   "requirements": {
-    "prerequisites": ["prerequisites", "add_gpu"],
+    "prerequisites": [
+      "prerequisites",
+      "add_gpu"
+    ],
     "apps": []
   },
-
+  "gpu": {
+    "required": false,
+    "usage": "Hardware-accelerated rendering",
+    "vendors": {
+      "intel": {
+        "pattern": "dri"
+      },
+      "amd": {
+        "pattern": "dri"
+      }
+    }
+  },
   "traefik": {
     "supported": true
   },
-
   "dashboard": {
     "enabled": true,
     "location": "local",
     "showStats": true,
     "portVariable": "CHROMIUM_PORT"
   },
-
   "env": {
     "variables": [
       {
@@ -56,7 +74,6 @@
       }
     ]
   },
-
   "status": {
     "file": "06_chromium_status",
     "successMessage": "Chromium Setup Completed",

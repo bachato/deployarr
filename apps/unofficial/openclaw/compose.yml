@@ -1,5 +1,6 @@
 services:
-  # OpenClaw - Self-hosted AI Coding Assistant
+  # OpenClaw - Power-user AI Coding Assistant with Agent Sandbox
+  # WARNING: Mounts Docker socket - grants container access to host Docker daemon
   openclaw:
     image: deployrr/openclaw:latest
     container_name: openclaw
@@ -12,8 +13,10 @@ services:
     ports:
       - "$OPENCLAW_PORT:18789"
     volumes:
+      - $DOCKERDIR/appdata/openclaw/home:/home/node
       - $DOCKERDIR/appdata/shared/openclaw-cli:/home/node/.openclaw
       - $DOCKERDIR/appdata/openclaw/workspace:/home/node/.openclaw/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - TZ=$TZ
       - PUID=$PUID
@@ -21,10 +24,37 @@ services:
       - HOME=/home/node
       - TERM=xterm-256color
       - NODE_ENV=production
+      - PLAYWRIGHT_BROWSERS_PATH=/home/node/.cache/ms-playwright
     # env_file injects OPENCLAW_GATEWAY_TOKEN as an env var.
     # Docker daemon reads this file as root — host file stays root:root 0600.
     # The container process never needs to read any secret file directly.
+    # NOTE: Docker Compose standalone secrets (file: type) do NOT override host file
+    # permissions inside the container — mode: 0444 is ignored for bind-mounted secrets.
     env_file:
       - $DOCKERDIR/secrets/openclaw.env
     command: [ "node", "openclaw.mjs", "gateway", "--allow-unconfigured", "--bind", "lan", "--port", "18789" ]
     # DOCKER-LABELS-PLACEHOLDER
+
+    # OpenClaw CLI — admin commands (onboard, devices approve, etc.)
+    # Never auto-started (profiles: cli). Usage:
+    #   sudo docker compose -f <compose-file> run --rm openclaw-cli devices list
+    #   sudo docker compose -f <compose-file> run --rm openclaw-cli devices approve --latest
+  openclaw-cli:
+    image: deployrr/openclaw:latest
+    container_name: openclaw-cli
+    profiles: [ "cli" ]
+    networks:
+      - default
+    environment:
+      - HOME=/home/node
+      - TERM=xterm-256color
+      - OPENCLAW_GATEWAY_URL=http://openclaw:18789
+    volumes:
+      - $DOCKERDIR/appdata/shared/openclaw-cli:/home/node/.openclaw
+      - $DOCKERDIR/appdata/openclaw/workspace:/home/node/.openclaw/workspace
+    env_file:
+      - $DOCKERDIR/secrets/openclaw.env
+    stdin_open: true
+    tty: true
+    init: true
+    entrypoint: [ "node", "openclaw.mjs" ]

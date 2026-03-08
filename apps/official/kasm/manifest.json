@@ -1,7 +1,6 @@
 {
   "$schema": "../../../apps/manifest-schema.json",
   "version": "1.2",
-
   "app": {
     "sname": "kasm",
     "pname": "Kasm",
@@ -10,25 +9,53 @@
     "icon": "sh-kasm-workspaces",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["remote", "desktop", "workspace", "browser"]
+    "tags": [
+      "remote",
+      "desktop",
+      "workspace",
+      "browser"
+    ]
   },
-
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["apps", "all"],
-    "networks": ["default"],
+    "profiles": [
+      "apps",
+      "all"
+    ],
+    "networks": [
+      "default"
+    ],
     "webui": true,
     "port": 443,
     "protocol": "https"
   },
-
   "requirements": {
-    "prerequisites": ["prerequisites", "add_gpu", "appfolder_permission"],
-    "systemType": ["Bare Metal", "VPS", "Virtual Machine", "Privileged LXC"],
+    "prerequisites": [
+      "prerequisites",
+      "add_gpu",
+      "appfolder_permission"
+    ],
+    "systemType": [
+      "Bare Metal",
+      "VPS",
+      "Virtual Machine",
+      "Privileged LXC"
+    ],
     "apps": []
   },
-
+  "gpu": {
+    "required": false,
+    "usage": "Hardware-accelerated rendering",
+    "vendors": {
+      "intel": {
+        "pattern": "dri"
+      },
+      "amd": {
+        "pattern": "dri"
+      }
+    }
+  },
   "postInstall": {
     "messages": [
       {
@@ -41,18 +68,15 @@
       }
     ]
   },
-
   "traefik": {
     "supported": true
   },
-
   "dashboard": {
     "enabled": true,
     "location": "local",
     "showStats": true,
     "portVariable": "KASM_PORT"
   },
-
   "env": {
     "variables": [
       {
@@ -83,7 +107,6 @@
       }
     ]
   },
-
   "status": {
     "file": "06_kasm_status",
     "successMessage": "Kasm Setup Completed",

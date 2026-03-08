@@ -530,7 +530,7 @@
             "properties": {
               "name": {
                 "type": "string",
-                "description": "Secret name (also used as filename in secrets folder). For derived files (type: derived), may include hyphens and dots (e.g. openclaw-full.env).",
+                "description": "Secret name (also used as filename in secrets folder). For derived files (type: derived), may include hyphens and dots (e.g. openclaw.env).",
                 "pattern": "^[a-z0-9_][a-z0-9_.\\-]*$"
               },
               "description": {

@@ -1,7 +1,6 @@
 {
   "$schema": "../../../apps/manifest-schema.json",
   "version": "1.2",
-
   "app": {
     "sname": "xpipe-webtop",
     "pname": "XPipe Webtop",
@@ -10,35 +9,55 @@
     "icon": "sh-xpipe",
     "category": "official",
     "menuNumber": "06",
-    "tags": ["desktop", "web", "remote", "xpipe"]
+    "tags": [
+      "desktop",
+      "web",
+      "remote",
+      "xpipe"
+    ]
   },
-
   "deployment": {
     "type": "single",
     "compose": "compose.yml",
-    "profiles": ["core", "all"],
-    "networks": ["default"],
+    "profiles": [
+      "core",
+      "all"
+    ],
+    "networks": [
+      "default"
+    ],
     "webui": true,
     "port": 3004,
     "protocol": "http"
   },
-
   "requirements": {
-    "prerequisites": ["prerequisites", "add_gpu"],
+    "prerequisites": [
+      "prerequisites",
+      "add_gpu"
+    ],
     "apps": []
   },
-
+  "gpu": {
+    "required": false,
+    "usage": "Hardware-accelerated rendering",
+    "vendors": {
+      "intel": {
+        "pattern": "dri"
+      },
+      "amd": {
+        "pattern": "dri"
+      }
+    }
+  },
   "traefik": {
     "supported": true
   },
-
   "dashboard": {
     "enabled": true,
     "location": "local",
     "showStats": true,
     "portVariable": "XPIPEWEBTOP_PORT"
   },
-
   "env": {
     "variables": [
       {
@@ -56,7 +75,6 @@
       }
     ]
   },
-
   "status": {
     "file": "06_xpipe-webtop_status",
     "successMessage": "XPipe Webtop Setup Completed",

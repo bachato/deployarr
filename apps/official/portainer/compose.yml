@@ -2,11 +2,11 @@ services:
   # Portainer - WebUI for Containers
   portainer:
     container_name: portainer
-    image: portainer/portainer-ce:latest
+    image: portainer/portainer-${PORTAINER_EDITION:-ce}:latest
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
-    profiles: ["core", "all"]
+    profiles: [ "core", "all" ]
     networks:
       - default
       - socket_proxy

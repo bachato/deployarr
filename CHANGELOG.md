@@ -22,8 +22,16 @@ Total Supported Apps: 150+
 <li>NEW: Laid the foundation to support community-contributed apps in future releases.</li>
 <li>NEW: Multi-OS support - Arch Linux (pacman), RHEL/CentOS/Rocky Linux (dnf/rpm), and Fedora now supported alongside Debian/Ubuntu.</li>
 <li>NEW: Intelligent GPU scanner detecting NVIDIA, AMD, and Intel GPUs with toolkit verification (NVIDIA Container Toolkit, AMD ROCm/DRI, Intel DRI).</li>
+<li>NEW: GPU Selection Framework - during app installation, users can choose between detected GPU vendors (NVIDIA, AMD, Intel) or CPU-only mode. Each app declares supported GPU patterns in its manifest, and the correct compose configuration is injected automatically. Supports 13 GPU-capable apps across desktop rendering, media transcoding, and AI compute categories.</li>
 <li>NEW: Smart stack updates with local-build detection - automatically performs git pull + docker build for locally-built apps instead of failing on docker pull.</li>
-<li>NEW: Added Ollama GPU application for GPU-accelerated AI inference.</li>
+<li>NEW: Added Ollama with GPU selection support - choose NVIDIA (CUDA), AMD (ROCm with automatic image swap), or CPU-only during installation.</li>
+<li>NEW: Portainer edition selection - choose between Community Edition (free) or Business Edition (licensed) during installation.</li>
+<li>NEW: OpenClaw Full Ollama heartbeat integration - optionally route heartbeats to a free local LLM (llama3.2:3b) via Ollama instead of paid API during installation.</li>
+<li>NEW: OpenClaw trusted-proxy authentication - seamless access behind Traefik with no token URLs or device pairing needed. Traefik's basicAuth handles identity automatically.</li>
+<li>NEW: Added Langfuse - open-source LLM observability and analytics platform with 6-container architecture (PostgreSQL, Redis, ClickHouse, MinIO, worker, web). Features headless initialization to auto-create admin account using existing Deployrr credentials.</li>
+<li>NEW: Added Supabase - open-source Firebase alternative with 13-container architecture (Studio, Kong, Auth, REST, Realtime, Storage, ImgProxy, Meta, Functions, Analytics, Database, Vector, Pooler). Features automated database scaffolding, JWT/secret generation, and optional OpenAI-powered AI assistance in Studio.</li>
+<li>FIX: Traefik basicAuth middleware now forwards authenticated username via X-Forwarded-User header (headerField). Required for trusted-proxy auth mode in OpenClaw and other apps that rely on proxy-provided user identity.</li>
+<li>REMOVED: Separate Ollama (GPU) app entry - GPU support is now built into the main Ollama app via the GPU Selection Framework.</li>
 <li>ENHANCEMENT: Significantly faster app menus and navigation with intelligent caching.</li>
 <li>ENHANCEMENT: Improved Deployrr Dashboard reliability.</li>
 <li>ENHANCEMENT: Standardized UI output and logging throughout the application.</li>
@@ -52,11 +60,10 @@ Total Supported Apps: 150+
 <li>FIX: Fixed environment variables not being cleaned up after removal.</li>
 <li>FIX: Replaced Python TCP listeners in domain checks with netcat (nc), removing Python as an explicit required dependency.</li>
 <li>FIX: Fixed v5-to-v6 migration detection (previously checked for a file v5 never created).</li>
-<li>FIX: Tier 3 cold upgrade detection no longer falsely triggers on existing v6 installations (checks for appdata/ without compose/).</li>
 <li>FIX: DP_VERSION auto-stamp blocked while DP_MODE=MIGRATION to prevent premature version stamping before wizard completes.</li>
 <li>ENHANCEMENT: v5 main menu now includes "Upgrade to v6" option that creates a handoff file for seamless v6 migration.</li>
 <li>ENHANCEMENT: DP_VERSION tracking in deployrr_constants — auto-stamps current version on every boot for future upgrade detection.</li>
-<li>ENHANCEMENT: Migration detection log now shows which tier triggered (DP_VERSION, handoff file, or cold upgrade).</li>
+<li>ENHANCEMENT: Migration detection log shows which method triggered (DP_VERSION or handoff file).</li>
 <li>ENHANCEMENT: Domain checks now support UFW Port Address Translation (PAT) configurations with intelligent port detection.</li>
 <li>ENHANCEMENT: App manifests support runOnUpdate field for triggering pre-install hooks during app updates.</li>
 <li>ENHANCEMENT: OS-aware package lists in installation dialogs for Arch, Fedora/RHEL, and Debian/Ubuntu.</li>
@@ -66,6 +73,7 @@ Total Supported Apps: 150+
 <li>FIX: Python package name corrected from python3 to python for Arch/RHEL compatibility.</li>
 <li>FIX: Firewalld rich rules word-splitting bug resolved for RHEL/CentOS systems.</li>
 <li>FIX: LICENSE_TYPE normalization to lowercase for consistent license checks across platforms.</li>
+<li>FIX: GPU scanner now provides intelligent feedback when hardware is detected but toolkits are missing (e.g. NVIDIA Container Toolkit not installed), with actionable install instructions instead of a generic failure message.</li>
 <li>REMOVED: Watchtower (deprecated).</li>
 <li>REMOVED: Home Assistant Core (recommend official installation method).</li>
 <li>REMOVED: UFW Docker integration.</li>
@@ -168,7 +176,7 @@ Total Supported Apps: 140+
 <h5>v5.7.1 - April 15, 2025</h5>
 <ul>
 <li>NEW: Deployarr is now Deployrr (finally got the spelling right!). Many changes to reflect this. Minor release to ensure nothing breaks but major functionality remains the same.</li>
-<li>NEW: Updated LICENSE to clarify what is open source what is proprietary. 
+<li>NEW: Updated LICENSE to clarify what is open source what is proprietary.
 <li>NEW: One-line Deplorr install/setup method. No more 3-step process to get started or manually picking the architecture.</li>
 <li>FIX: Minor fix for qBittorrent VPN appdata path in compose file.</li>
 </ul>
@@ -616,7 +624,6 @@ Total Supported Apps: 57
 <li>NEW: Ability to submit your rating/feedback.</li>
 </ul>
 
-
 <h5>v3.0.1 - March 18, 2024</h5>
 <ul>
 <li>FIX: Traefik dashboard 404.</li>
@@ -636,7 +643,7 @@ Total Supported Apps: 57
 <li>ENHANCEMENT: Added expert override for certain DNS issues</li>
 <li>FIX: Bug fix for Docker Aliases</li>
 </ul>
-Over 1000 lines of code changed. 
+Over 1000 lines of code changed.
 
 <h5>v2.4.2 - February 27, 2024</h5>
 <ul>
@@ -754,4 +761,3 @@ Over 1000 lines of code changed.
 <ul>
 <li>Initial Release</li>
 </ul>
-

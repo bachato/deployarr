@@ -84,20 +84,4 @@ sudo mkdir -p "$DOCKER_FOLDER/appdata/9router/data"
 sudo mkdir -p "$DOCKER_FOLDER/appdata/9router/usage"
 sudo chown -R "$PUID:$PGID" "$DOCKER_FOLDER/appdata/9router/data"
 sudo chown -R "$PUID:$PGID" "$DOCKER_FOLDER/appdata/9router/usage"
-# Step 6: Create shared OpenClaw CLI integration directory
-# 9Router detects OpenClaw via `command -v openclaw` and reads ~/.openclaw/openclaw.json
-# The shared dir is mounted into both 9Router and OpenClaw containers.
-# 9Router only creates the dir + shim binary here. OpenClaw owns the openclaw.json config.
-SHARED_CLI_DIR="$DOCKER_FOLDER/appdata/shared/openclaw-cli"
-f_print_substep "Setting up OpenClaw CLI integration bridge..."
-sudo mkdir -p "$SHARED_CLI_DIR"
-
-# Create shim binary so `command -v openclaw` succeeds inside 9Router container
-if [[ ! -f "$SHARED_CLI_DIR/openclaw" ]]; then
-	printf '#!/bin/sh\nexit 0\n' | sudo tee "$SHARED_CLI_DIR/openclaw" > /dev/null
-	sudo chmod +x "$SHARED_CLI_DIR/openclaw"
-	f_print_substep "Created OpenClaw CLI shim for container detection"
-fi
-sudo chown -R "$PUID:$PGID" "$SHARED_CLI_DIR"
-
 f_print_success "9Router pre-install completed"

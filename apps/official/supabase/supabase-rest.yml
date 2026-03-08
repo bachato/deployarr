@@ -1,0 +1,21 @@
+services:
+  # Supabase REST - PostgREST API
+  supabase-rest:
+    container_name: supabase-rest
+    image: postgrest/postgrest:${SUPABASEREST_VERSION_PIN}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    environment:
+      - PGRST_DB_URI=postgres://authenticator:POSTGRES-PASSWORD-PLACEHOLDER@supabase-db:5432/postgres
+      - PGRST_DB_SCHEMAS=public,storage,graphql_public
+      - PGRST_DB_ANON_ROLE=anon
+      - PGRST_JWT_SECRET=JWT-SECRET-PLACEHOLDER
+      - PGRST_DB_USE_LEGACY_GUCS=false
+      - PGRST_APP_SETTINGS_JWT_SECRET=JWT-SECRET-PLACEHOLDER
+      - PGRST_APP_SETTINGS_JWT_EXP=3600
+    command: ["postgrest"]
+    # DOCKER-LABELS-PLACEHOLDER
