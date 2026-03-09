@@ -33,15 +33,40 @@ fi
 # We write our config here — after initialization — then restart the container
 # so it picks up our settings correctly.
 #
-# gateway.auth.mode: "trusted-proxy" — trusts Traefik's X-Forwarded-User header.
-#   Requires headerField: "X-Forwarded-User" in Traefik's basicAuth middleware.
-#   This eliminates ALL need for tokens in URLs or client-side persistence.
+# gateway.auth.mode: "trusted-proxy" — trusts the user identity header set by
+#   the active Traefik auth middleware (basicAuth, Authelia, Authentik, etc.).
+#   The correct header is auto-detected from the Traefik file provider.
 # dangerouslyDisableDeviceAuth: true — completely disables device identity checks
 #   for the Control UI. Required for homelab LAN installs.
 # trustedProxies — required when running behind Traefik reverse proxy.
 #   Without this, OpenClaw treats all connections as untrusted/remote.
 f_print_substep "Writing OpenClaw gateway configuration..."
 local _oc_docker_subnet="172.16.0.0/12"
+
+# Detect active auth chain → set correct userHeader
+# Each auth middleware sets a different header for the authenticated username:
+#   basicAuth/OAuth   → X-Forwarded-User
+#   Authelia/TinyAuth  → Remote-User
+#   Authentik          → X-authentik-username
+local _oc_user_header="x-forwarded-user"  # safe default
+# $CHAIN_NAME is a global set during the install flow's auth selection
+local _oc_detected_chain="${CHAIN_NAME:-}"
+# Fallback: read from Traefik file provider if CHAIN_NAME not set (e.g. reinstall)
+if [[ -z "$_oc_detected_chain" ]]; then
+	local _oc_file_provider="$DOCKER_FOLDER/appdata/traefik3/rules/$HOSTNAME/app-openclaw.yml"
+	if [[ -f "$_oc_file_provider" ]]; then
+		_oc_detected_chain=$(grep -o 'chain-[a-z-]*' "$_oc_file_provider" 2>/dev/null | head -1)
+	fi
+fi
+case "$_oc_detected_chain" in
+	chain-authelia|chain-tinyauth)
+		_oc_user_header="remote-user"
+		;;
+	chain-authentik)
+		_oc_user_header="x-authentik-username"
+		;;
+esac
+f_print_substep "Auth: ${_oc_detected_chain:-no chain} → userHeader: $_oc_user_header"
 
 if sudo docker ps --format '{{.Names}}' 2>/dev/null | grep -q '^9router$'; then
 	f_print_substep "9Router detected — auto-configuring provider endpoint..."
@@ -77,7 +102,7 @@ if sudo docker ps --format '{{.Names}}' 2>/dev/null | grep -q '^9router$'; then
     "auth": {
       "mode": "trusted-proxy",
       "trustedProxy": {
-        "userHeader": "x-forwarded-user"
+        "userHeader": "$_oc_user_header"
       }
     },
     "trustedProxies": ["$_oc_docker_subnet"],
@@ -118,7 +143,7 @@ else
     "auth": {
       "mode": "trusted-proxy",
       "trustedProxy": {
-        "userHeader": "x-forwarded-user"
+        "userHeader": "$_oc_user_header"
       }
     },
     "trustedProxies": ["$_oc_docker_subnet"],

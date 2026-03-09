@@ -1,6 +1,6 @@
 <h3>Releases</h3>
 
-<h5>v6.0 - February 28, 2026</h5>
+<h5>v6.0 - March 9, 2026</h5>
 Total Supported Apps: 150+
 <ul>
 <li>WARNING: Deployrr v6 is NOT backward compatible with v5. A full reinstallation from scratch is required to migrate to v6. App data can be preserved but apps must be reinstalled.</li>

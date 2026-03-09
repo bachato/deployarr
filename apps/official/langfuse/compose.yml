@@ -7,6 +7,17 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     profiles: [ "apps", "all" ]
+    depends_on:
+      langfuse-postgresql:
+        condition: service_healthy
+      langfuse-redis:
+        condition: service_healthy
+      langfuse-clickhouse:
+        condition: service_healthy
+      langfuse-minio:
+        condition: service_healthy
+      langfuse-worker:
+        condition: service_started
     networks:
       - default
     ports:
