@@ -47,7 +47,7 @@ alias dcstop='dcrun stop'      # Stop services without removing containers
 alias dcstart='dcrun start'      # Start existing containers
 alias dcrestart='dcrun restart'      # Restart services
 alias dcrec='dcrun up -d --force-recreate --remove-orphans'      # Force recreate containers even if no changes
-alias dcpull='dcrun --parallel 1 pull'      # Pull latest versions of all service images
+alias dcpull='dcrun --parallel 1 pull --ignore-pull-failures'      # Pull latest versions of all service images (skips local-build images)
 alias dclogs='dcrun logs -tf --tail="50"'      # Show and follow last 50 lines of service logs
 
 # Traefik Specific

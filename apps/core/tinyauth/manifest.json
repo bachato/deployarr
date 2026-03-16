@@ -55,17 +55,9 @@
       {
         "name": "TINYAUTH_VERSION_PIN",
         "type": "string",
-        "default": "v4",
+        "default": "v5",
         "prompt": false,
         "required": true
-      }
-    ],
-    "secrets": [
-      {
-        "name": "tinyauth_secret",
-        "type": "random",
-        "generateDefault": true,
-        "generateLength": 32
       }
     ]
   },

@@ -39,7 +39,6 @@
 - **Notifiarr**: A notification service for media server applications. Client for Notifiarr.com.
 - **Beets**: A music library manager and MusicBrainz tagger.
 - **Audiobookshelf**: A self-hosted audiobook and podcast server.
-- **Huntarr**: Missing media and upgrade utility.
 - **Cleanuparr**: Arr stack and media cleanup utility.
 - **Dispatcharr**: An IPTV and stream companion.
 - **Boxarr**: Monitors box office charts and integrates with Radarr for automated movie additions.

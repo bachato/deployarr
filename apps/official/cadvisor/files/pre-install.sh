@@ -5,6 +5,6 @@
 
 if [[ -c /dev/kmsg || -f /dev/kmsg ]]; then
 	dev_echo "Activating /dev/kmsg device for cadvisor"
-	f_sed_replace "    # devices:" "    devices:" "$DOCKER_FOLDER/apps/official/cadvisor/compose.yml"
-	f_sed_replace "    #   - /dev/kmsg" "      - /dev/kmsg" "$DOCKER_FOLDER/apps/official/cadvisor/compose.yml"
+	f_sed_replace "    # devices:" "    devices:" "$DOCKER_FOLDER/compose/$HOSTNAME/cadvisor.yml"
+	f_sed_replace "    #   - /dev/kmsg" "      - /dev/kmsg" "$DOCKER_FOLDER/compose/$HOSTNAME/cadvisor.yml"
 fi

@@ -5,5 +5,5 @@
 
 if [[ "${APP_STATUS_plex}" == "- \Z2RUNNING\Zn"* || -d "$DOCKER_FOLDER/appdata/plex/Library" ]]; then
 	dev_echo "Activating Plex logs volume for Tautulli"
-	f_sed_replace "      # - \$DOCKERDIR/appdata/plex/Library" "      - \$DOCKERDIR/appdata/plex/Library" "$DOCKER_FOLDER/apps/official/tautulli/compose.yml"
+	f_sed_replace "      # - \$DOCKERDIR/appdata/plex/Library" "      - \$DOCKERDIR/appdata/plex/Library" "$DOCKER_FOLDER/compose/$HOSTNAME/tautulli.yml"
 fi
