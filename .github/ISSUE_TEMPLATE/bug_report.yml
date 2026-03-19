@@ -1,0 +1,91 @@
+name: "🐛 Bug Report"
+description: Report a bug or unexpected behavior in Deployrr
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Thanks for reporting a bug!
+        Please fill out the sections below so we can reproduce and fix the issue.
+
+  - type: input
+    id: version
+    attributes:
+      label: Deployrr Version
+      description: "Which version of Deployrr are you running? (e.g. v6.0.0)"
+      placeholder: "v6.0.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      description: What OS is your server running?
+      options:
+        - Ubuntu 24.04
+        - Ubuntu 22.04
+        - Debian 12
+        - Debian 11
+        - Other (specify below)
+    validations:
+      required: true
+
+  - type: input
+    id: os_other
+    attributes:
+      label: Other OS (if applicable)
+      description: "If you selected 'Other' above, specify your OS and version."
+      placeholder: "e.g. Fedora 40"
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of the bug.
+      placeholder: "Describe what happened..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Step-by-step instructions to reproduce the issue.
+      value: |
+        1. 
+        2. 
+        3. 
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Logs
+      description: |
+        Paste any relevant log output here.
+        This will be automatically formatted as code.
+      render: shell
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other context, screenshots, or information that might help.
