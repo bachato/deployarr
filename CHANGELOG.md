@@ -1,5 +1,13 @@
 <h3>Releases</h3>
 
+<h5>v5.11.2 - February 28, 2026</h5>
+<ul>
+<li>NEW: Added "Upgrade to v6" menu item to prepare v5 installations for Deployrr v6 migration.</li>
+<li>NEW: f_prepare_for_v6 stamps DP_VERSION and creates .v5_handoff with current settings for v6 detection.</li>
+<li>NEW: Guards prevent re-running migration prep if already migrated (DP_VERSION=6.*) or migration in progress (DP_MODE=MIGRATION).</li>
+<li>FIX: Moved f_prepare_for_v6 function definition before main menu loop (bash parse order fix).</li>
+</ul>
+
 <h5>v5.11.1 - November 14, 2025</h5>
 <ul>
 <li>NEW: Added ability to edit version pins directly from the Tools menu.</li>

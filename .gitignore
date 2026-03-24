@@ -1,8 +1,8 @@
 *
 */
 
-!deployrr_v5.11.1.app 
-!deployrr_v5.11.1-arm.app 
+!deployrr_v5.11.2.app 
+!deployrr_v5.11.2-arm.app 
 
 !.gitignore
 !announcement
@@ -30,3 +30,4 @@ compose/*
 !scripts
 scripts/*
 !scripts/*.sh
+
