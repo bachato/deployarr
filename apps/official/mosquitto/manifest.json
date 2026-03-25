@@ -31,7 +31,7 @@
   "folders": {
     "appdata": ["config", "data", "log"],
     "permissions": {
-      "appdata": "1883:root"
+      "appdata": "1000:root"
     }
   },
 
@@ -39,6 +39,10 @@
     {
       "source": "files/mosquitto.conf",
       "dest": "$DOCKER_FOLDER/appdata/mosquitto/config/mosquitto.conf"
+    },
+    {
+      "source": "files/passwd",
+      "dest": "$DOCKER_FOLDER/appdata/mosquitto/config/passwd"
     }
   ],
 

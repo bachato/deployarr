@@ -72,6 +72,7 @@ Total Supported Apps: 150+
 
 ### Fixed
 
+- Fixed Mosquitto container crash loop (SIGSEGV exit 139) caused by eclipse-mosquitto binary segfaulting when runtime GID doesn't exist in the container's /etc/group. Added `user:` directive with GID 0, fixed appdata UID from 1883 to 1000, and shipped empty passwd file to resolve chicken-and-egg initialization.
 - Pre-install hooks (Tautulli, Cadvisor) now target the correct deployed compose file path ($DOCKER_FOLDER/compose/$HOSTNAME/{sname}.yml) instead of the source cache path, fixing installation failures.
 - TinyAuth compose file no longer references invalid TINYAUTH_AUTH_SECRETFILE env var and docker secret, resolving v5 compatibility issues.
 - Check Pins now updates .env directly instead of calling the bootstrap-only f_update_version_pins function.

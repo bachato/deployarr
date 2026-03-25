@@ -3,6 +3,7 @@ services:
   mosquitto:
     container_name: mosquitto
     image: eclipse-mosquitto:latest
+    user: "${PUID}:0"
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
