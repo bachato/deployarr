@@ -13,6 +13,8 @@ dpm*
 *.sh
 
 !deployrr_v6.0-rc.app
+!deployrr_v5.11.2.app
+!deployrr_v5.11.2-arm.app
 
 !images/
 !images/**
