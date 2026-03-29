@@ -2,7 +2,7 @@ services:
   # Google OAuth - Single Sign On using OAuth 2.0
   oauth:
     container_name: oauth
-    image: thomseddon/traefik-forward-auth:${OAUTH_VERSION_PIN}
+    image: thomseddon/traefik-forward-auth:latest
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped

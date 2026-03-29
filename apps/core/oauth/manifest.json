@@ -50,18 +50,6 @@
     "portVariable": null
   },
 
-  "env": {
-    "variables": [
-      {
-        "name": "OAUTH_VERSION_PIN",
-        "type": "string",
-        "default": "latest",
-        "prompt": false,
-        "required": true
-      }
-    ]
-  },
-
   "status": {
     "file": "05_oauth_status",
     "successMessage": "Google OAuth Setup Completed",
