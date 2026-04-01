@@ -29,9 +29,17 @@ Deployrr revolutionizes homelab setup by automating the deployment and configura
 
 ## Quick Start
 
+The fastest way to install Deployrr v6+ is via `npx` (requires Node.js/npm):
 ```bash
-bash -c "$(curl -fsSL https://www.deployrr.app/install.sh)"
+sudo npx @simplehomelab/deployrr
 ```
+
+Alternatively, if you prefer not to use `npm`, you can use the standalone bash installer:
+```bash
+bash -c "$(curl -fsSL https://files.deployrr.app/install.sh)"
+```
+
+> **Note for v5 Users:** The older installation command (`curl https://www.deployrr.app/install.sh`) is deprecated and is strictly for initializing Deployrr v5 environments.
 
 ## Impact & Growth
 ![Deployrr Stats](images/v5/2025_11_13_deployrr_stats.png)
