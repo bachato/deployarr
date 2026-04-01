@@ -20,6 +20,7 @@ Deployrr revolutionizes homelab setup by automating the deployment and configura
   - Advanced Traefik reverse proxy configuration
   - Flexible exposure modes (Internal, External, or Hybrid)
   - Multi-server and multi-domain support
+- **AI & Automation Stacks**: Curated app bundles for self-hosted AI (Ollama, Open-WebUI, Flowise) and automation (n8n, Node-RED)
 - **Smart Management**:
   - Intuitive stack management interface
   - Automated backup and restoration
@@ -28,9 +29,17 @@ Deployrr revolutionizes homelab setup by automating the deployment and configura
 
 ## Quick Start
 
+The fastest way to install Deployrr v6+ is via `npx` (requires Node.js/npm):
 ```bash
-bash -c "$(curl -fsSL https://www.deployrr.app/install.sh)"
+sudo npx @simplehomelab/deployrr
 ```
+
+Alternatively, if you prefer not to use `npm`, you can use the standalone bash installer:
+```bash
+bash -c "$(curl -fsSL https://files.deployrr.app/install.sh)"
+```
+
+> **Note for v5 Users:** The older installation command (`curl https://www.deployrr.app/install.sh`) is deprecated and is strictly for initializing Deployrr v5 environments.
 
 ## Impact & Growth
 ![Deployrr Stats](images/v5/2025_11_13_deployrr_stats.png)
@@ -57,6 +66,7 @@ Deployrr can automatically setup Socket Proxy, Traefik (fetch LE SSL certificate
 ## Supported Environments
 
 - **Primary Platform**: Ubuntu and Debian-based systems
+- **Secondary Platform** (working but unsupported): Arch, CentOS/RHEL/Rocky
 - **Deployment Options**: Baremetal, VM, Windows WSL, and LXC environments
 
 ## License Options
