@@ -94,7 +94,11 @@ Total Supported Apps: 150+
 - Python package name corrected from python3 to python for Arch/RHEL compatibility.
 - Firewalld rich rules word-splitting bug resolved for RHEL/CentOS systems.
 - LICENSE_TYPE normalization to lowercase for consistent license checks across platforms.
+- Fixed "grep: invalid option -- 'M'" error in Dashboard registration by hardening grep calls with -- separator to prevent patterns starting with a dash from being parsed as options.
+- Fixed Traefikify subdomain logic to ensure user-entered subdomains are preserved for Dashboard registration, resolving issues where URLs would display as ".domainname.com" and Dashboard fields would be empty.
+- NEW: Implemented Manual Dashboard Registry (`dashboard_manual_apps.json`) to persist Traefikify and Dashify entries across ReDash (Dashboard rebuild) operations.
 - GPU scanner now provides intelligent feedback when hardware is detected but toolkits are missing (e.g. NVIDIA Container Toolkit not installed), with actionable install instructions instead of a generic failure message.
+
 
 ### Removed
 
