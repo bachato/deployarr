@@ -36,7 +36,7 @@ sudo npx @simplehomelab/deployrr
 
 Alternatively, if you prefer not to use `npm`, you can use the standalone bash installer:
 ```bash
-bash -c "$(curl -fsSL https://files.deployrr.app/install.sh)"
+sudo bash -c "$(curl -fsSL https://files.deployrr.app/install.sh)"
 ```
 
 > **Note for v5 Users:** The older installation command (`curl https://www.deployrr.app/install.sh`) is deprecated and is strictly for initializing Deployrr v5 environments.
