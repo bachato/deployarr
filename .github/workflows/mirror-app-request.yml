@@ -1,0 +1,38 @@
+name: Mirror App Request to Dev Repo
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  mirror:
+    if: contains(github.event.issue.labels.*.name, 'app request')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create mirror issue on dev repo
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.DEV_REPO_TOKEN }}
+          script: |
+            const issue = context.payload.issue;
+            const body = [
+              '## Mirrored App Request',
+              '',
+              `**Source:** ${issue.html_url}`,
+              `**Requested by:** @${issue.user.login}`,
+              '',
+              '---',
+              '',
+              issue.body,
+              '',
+              '---',
+              `> 🔗 Auto-mirrored from SimpleHomelab/Deployrr#${issue.number}`
+            ].join('\n');
+
+            await github.rest.issues.create({
+              owner: 'SimpleHomelab',
+              repo: 'deployrr-dev',
+              title: `[App Request] ${issue.title}`,
+              body: body,
+              labels: ['app request', 'community']
+            });

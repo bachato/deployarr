@@ -5,8 +5,10 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## App Request
-        Want a new app added to Deployrr? Fill out the details below.
+        ## 📦 App Request
+        Before submitting, check the [v6.1 App Roadmap](https://github.com/SimpleHomelab/Deployrr/issues?q=is%3Aissue+label%3Aroadmap) to see if your app is already added or planned.
+
+        Vote with 👍 on [existing requests](https://github.com/SimpleHomelab/Deployrr/labels/app%20request) to help us prioritize!
 
   - type: input
     id: app_name
@@ -48,15 +50,24 @@ body:
       label: Category
       description: What category best fits this app?
       options:
-        - Media (Streaming / Management)
-        - Downloading (Torrents / Usenet)
-        - Productivity / Office
-        - Home Automation
-        - Monitoring / Dashboards
-        - Networking / DNS
-        - Security / Auth
-        - Database
-        - Development
+        - "📺 Media & Streaming"
+        - "⬇️ Downloads & Torrents"
+        - "🤖 AI & Machine Learning"
+        - "🏠 Smart Home & IoT"
+        - "📊 Monitoring & Observability"
+        - "🌐 Networking & VPN"
+        - "📁 Files & Documents"
+        - "🔐 Security & Identity"
+        - "📝 Productivity & Notes"
+        - "💻 Development & DevOps"
+        - "⚡ Automation & Workflows"
+        - "🖥️ Dashboards & Launchers"
+        - "🗄️ Databases & Storage"
+        - "🐳 Docker Management"
+        - "📸 Photos & Gallery"
+        - "💼 Business & Finance"
+        - "🏡 Home & Lifestyle"
+        - "🕵️ OSINT & Intelligence"
         - Other
     validations:
       required: true
