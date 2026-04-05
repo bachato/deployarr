@@ -4,8 +4,6 @@
 
 [![Apps Supported](images/v5/2025_11_13_deployrr_150.png)](APPS.md)
 
-> **📦 Note:** Starting with v6, Deployrr source code is no longer distributed from this repository. This repo contains documentation, changelogs, and app listings only. To install Deployrr, see the [Quick Start](#quick-start) section below. For the legacy v5 source code, see the [`v5` branch](https://github.com/SimpleHomelab/Deployrr/tree/v5).
-
 ## What is Deployrr?
 
 Deployrr revolutionizes homelab setup by automating the deployment and configuration of Docker and Docker Compose environments. Whether you're a homelab enthusiast or a professional sysadmin, Deployrr streamlines the process of setting up and managing your containerized applications.
@@ -29,22 +27,38 @@ Deployrr revolutionizes homelab setup by automating the deployment and configura
   - Comprehensive monitoring and logging
   - Remote share mounting (SMB, NFS, Rclone)
 
-## Quick Start
+## Prerequisites
 
-Install Node.js and npm:
+Deployrr v6 requires `curl` and `npm` (Node.js) to be installed on your system before beginning the installation.
+
+**For Ubuntu / Debian:**
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-sudo apt-get install -y nodejs
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y curl npm
 ```
+
+**For CentOS / RHEL / Rocky Linux:**
+```bash
+sudo dnf update -y
+sudo dnf install -y curl npm
+```
+
+**For Arch Linux:**
+```bash
+sudo pacman -Syu --noconfirm
+sudo pacman -S --noconfirm curl npm
+```
+
+## Quick Start
 
 The fastest way to install Deployrr v6+ is via `npx` (requires Node.js/npm):
 ```bash
-sudo npx @simplehomelab/deployrr@latest
+sudo npx @simplehomelab/deployrr
 ```
 
 Alternatively, if you prefer not to use `npm`, you can use the standalone bash installer:
 ```bash
-bash -c "$(curl -fsSL https://files.deployrr.app/install.sh)"
+sudo bash -c "$(curl -fsSL https://files.deployrr.app/install.sh)"
 ```
 
 > **Note for v5 Users:** The older installation command (`curl https://www.deployrr.app/install.sh`) is deprecated and is strictly for initializing Deployrr v5 environments.
@@ -142,3 +156,4 @@ Part of Deployrr's revenue supports open-source projects through [OpenCollective
 [Get Started](https://www.simplehomelab.com/deployrr/) | [Join Discord](https://www.simplehomelab.com/discord/) | [Watch Tutorial](https://www.simplehomelab.com/go/deployarr-v5-intro/)
 
 </div>
+
