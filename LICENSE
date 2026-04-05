@@ -1,50 +1,161 @@
-# Deployrr License
+DEPLOYRR SOFTWARE LICENSE AGREEMENT
 
-Copyright (c) 2025 SimpleHomelab. All rights reserved.
+Copyright (c) 2024-2026 SimpleHomelab. All rights reserved.
 
-TERMS AND CONDITIONS FOR USE OF DEPLOYRR BINARY
+This repository and the Deployrr software are governed by a dual-license
+structure. Please read both parts carefully.
 
-1. Definitions
-   - "Software" refers to the compiled Deployrr application and its associated files
-   - "License" refers to this document
-   - "You" refers to the individual or entity exercising permissions under this License
+================================================================================
+PART 1: PROPRIETARY LICENSE — DEPLOYRR APPLICATION
+================================================================================
 
-2. Grant of License
-   This License grants you the following rights:
-   a) To install and use the Software
-   b) To make backup copies of the Software for your own use
-   c) To use the Software for both personal and commercial purposes within the terms of your subscription
+This Part 1 governs the compiled Deployrr application binary, its runtime
+components, and any associated proprietary code distributed via npm
+(@simplehomelab/deployrr), direct download, or any other distribution channel
+(collectively, the "Software").
 
-3. Restrictions
-   You may not:
-   a) Modify, reverse engineer, decompile, or disassemble the Software
-   b) Distribute, sell, lease, rent, or sublicense the Software
-   c) Remove or alter any proprietary notices on the Software
-   d) Use the Software in violation of applicable laws
+1. DEFINITIONS
 
-4. Open Source Components
-   All non-compiled resources available in the repository (including but not limited to):
+   "Software" means the compiled Deployrr application, including but not limited
+   to the binary executable, runtime libraries, and proprietary scripts bundled
+   with the application.
+
+   "Licensor" means SimpleHomelab and its affiliates.
+
+   "You" (or "Your") means the individual or legal entity exercising permissions
+   granted by this License.
+
+   "Subscription" means Your active service agreement with Licensor, which
+   determines the features and support tier available to You.
+
+2. GRANT OF LICENSE
+
+   Subject to the terms of this Agreement and Your valid Subscription (where
+   applicable), Licensor grants You a limited, non-exclusive, non-transferable,
+   revocable license to:
+
+   a) Install and use the Software on systems You own or control;
+   b) Make reasonable backup copies of the Software for Your own archival use;
+   c) Use the Software for personal or commercial purposes within the scope of
+      Your Subscription tier.
+
+3. RESTRICTIONS
+
+   You may NOT:
+
+   a) Modify, adapt, translate, or create derivative works of the Software;
+   b) Reverse engineer, decompile, disassemble, or otherwise attempt to derive
+      the source code of the Software, except to the extent that such activity
+      is expressly permitted by applicable law notwithstanding this limitation;
+   c) Distribute, sell, lease, rent, sublicense, or otherwise transfer the
+      Software or any rights therein to any third party;
+   d) Remove, alter, or obscure any proprietary notices, labels, or marks on
+      the Software;
+   e) Use the Software to build a competing product or service;
+   f) Use the Software in any manner that violates applicable laws or
+      regulations;
+   g) Share, publish, or redistribute Your license key or authentication
+      credentials.
+
+4. SUBSCRIPTION AND UPDATES
+
+   a) Certain features of the Software require an active Subscription.
+   b) Subscription tiers (Free, Basic, Plus, Pro) determine available features
+      and support levels as described at
+      https://www.simplehomelab.com/deployrr/pricing/.
+   c) Updates to the Software are provided at Licensor's discretion and may
+      require an active Subscription.
+   d) Licensor reserves the right to modify Subscription tiers, pricing, and
+      feature availability with reasonable notice.
+
+5. INTELLECTUAL PROPERTY
+
+   The Software is protected by copyright and other intellectual property laws.
+   Licensor retains all right, title, and interest in and to the Software,
+   including all intellectual property rights therein. This License does not
+   grant You any ownership interest in the Software.
+
+6. TERMINATION
+
+   a) This License is effective until terminated.
+   b) This License terminates automatically if You fail to comply with any of
+      its terms and conditions.
+   c) Licensor may terminate this License at any time with written notice if
+      You breach any term of this Agreement.
+   d) Upon termination, You must destroy all copies of the Software in Your
+      possession or control.
+
+7. DISCLAIMER OF WARRANTY
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NONINFRINGEMENT. IN NO EVENT
+   SHALL THE LICENSOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY,
+   WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+   OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
+
+   LICENSOR DOES NOT WARRANT THAT THE SOFTWARE WILL MEET YOUR REQUIREMENTS,
+   THAT THE OPERATION OF THE SOFTWARE WILL BE UNINTERRUPTED OR ERROR-FREE, OR
+   THAT DEFECTS IN THE SOFTWARE WILL BE CORRECTED.
+
+8. LIMITATION OF LIABILITY
+
+   IN NO EVENT SHALL LICENSOR'S TOTAL AGGREGATE LIABILITY ARISING OUT OF OR
+   RELATED TO THIS AGREEMENT EXCEED THE AMOUNTS PAID BY YOU TO LICENSOR IN THE
+   TWELVE (12) MONTHS PRECEDING THE CLAIM. IN NO EVENT SHALL LICENSOR BE LIABLE
+   FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES,
+   REGARDLESS OF THE CAUSE OF ACTION OR THE THEORY OF LIABILITY, EVEN IF
+   LICENSOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+9. GOVERNING LAW
+
+   This Agreement shall be governed by and construed in accordance with the laws
+   of Switzerland, without regard to its conflict of laws provisions. Any
+   disputes arising under this Agreement shall be subject to the exclusive
+   jurisdiction of the courts located in Switzerland.
+
+================================================================================
+PART 2: MIT LICENSE — COMMUNITY RESOURCES
+================================================================================
+
+This Part 2 governs all non-compiled community resources in this repository and
+distributed alongside the Software, including but not limited to:
+
    - Docker Compose files
-   - Example configurations
-   - Documentation
-   - Scripts
-   Are provided under the MIT License and can be freely used, modified, and distributed without restrictions.
+   - Configuration templates and examples
+   - Documentation (README.md, CHANGELOG.md, APPS.md, and other .md files)
+   - Shell scripts provided as examples or utilities
+   - Community-contributed content
 
-5. Subscription and Updates
-   - Access to the Software is governed by your subscription status
-   - Updates and support are provided according to your subscription tier
+These resources are provided under the MIT License:
 
-6. Termination
-   This License automatically terminates if you fail to comply with its terms and conditions
+MIT License
 
-7. Disclaimer of Warranty
-   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED
+Copyright (c) 2024-2026 SimpleHomelab
 
-8. Limitation of Liability
-   IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-9. Support and Documentation
-   - Documentation and community resources may be provided under separate licenses
-   - Support is provided according to your subscription tier
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-For questions about this license, contact: [legal@simplehomelab.com](mailto:legal@simplehomelab.com)
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+CONTACT
+================================================================================
+
+For questions about this license: legal@simplehomelab.com
+For support: https://www.simplehomelab.com/discord/
+For documentation: https://docs.deployrr.app
