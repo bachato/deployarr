@@ -39,7 +39,7 @@ sudo apt-get install -y nodejs
 
 The fastest way to install Deployrr v6+ is via `npx` (requires Node.js/npm):
 ```bash
-sudo npx @simplehomelab/deployrr
+sudo npx @simplehomelab/deployrr@latest
 ```
 
 Alternatively, if you prefer not to use `npm`, you can use the standalone bash installer:
