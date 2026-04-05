@@ -1,8 +1,0 @@
-http:
-  middlewares:
-    chain-tinyauth:
-      chain:
-        middlewares:
-          - middlewares-rate-limit
-          - middlewares-secure-headers
-          - middlewares-tinyauth
