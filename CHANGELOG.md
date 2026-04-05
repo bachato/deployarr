@@ -1,14 +1,129 @@
 # Changelog
 
+## 6.0.26
+
+### Patch Changes
+
+- ca4ee30: FIX: Fixed "Permission denied" errors from `tee` when adding apps to Dashboard on unprivileged LXC containers with bind mounts. Replaced `sudo tee` writeback with `sudo cp` and added tmpfs short-circuit in `f_safe_sed` to avoid double-indirection permission failures.
+- b1e0606: FIX: Fixed `tee: /tmp/deployrr_dashboard...: Permission denied` errors when modifying dashboard configuration. The `fs.protected_regular` kernel protection correctly blocks root from using `tee` to write into a sticky `/tmp` directory over files owned by unprivileged users. The `f_safe_sed` wrapper skips its tmp mirror optimization if the target is already securely hosted inside `/tmp`, utilizing `sudo sed -i` directly.
+
+## 6.0.25
+
+### Patch Changes
+
+- d734e21: FIX: Fixed "preserving permissions: Invalid argument" errors in LXC ZFS environments by completely avoiding direct file modifications with sed across the codebase, substituting a universal `f_safe_sed` fallback strategy.
+
+## 6.0.24
+
+### Patch Changes
+
+- FIX: Resolved unprivileged LXC/ZFS compatibility issues with `sed: preserving permissions` by rewriting core application modification logic across multiple apps (N8N, Langfuse, PdfDing, 9Router, Supabase, Sabnzbd, Vaultwarden, qBittorrent, etc.), extending `f_safe_sed` to cleanly write through `tmpfs` during pre-install procedures.
+- 9847c22: Removed Manual Dashify entiries will be LOST
+
+## 6.0.23
+
+### Patch Changes
+
+- 0a2a8c6: fix(ci): rename .app to .bin for GitHub Release assets (GitHub rejects .app extension)
+- bda5dcd: fix(ci): tolerate npm republish and unblock GitHub Release from npm failures
+- 6b2b1f6: fix(ci): use MAJOR.MINOR version for source file lookup and R2 paths in release workflow
+- 073259d: Added Preferred Editor chooser to Tools menu. Users can select nano, vim, or vi as their text editor for Deployrr operations (Secrets Editor, bash aliases). Preference is saved to .env and persists across sessions. Also added post-edit sanitization to strip trailing whitespace from secret files.
+- 5407cc5: ### Fixed
+
+  - Created GPU overlay include files (`gpu_dri.yml`, `gpu_nvidia_runtime.yml`, `gpu_nvidia_deploy.yml`, `gpu_amd_rocm.yml`) that were missing from the `includes/` directory, causing GPU device injection to fail during app installation with "Source file not found" error
+  - Added `downloads_folder` prerequisite to Emby, Jellyfin, and Plex manifests — their compose files reference `$DOWNLOADSDIR` but the variable was never enforced, causing `invalid spec: :/data/downloads` on Docker Compose up
+  - Added missing `OAUTH_VERSION_PIN_DEFAULT` to `apps/version_pins`
+  - Added missing Paperless-NGX version pin defaults (`PAPERLESSNGX_VERSION_PIN_DEFAULT`, `GOTENBERG_VERSION_PIN_DEFAULT`, `TIKA_VERSION_PIN_DEFAULT`, `PAPERLESSNGXREDIS_VERSION_PIN_DEFAULT`, `PAPERLESSNGXPOSTGRESQL_VERSION_PIN_DEFAULT`) to `apps/version_pins`
+
+  ### Added
+
+  - Changeset-based versioning with Husky pre-commit hook (ported from v6.1)
+  - CHANGELOG.md converted from HTML to Keep a Changelog markdown format
+
+- e5a42ce: Fix n8n Bad Gateway caused by Docker secret file permissions
+
+  n8n runs as non-root user `node` (UID 1000) and cannot read secret files
+  created with `root:root 0600` permissions. Switches n8n from `_FILE`-based
+  secrets to PLACEHOLDER+sed injection pattern (same as Langfuse).
+
+  **Changes:**
+
+  - `compose.yml`: `DB_POSTGRESDB_PASSWORD_FILE` → `DB_POSTGRESDB_PASSWORD=PLACEHOLDER`
+  - `manifest.json`: Added `hooks.preInstall.script`
+  - `files/pre-install.sh`: New hook reads secret with sudo, injects via sed
+  - n8n-postgresql unchanged (postgres reads `_FILE` secrets as root)
+
+  **Workflow:** Updated `/add-app` with Secret Strategy decision tree —
+  when to use `_FILE` secrets vs PLACEHOLDER pattern based on container user.
+
+- bfac65c: ENHANCEMENT: Removed OAuth version pinning so it correctly tracks 'latest' instead of injecting a pin into .env
+- 70cda5f: Migrate n8n and NextCloud passwords from .env to Docker secrets
+
+  Passwords are now stored in `$DOCKER_FOLDER/secrets/` and read by containers
+  via `_FILE` environment variables instead of being exposed in `.env`.
+
+  **Affected apps:** n8n, NextCloud
+  **New installs only** — existing deployments are not affected.
+
+- 621776f: Fix SERVER_LAN_IP not syncing from constants to .env during docker env setup
+
+  The `f_setup_docker_env` function was not copying `SERVER_LAN_IP` from the
+  constants file to `.env`, causing apps that reference `$SERVER_LAN_IP` in
+  their compose files to get an empty value.
+
+- e8b95a9: Fixed traefikify not properly adding to dashboard, fixed redash to include manaul traefikfy apps.
+- 3955601: Fixed version pins not being set for Paperless-NGX and 20+ other apps. The `f_update_version_pins()` function had a hardcoded list of 21 pin names that was never updated when new apps were added. Replaced with dynamic extraction from the `version_pins` file — adding new apps no longer requires code changes.
+- 263f393: rollback R2 and add apt update
+
+## 6.0.22
+
+### Patch Changes
+
+- FIX: Resolved unprivileged LXC compatibility by securely downgrading CI/CD compiler to deployrr ubuntu-20.04 shc natively with absolute static links.
+
 All notable changes to Deployrr will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+## [v6.0.21]
 
-## [v6.0] - February 28, 2026
+<ul>
+  <li>FIX: Suppressed benign 'preserving permissions' error outputs generated by <code>sed</code> inside unprivileged LXC environments during environment variable updates.</li>
+</ul>
+
+## [v6.0.20]
+
+- FIX: Recover the NPM `latest` deployment tag after concurrent CI pipeline runs (triggered by blanket `git push --tags`) caused legacy version `v6.0.12` to inadvertently overwrite the pointer. Included the PIE ASLR compilation fix for `shc`.
+
+## [v6.0.19]
+
+## [v6.0.18] - April 1, 2026
 
 Total Supported Apps: 150+
 
-### Important
+<ul>
+  <li>FIX: Reverted the legacy Francisco Rosales `shc` v3.8.9b C compiler which caused `deployrr` to hang indefinitely on modern Linux kernels. Instead, we now compile the modern neurobin `shc` 4.0.3 directly from source in the CI/CD pipeline, physically patching out the `ptrace` system call at compile time using an inline C-macro replacement. This fully eliminates capability-stripping inside LXC without incurring the legacy optimization deadlocks.</li>
+</ul>
+
+## [v6.0.17] - April 1, 2026
+
+Total Supported Apps: 150+
+
+<ul>
+  <li>FIX: Implemented definitive root solution for "Operation not permitted" on LXC containers. By reverting the CI/CD pipeline to compile shc from the original Francisco Rosales 3.8.9b source, we permanently eliminated the modern neurobin LD_PRELOAD and PTRACE_TRACEME injections that functionally stripped `CAP_NET_RAW` and broke setcap capabilities.</li>
+  <li>FIX: Cleanly removed the temporary `sudo ping` LXC fallback.</li>
+</ul>
+
+## [v6.0.12] - April 1, 2026
+
+Total Supported Apps: 150+
+
+<ul>
+  <li>FIX: Executable corruption by adding shc -r flag for cross-system binary portability and CFLAGS="-O2" to prevent RC4 string optimization bugs</li>
+  <li>FIX: Corrected documentation and installer output that erroneously directed users to run `sudo deployrr`. The correct command is `deployrr`, as the app handles its own internal privilege escalation.</li>
+</ul>
+
+## [v6.0.8] - April 1, 2026
+
+Total Supported Apps: 150+
 
 - Deployrr v6 is NOT backward compatible with v5. A full reinstallation from scratch is required to migrate to v6. App data can be preserved but apps must be reinstalled.
 
@@ -61,7 +176,7 @@ Total Supported Apps: 150+
 - Improved Manage Auth menu with single app selection.
 - Improved Manage Exposure menu.
 - Updated version pins: TinyAuth v5, Authelia 4.39.15, Deployrr Dashboard 1.9.0, Authentik 2025.12.1.
-- Upgraded TinyAuth from v4 to v5 — all env vars now use TINYAUTH_<SECTION>_<KEY> format. Existing users are auto-migrated seamlessly (data preserved).
+- Upgraded TinyAuth from v4 to v5 — all env vars now use TINYAUTH*<SECTION>*<KEY> format. Existing users are auto-migrated seamlessly (data preserved).
 - Security improvement - script now enforces non-root execution.
 - v5 main menu now includes "Upgrade to v6" option that creates a handoff file for seamless v6 migration.
 - DP_VERSION tracking in deployrr_constants — auto-stamps current version on every boot for future upgrade detection.
@@ -72,6 +187,11 @@ Total Supported Apps: 150+
 
 ### Fixed
 
+- FIX: Resolved x86_64 binary corruption (installer crashing with garbage text) caused by `shc` decryption failure under newer GCC optimizations. Downgraded Action runner from `ubuntu-latest` (24.04) to `ubuntu-22.04` to maintain compiler compatibility.
+- FIX: Resolves issue where `npx @simplehomelab/deployrr` fails to find `apps/` directory by correctly resolving npm bin symlinks, and falling back gracefully on flattened `node_modules` structures where `npm` bypasses symlinks entirely.
+- FIX: The `curl` installation script now gracefully falls back to a default version (`6.0`) if the `latest-version` endpoint fails (e.g. during pre-release cycles where `latest-version` is intentionally bypassed by CI/CD).
+- ENHANCEMENT: Made the Deployrr binary globally accessible. Both `npx` and `curl` installers now automatically symlink the core app into `/usr/local/bin/deployrr` so you can just run `deployrr`.
+- ENHANCEMENT: Clarified `README.md` to explicitly state `npx` is the preferred v6 installation method, provided the updated v6 `files.deployrr.app` `curl` endpoint, and explicitly marked the legacy `www.deployrr.app` endpoint as v5-only.
 - Fixed Mosquitto container crash loop (SIGSEGV exit 139) caused by eclipse-mosquitto binary segfaulting when runtime GID doesn't exist in the container's /etc/group. Added `user:` directive with GID 0, fixed appdata UID from 1883 to 1000, and shipped empty passwd file to resolve chicken-and-egg initialization.
 - Pre-install hooks (Tautulli, Cadvisor) now target the correct deployed compose file path ($DOCKER_FOLDER/compose/$HOSTNAME/{sname}.yml) instead of the source cache path, fixing installation failures.
 - TinyAuth compose file no longer references invalid TINYAUTH_AUTH_SECRETFILE env var and docker secret, resolving v5 compatibility issues.
@@ -98,7 +218,6 @@ Total Supported Apps: 150+
 - Fixed Traefikify subdomain logic to ensure user-entered subdomains are preserved for Dashboard registration, resolving issues where URLs would display as ".domainname.com" and Dashboard fields would be empty.
 - NEW: Implemented Manual Dashboard Registry (`dashboard_manual_apps.json`) to persist Traefikify and Dashify entries across ReDash (Dashboard rebuild) operations.
 - GPU scanner now provides intelligent feedback when hardware is detected but toolkits are missing (e.g. NVIDIA Container Toolkit not installed), with actionable install instructions instead of a generic failure message.
-
 
 ### Removed
 
@@ -1114,4 +1233,3 @@ Total Supported Apps: 57
 ### Other
 
 - Initial Release
-
