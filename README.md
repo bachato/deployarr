@@ -29,6 +29,12 @@ Deployrr revolutionizes homelab setup by automating the deployment and configura
 
 ## Quick Start
 
+```bash
+Install Node.js and npm:
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
 The fastest way to install Deployrr v6+ is via `npx` (requires Node.js/npm):
 ```bash
 sudo npx @simplehomelab/deployrr
