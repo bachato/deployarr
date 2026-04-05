@@ -29,8 +29,9 @@ Deployrr revolutionizes homelab setup by automating the deployment and configura
 
 ## Quick Start
 
-```bash
+
 Install Node.js and npm:
+```bash
 curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
