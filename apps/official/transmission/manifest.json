@@ -1,0 +1,90 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "transmission",
+    "pname": "Transmission",
+    "description": "Transmission is a fast, easy, and free BitTorrent client. It comes in several flavors: a native GUI client for Mac, GTK+, and Qt, as well as a daemon for headless use and a web UI.",
+    "descriptionShort": "Bittorrent client",
+    "icon": "sh-transmission",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["downloads", "torrent", "bittorrent"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "downloads", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 9091,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "downloads_folder", "appfolder_permission"],
+    "apps": []
+  },
+
+  "folders": {
+    "custom": [
+      {
+        "path": "$DOWNLOADSDIR/torrents",
+        "children": ["movies", "tv", "others", "indexes"],
+        "owner": "$USERNAME:$USERNAME",
+        "permissions": "755"
+      }
+    ]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "TRANSMISSION_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "TRANSMISSION_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 9091,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ],
+    "secrets": [
+      {
+        "name": "transmission_user",
+        "description": "Transmission WebUI Username:",
+        "type": "prompt",
+        "addToCompose": true
+      },
+      {
+        "name": "transmission_pass",
+        "description": "Transmission WebUI Password:",
+        "type": "prompt_password",
+        "addToCompose": true
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_transmission_status",
+    "successMessage": "Transmission Setup Completed",
+    "telemetryAction": "transmission"
+  }
+}

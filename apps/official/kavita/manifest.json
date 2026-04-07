@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "kavita",
+    "pname": "Kavita",
+    "description": "Kavita is a fast, feature-rich, cross-platform reading server built with a focus on manga, comic, and book formats. It has a responsive web UI, OPDS support, and apps available for iOS and Android.",
+    "descriptionShort": "Cross-platform reading server",
+    "icon": "sh-kavita",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["media", "books", "manga", "comics", "reading"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["media", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 5000,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "books_folder", "appfolder_permission"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "KAVITA_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "KAVITA_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 5000,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_kavita_status",
+    "successMessage": "Kavita Setup Completed",
+    "telemetryAction": "kavita"
+  }
+}

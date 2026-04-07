@@ -1,0 +1,24 @@
+services:
+  # Supabase Edge Functions - Deno Runtime
+  supabase-edge-functions:
+    container_name: supabase-edge-functions
+    image: supabase/edge-runtime:${SUPABASEFUNCTIONS_VERSION_PIN}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    volumes:
+      - $DOCKERDIR/appdata/supabase/volumes/functions:/home/deno/functions:Z
+      - $DOCKERDIR/appdata/supabase/deno-cache:/root/.cache/deno
+    environment:
+      - JWT_SECRET=JWT-SECRET-PLACEHOLDER
+      - SUPABASE_URL=http://supabase-kong:8000
+      - SUPABASE_PUBLIC_URL=https://supabase.${DOMAINNAME_1}
+      - SUPABASE_ANON_KEY=ANON-KEY-PLACEHOLDER
+      - SUPABASE_SERVICE_ROLE_KEY=SERVICE-ROLE-KEY-PLACEHOLDER
+      - SUPABASE_DB_URL=postgresql://postgres:POSTGRES-PASSWORD-PLACEHOLDER@supabase-db:5432/postgres
+      - VERIFY_JWT=false
+    command: ["start", "--main-service", "/home/deno/functions/main"]
+    # DOCKER-LABELS-PLACEHOLDER

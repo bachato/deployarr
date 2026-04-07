@@ -1,0 +1,120 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "pdfding",
+    "pname": "PdfDing",
+    "description": "PdfDing is a self-hosted PDF management application that allows you to organize, view, and edit PDF documents. Features include dark mode, annotations, and a clean web interface.",
+    "descriptionShort": "Self-hosted PDF management",
+    "icon": "sh-pdfding",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["pdf", "documents", "management", "viewer"]
+  },
+
+  "deployment": {
+    "type": "multicontainer",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8000,
+    "protocol": "http"
+  },
+
+  "dependencies": [
+    {
+      "sname": "pdfding-postgresql",
+      "pname": "PdfDing PostgreSQL",
+      "compose": "pdfding-postgresql.yml",
+      "installOrder": 1,
+      "waitForHealthy": true,
+      "required": true,
+      "description": "Dedicated PostgreSQL database for PdfDing"
+    }
+  ],
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "folders": {
+    "permissions": {
+      "appdata": "1000:1000"
+    }
+  },
+
+  "database": {
+    "type": "postgresql",
+    "containerSname": "pdfding-postgresql",
+    "name": "pdfding",
+    "user": "pdfding_db_user",
+    "passwordVariable": "PDFDING_POSTGRESQL_PASSWORD",
+    "host": "pdfding-postgresql",
+    "port": 5432
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "PDFDING_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "PDFDING_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8000,
+        "prompt": true,
+        "required": true,
+        "validation": { "type": "port", "min": 1, "max": 65535 }
+      },
+      {
+        "name": "PDFDING_SECRET_KEY",
+        "description": "Django secret key (auto-generated)",
+        "type": "password",
+        "generate": "random",
+        "length": 50,
+        "prompt": false,
+        "required": true
+      },
+      {
+        "name": "PDFDING_POSTGRESQL_PASSWORD",
+        "description": "PostgreSQL database password (auto-generated)",
+        "type": "password",
+        "generate": "random",
+        "length": 32,
+        "prompt": false,
+        "required": true
+      }
+    ]
+  },
+
+  "hooks": {
+    "postInstall": "files/post-install.sh"
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "PdfDing uses a dedicated PostgreSQL database (\\Z5pdfding-postgresql\\Zn). Credentials are stored in \\Z4$DOCKER_FOLDER/.env\\Zn."
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_pdfding_status",
+    "successMessage": "PdfDing Setup Completed",
+    "telemetryAction": "pdfding"
+  }
+}

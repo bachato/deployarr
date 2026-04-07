@@ -1,0 +1,74 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "mqttx-web",
+    "pname": "MQTTX-Web",
+    "description": "MQTTX-Web is a browser-based MQTT WebSocket client that allows you to connect to MQTT brokers, subscribe to topics, and publish messages directly from your web browser.",
+    "descriptionShort": "Browser-based MQTT WebSocket client",
+    "icon": "sh-mqtt",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["mqtt", "iot", "messaging", "websocket"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8081,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "MQTTX-Web cannot connect to Mosquitto MQTT broker over HTTP. You will have to manually activate MQTT over HTTPS."
+      }
+    ]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "MQTTXWEB_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "MQTTXWEB_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8081,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_mqttxweb_status",
+    "successMessage": "MQTTX-Web Setup Completed",
+    "telemetryAction": "mqttx-web"
+  }
+}

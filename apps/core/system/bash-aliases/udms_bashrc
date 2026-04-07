@@ -1,0 +1,5 @@
+
+# Anand's UDMS Bash Aliases added by Deployrr
+if [ -f DOCKER-ALIASES-PATH-PLACEHOLDER ]; then
+    . DOCKER-ALIASES-PATH-PLACEHOLDER
+fi

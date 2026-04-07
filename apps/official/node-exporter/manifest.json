@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "node-exporter",
+    "pname": "Node Exporter",
+    "description": "Node Exporter is a Prometheus exporter for hardware and OS metrics exposed by *NIX kernels. It provides system-level metrics for monitoring with Prometheus.",
+    "descriptionShort": "System metrics to Prometheus",
+    "icon": "sh-prometheus",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["monitoring", "prometheus", "metrics"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["monitoring", "all"],
+    "networks": ["default"],
+    "webui": false,
+    "port": 9100,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": false
+  },
+
+  "dashboard": {
+    "enabled": false,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "NODEEXPORTER_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "NODEEXPORTER_PORT",
+        "description": "Metrics port",
+        "type": "port",
+        "default": 9100,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_nodeexporter_status",
+    "successMessage": "Node Exporter Setup Completed",
+    "telemetryAction": "nodeexporter"
+  }
+}

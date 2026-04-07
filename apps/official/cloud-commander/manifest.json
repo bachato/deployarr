@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "cloud-commander",
+    "pname": "Cloud Commander",
+    "description": "Cloud Commander is a file manager for the web with console and editor. It helps you manage your server files and folders.",
+    "descriptionShort": "Web-based file manager",
+    "icon": "sh-cloud-commander",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["files", "manager", "web", "editor"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8000,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "media_folder", "appfolder_permission"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "CLOUDCOMMANDER_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "CLOUDCOMMANDER_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8000,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_cloud-commander_status",
+    "successMessage": "Cloud Commander Setup Completed",
+    "telemetryAction": "cloud-commander"
+  }
+}

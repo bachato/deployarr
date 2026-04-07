@@ -1,0 +1,74 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "theme-park",
+    "pname": "Theme Park",
+    "description": "Theme Park provides custom themes for various Docker homelab applications. It allows you to apply consistent styling across your self-hosted services.",
+    "descriptionShort": "Themes for Docker homelab apps",
+    "icon": "sh-theme-park",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["themes", "css", "styling", "customization"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 82,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "Check Theme Park docs to learn how to enable themes: https://docs.theme-park.dev/setup/#selfhosting"
+      }
+    ]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "THEMEPARK_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "THEMEPARK_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 82,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_themepark_status",
+    "successMessage": "Theme Park Setup Completed",
+    "telemetryAction": "theme-park"
+  }
+}

@@ -1,0 +1,17 @@
+services:
+  # InfluxDB - Database for sensor data
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["dbs", "all"]
+    networks:
+      - default
+    ports:
+      - "$INFLUXDB_PORT:8086"
+    volumes:
+      - $DOCKERDIR/appdata/influxdb2/config:/etc/influxdb2
+      - $DOCKERDIR/appdata/influxdb2/db:/var/lib/influxdb2
+    # DOCKER-LABELS-PLACEHOLDER

@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "mylar3",
+    "pname": "Mylar3",
+    "description": "Mylar3 is an automated Comic Book (cbr/cbz) downloader program for use with NZB and torrents. It supports SABnzbd, NZBGET, and various torrent clients. It can also post-process downloaded comics.",
+    "descriptionShort": "Automated comic book downloader",
+    "icon": "sh-mylar3",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["media", "comics", "downloads", "automation"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["media", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8090,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "comics_folder", "downloads_folder", "appfolder_permission"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "MYLAR3_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "MYLAR3_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8090,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_mylar3_status",
+    "successMessage": "Mylar3 Setup Completed",
+    "telemetryAction": "mylar3"
+  }
+}

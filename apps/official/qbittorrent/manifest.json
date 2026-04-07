@@ -1,0 +1,96 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "qbittorrent",
+    "pname": "qBittorrent",
+    "description": "qBittorrent is a free, open-source BitTorrent client that aims to provide a feature-rich alternative to other BitTorrent clients.",
+    "descriptionShort": "Bittorrent client",
+    "icon": "sh-qbittorrent",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["downloads", "torrent", "bittorrent"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "downloads", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8081,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "downloads_folder", "appfolder_permission"],
+    "apps": []
+  },
+
+  "folders": {
+    "custom": [
+      {
+        "path": "$DOWNLOADSDIR/torrents",
+        "children": ["movies", "tv", "others", "indexes"],
+        "owner": "$USERNAME:$USERNAME",
+        "permissions": "755"
+      }
+    ]
+  },
+
+  "hooks": {
+    "preInstall": "files/pre-install.sh"
+  },
+
+  "files": [
+    {
+      "source": "files/qBittorrent.conf",
+      "dest": "$DOCKER_FOLDER/appdata/qbittorrent/qBittorrent/qBittorrent.conf"
+    }
+  ],
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "info",
+        "text": "$APP_PNAME default username/password are: admin/adminadmin"
+      }
+    ]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "QBITTORRENT_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "QBITTORRENT_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8081,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_qbittorrent_status",
+    "successMessage": "qBittorrent Setup Completed",
+    "telemetryAction": "qbittorrent"
+  }
+}

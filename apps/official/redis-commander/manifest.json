@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "redis-commander",
+    "pname": "Redis Commander",
+    "description": "Redis Commander is a web management tool for Redis. It allows you to view, edit, and manage your Redis databases through an intuitive web interface.",
+    "descriptionShort": "Redis management tool",
+    "icon": "sh-redis",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["redis", "management", "admin", "database"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8081,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": ["redis"]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "REDISCOMMANDER_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "REDISCOMMANDER_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8081,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_rediscommander_status",
+    "successMessage": "Redis Commander Setup Completed",
+    "telemetryAction": "rediscommander"
+  }
+}

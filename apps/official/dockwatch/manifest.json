@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "dockwatch",
+    "pname": "Dockwatch",
+    "description": "Dockwatch is a Docker management and notification tool that provides a web interface for monitoring and controlling your containers.",
+    "descriptionShort": "Docker Management and Notification",
+    "icon": "sh-dockwatch",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["docker", "management", "monitoring", "notifications"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["socket_proxy"],
+    "webui": true,
+    "port": 82,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": ["socket-proxy"]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "DOCKWATCH_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "DOCKWATCH_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 82,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_dockwatch_status",
+    "successMessage": "Dockwatch Setup Completed",
+    "telemetryAction": "dockwatch"
+  }
+}

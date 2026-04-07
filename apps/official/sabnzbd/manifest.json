@@ -1,0 +1,75 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "sabnzbd",
+    "pname": "SABnzbd",
+    "description": "SABnzbd is a free and easy binary newsreader. It simplifies the process of downloading from Usenet with automation and a clean web interface.",
+    "descriptionShort": "Usenet downloader",
+    "icon": "sh-sabnzbd",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["downloads", "usenet", "automation"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "downloads", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8080,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "downloads_folder"],
+    "apps": []
+  },
+
+  "folders": {
+    "permissions": {
+      "appdata": "$PUID:$PGID"
+    }
+  },
+
+  "hooks": {
+    "postInstall": "files/post-install.sh"
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "SABNZBD_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "SABNZBD_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8080,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_sabnzbd_status",
+    "successMessage": "SABnzbd Setup Completed",
+    "telemetryAction": "sabnzbd"
+  }
+}

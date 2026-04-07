@@ -1,0 +1,26 @@
+services:
+  # Redis - Key-value Store
+  # Add vm.overcommit_memory = 1 to /etc/sysctl.conf
+  redis:
+    image: docker.io/library/redis:alpine
+    container_name: redis
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["core", "all"]
+    command: redis-server --save "" --maxmemory 256mb --appendonly no --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    networks:
+      - default
+    ports:
+      - "$REDIS_PORT:6379"
+    deploy:
+      resources:
+        limits:
+          memory: 256MB
+    # DOCKER-LABELS-PLACEHOLDER

@@ -1,0 +1,87 @@
+{
+  "$schema": "../../../manifest-schema.json",
+  "version": "1.1",
+
+  "app": {
+    "sname": "crowdsec",
+    "pname": "CrowdSec",
+    "descriptionShort": "Collaborative IPS",
+    "icon": "sh-crowdsec",
+    "category": "core"
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "webui": false,
+    "port": 8080,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "files": [
+    {
+      "source": "files/acquis.yaml",
+      "destination": "$DOCKER_FOLDER/appdata/crowdsec/config/acquis.yaml",
+      "backup": false
+    },
+    {
+      "source": "files/acquis-traefik.yaml",
+      "destination": "$DOCKER_FOLDER/appdata/crowdsec/config/acquis.d/acquis-traefik.yaml",
+      "backup": false,
+      "condition": "traefik_logs_exist"
+    },
+    {
+      "source": "files/custom-whitelists.yaml",
+      "destination": "$DOCKER_FOLDER/appdata/crowdsec/config/parsers/s02-enrich/custom-whitelists.yaml",
+      "backup": false
+    }
+  ],
+
+  "placeholders": {
+    "config": {
+      "HOSTNAME-PLACEHOLDER": "$HOSTNAME",
+      "WAN-IP-PLACEHOLDER": "$PUBLIC_WAN_IP"
+    }
+  },
+
+  "traefik": {
+    "supported": false
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "other",
+    "showStats": true,
+    "portVariable": null
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "CROWDSEC_PORT",
+        "type": "port",
+        "default": "8080",
+        "prompt": true,
+        "required": true
+      }
+    ],
+    "secrets": [
+      {
+        "name": "crowdsec_console_enroll_context",
+        "type": "optional",
+        "description": "CrowdSec Console enrollment context key"
+      }
+    ]
+  },
+
+  "status": {
+    "file": "05_crowdsec_status",
+    "successMessage": "CrowdSec Setup Completed",
+    "telemetryAction": "crowdsec"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "$schema": "../../../manifest-schema.json",
+  "version": "1.1",
+
+  "app": {
+    "sname": "tinyauth",
+    "pname": "TinyAuth",
+    "descriptionShort": "Self-Hosted Single Sign-On, 2-FA",
+    "icon": "sh-tinyauth",
+    "category": "core"
+  },
+
+  "deployment": {
+    "type": "standard",
+    "compose": "compose.yml",
+    "webui": true,
+    "port": 3000,
+    "protocol": "https"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "socket_proxy_running", "traefik_production", "traefik_running", "hybrid_mode"],
+    "apps": ["socket-proxy", "traefik"]
+  },
+
+  "files": [
+    {
+      "source": "files/middlewares-tinyauth.yml",
+      "destination": "$DOCKER_FOLDER/appdata/traefik3/rules/$HOSTNAME/middlewares-tinyauth.yml",
+      "backup": false
+    },
+    {
+      "source": "files/chain-tinyauth.yml",
+      "destination": "$DOCKER_FOLDER/appdata/traefik3/rules/$HOSTNAME/chain-tinyauth.yml",
+      "backup": false
+    }
+  ],
+
+  "traefik": {
+    "supported": true,
+    "subdomain": "tinyauth",
+    "chain": "chain-no-auth",
+    "middlewares": ["middlewares-tinyauth.yml", "chain-tinyauth.yml"]
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "other",
+    "showStats": true,
+    "portVariable": null
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "TINYAUTH_VERSION_PIN",
+        "type": "string",
+        "default": "v5",
+        "prompt": false,
+        "required": true
+      }
+    ]
+  },
+
+  "status": {
+    "file": "05_tinyauth_status",
+    "successMessage": "TinyAuth Setup Completed",
+    "telemetryAction": "tinyauth"
+  }
+}

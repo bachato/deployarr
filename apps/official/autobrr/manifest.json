@@ -1,0 +1,101 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "autobrr",
+    "pname": "Autobrr",
+    "description": "Autobrr redefines download automation for torrents and Usenet, combining the best of trackarr, autodl-irssi, and flexget into one versatile tool.",
+    "descriptionShort": "Download automation for torrents",
+    "icon": "sh-autobrr",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["torrents", "usenet", "downloads", "automation"]
+  },
+
+  "deployment": {
+    "type": "multicontainer",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 7474,
+    "protocol": "http"
+  },
+
+  "dependencies": [
+    {
+      "sname": "autobrr-postgresql",
+      "pname": "Autobrr PostgreSQL",
+      "compose": "autobrr-postgresql.yml",
+      "installOrder": 1,
+      "waitForHealthy": true,
+      "required": true,
+      "description": "Dedicated PostgreSQL database for Autobrr"
+    }
+  ],
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "database": {
+    "type": "postgresql",
+    "containerSname": "autobrr-postgresql",
+    "name": "autobrr",
+    "user": "autobrr_db_user",
+    "passwordVariable": "AUTOBRR_POSTGRESQL_PASSWORD",
+    "host": "autobrr-postgresql",
+    "port": 5432
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "AUTOBRR_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "AUTOBRR_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 7474,
+        "prompt": true,
+        "required": true,
+        "validation": { "type": "port", "min": 1, "max": 65535 }
+      },
+      {
+        "name": "AUTOBRR_POSTGRESQL_PASSWORD",
+        "description": "PostgreSQL database password (auto-generated)",
+        "type": "password",
+        "generate": "random",
+        "length": 32,
+        "prompt": false,
+        "required": true
+      }
+    ]
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "Autobrr uses a dedicated PostgreSQL database (\\Z5autobrr-postgresql\\Zn). Database password is stored in \\Z4$DOCKER_FOLDER/.env\\Zn."
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_autobrr_status",
+    "successMessage": "Autobrr Setup Completed",
+    "telemetryAction": "autobrr"
+  }
+}

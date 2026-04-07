@@ -1,0 +1,86 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+  "app": {
+    "sname": "dispatcharr",
+    "pname": "Dispatcharr",
+    "description": "Dispatcharr is an IPTV and stream companion that provides live TV streaming capabilities with EPG support and hardware acceleration.",
+    "descriptionShort": "IPTV and stream companion",
+    "icon": "sh-dispatcharr",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": [
+      "media",
+      "iptv",
+      "streaming",
+      "tv"
+    ]
+  },
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": [
+      "media",
+      "all"
+    ],
+    "networks": [
+      "default"
+    ],
+    "webui": true,
+    "port": 9191,
+    "protocol": "http"
+  },
+  "requirements": {
+    "prerequisites": [
+      "prerequisites",
+      "add_gpu"
+    ],
+    "apps": []
+  },
+  "gpu": {
+    "required": false,
+    "usage": "Hardware-accelerated transcoding",
+    "vendors": {
+      "intel": {
+        "pattern": "dri"
+      },
+      "amd": {
+        "pattern": "dri"
+      },
+      "nvidia": {
+        "pattern": "deploy"
+      }
+    }
+  },
+  "traefik": {
+    "supported": true
+  },
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "DISPATCHARR_PORT"
+  },
+  "env": {
+    "variables": [
+      {
+        "name": "DISPATCHARR_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 9191,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+  "status": {
+    "file": "06_dispatcharr_status",
+    "successMessage": "Dispatcharr Setup Completed",
+    "telemetryAction": "dispatcharr"
+  }
+}

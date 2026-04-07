@@ -1,0 +1,24 @@
+services:
+  # Flowise PostgreSQL - Dedicated Database for Flowise
+  flowise-postgresql:
+    container_name: flowise-postgresql
+    image: postgres:${FLOWISEPOSTGRESQL_VERSION_PIN}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d flowise -U flowise_db_user"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    networks:
+      - default
+    volumes:
+      - $DOCKERDIR/appdata/flowise-postgresql:/var/lib/postgresql
+    environment:
+      - POSTGRES_DB=flowise
+      - POSTGRES_USER=flowise_db_user
+      - POSTGRES_PASSWORD=${FLOWISE_POSTGRESQL_PASSWORD}
+    # DOCKER-LABELS-PLACEHOLDER

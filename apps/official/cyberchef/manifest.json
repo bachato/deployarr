@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "cyberchef",
+    "pname": "CyberChef",
+    "description": "CyberChef is a web app for encryption, encoding, compression and data analysis. It provides a simple drag-and-drop interface to chain together various operations for data manipulation.",
+    "descriptionShort": "Encrypt, encode, compress, and analyze",
+    "icon": "sh-cyberchef",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["security", "tools", "encryption"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8000,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "CYBERCHEF_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "CYBERCHEF_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8000,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_cyberchef_status",
+    "successMessage": "CyberChef Setup Completed",
+    "telemetryAction": "cyberchef"
+  }
+}

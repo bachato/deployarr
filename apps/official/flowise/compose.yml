@@ -1,0 +1,46 @@
+services:
+  # Flowise - Drag & Drop LLM Flow Builder
+  flowise:
+    image: flowiseai/flowise:${FLOWISE_VERSION_PIN}
+    container_name: flowise
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    depends_on:
+      flowise-postgresql:
+        condition: service_healthy
+      flowise-redis:
+        condition: service_healthy
+    ports:
+      - ${FLOWISE_PORT}:${FLOWISE_PORT}
+    entrypoint: /bin/sh -c "sleep 3; flowise start"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${FLOWISE_PORT}/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - $DOCKERDIR/appdata/flowise:/root/.flowise
+    environment:
+      - PORT=${FLOWISE_PORT}
+      - FLOWISE_USERNAME=${FLOWISE_USERNAME}
+      - FLOWISE_PASSWORD=${FLOWISE_PASSWORD}
+      - LOG_LEVEL=info
+      - DATABASE_TYPE=postgres
+      - DATABASE_HOST=flowise-postgresql
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=flowise
+      - DATABASE_USER=flowise_db_user
+      - DATABASE_PASSWORD=${FLOWISE_POSTGRESQL_PASSWORD}
+      - REDIS_HOST=flowise-redis
+      - REDIS_PORT=6379
+      - APIKEY_PATH=/root/.flowise
+      - SECRETKEY_PATH=/root/.flowise
+      - LOG_PATH=/root/.flowise/logs
+      - STORAGE_TYPE=local
+      - BLOB_STORAGE_PATH=/root/.flowise/storage
+      - DEBUG=false
+    # DOCKER-LABELS-PLACEHOLDER

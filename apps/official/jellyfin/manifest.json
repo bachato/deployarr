@@ -1,0 +1,89 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+  "app": {
+    "sname": "jellyfin",
+    "pname": "Jellyfin",
+    "description": "Jellyfin is an open-source media server. It enables you to collect, manage, and stream your media. It is a free alternative to Plex and Emby.",
+    "descriptionShort": "Open-source media server",
+    "icon": "sh-jellyfin",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": [
+      "media",
+      "streaming",
+      "video",
+      "music"
+    ]
+  },
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": [
+      "media",
+      "all"
+    ],
+    "networks": [
+      "default"
+    ],
+    "webui": true,
+    "port": 8096,
+    "protocol": "http"
+  },
+  "requirements": {
+    "prerequisites": [
+      "prerequisites",
+      "media_folder",
+      "downloads_folder",
+      "add_gpu",
+      "appfolder_permission"
+    ],
+    "apps": []
+  },
+  "gpu": {
+    "required": false,
+    "usage": "Hardware transcoding",
+    "vendors": {
+      "intel": {
+        "pattern": "dri"
+      },
+      "amd": {
+        "pattern": "dri"
+      },
+      "nvidia": {
+        "pattern": "runtime"
+      }
+    }
+  },
+  "traefik": {
+    "supported": true
+  },
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "JELLYFIN_PORT"
+  },
+  "env": {
+    "variables": [
+      {
+        "name": "JELLYFIN_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8096,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+  "status": {
+    "file": "06_jellyfin_status",
+    "successMessage": "Jellyfin Setup Completed",
+    "telemetryAction": "jellyfin"
+  }
+}

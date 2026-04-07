@@ -1,0 +1,80 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "pgadmin",
+    "pname": "pgAdmin",
+    "description": "pgAdmin is the most popular and feature-rich open source administration and development platform for PostgreSQL.",
+    "descriptionShort": "PostgreSQL admin",
+    "icon": "sh-pgadmin",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["database", "admin", "web", "postgresql"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8081,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": { "supported": true },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "PGADMIN_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "PGADMIN_ADMIN_EMAIL",
+        "description": "pgAdmin Admin Email",
+        "type": "string",
+        "default": "admin@example.com",
+        "prompt": true,
+        "required": true
+      },
+      {
+        "name": "PGADMIN_ADMIN_PASSWORD",
+        "description": "pgAdmin Admin Password",
+        "type": "password",
+        "prompt": true,
+        "required": true
+      },
+      {
+        "name": "PGADMIN_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8081,
+        "prompt": true,
+        "required": true,
+        "validation": { "type": "port", "min": 1, "max": 65535 }
+      }
+    ]
+  },
+
+  "folders": {
+    "permissions": {
+      "appdata": "5050:5050"
+    }
+  },
+
+  "status": {
+    "file": "06_pgadmin_status",
+    "successMessage": "pgAdmin Setup Completed",
+    "telemetryAction": "pgadmin"
+  }
+}

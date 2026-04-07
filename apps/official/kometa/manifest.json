@@ -1,0 +1,56 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "kometa",
+    "pname": "Kometa",
+    "description": "Kometa (formerly Plex Meta Manager) is an automatic metadata manager for Plex that creates collections, manages metadata, and organizes your media library based on configurable rules.",
+    "descriptionShort": "Metadata and collections for Plex",
+    "icon": "sh-kometa",
+    "category": "official",
+    "menuNumber": "07",
+    "tags": ["plex", "metadata", "collections", "media"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["media", "all"],
+    "networks": ["default"],
+    "webui": false,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "Kometa has no WebUI. Configurations are managed via $DOCKER_FOLDER/appdata/kometa/config.yml"
+      }
+    ]
+  },
+
+  "traefik": {
+    "supported": false
+  },
+
+  "dashboard": {
+    "enabled": false
+  },
+
+  "env": {
+    "variables": []
+  },
+
+  "status": {
+    "file": "07_kometa_status",
+    "successMessage": "Kometa Setup Completed",
+    "telemetryAction": "kometa"
+  }
+}

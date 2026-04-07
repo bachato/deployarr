@@ -1,0 +1,74 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "calibre-web",
+    "pname": "Calibre-Web",
+    "description": "Calibre-Web is a web app providing a clean interface for browsing, reading, and downloading eBooks using an existing Calibre database. It supports formats like EPUB, PDF, CBR, and CBZ.",
+    "descriptionShort": "Browse, read and download eBooks",
+    "icon": "sh-calibre-web",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["media", "books", "ebooks", "reading"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["media", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8083,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "books_folder"],
+    "apps": []
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "The default username and password for Calibre-Web are: admin and admin123"
+      }
+    ]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "CALIBREWEB_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "CALIBREWEB_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8083,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_calibre-web_status",
+    "successMessage": "Calibre-Web Setup Completed",
+    "telemetryAction": "calibre-web"
+  }
+}

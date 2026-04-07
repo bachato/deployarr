@@ -1,0 +1,74 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "mariadb",
+    "pname": "MariaDB",
+    "description": "MariaDB is a community-developed, commercially supported fork of the MySQL relational database management system. It is designed to be a drop-in replacement for MySQL.",
+    "descriptionShort": "Open-source MySQL database",
+    "icon": "sh-mariadb",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["database", "mysql", "sql", "relational"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["core", "all"],
+    "networks": ["default"],
+    "webui": false,
+    "port": 3306,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "MARIADB_PORT",
+        "description": "Database port",
+        "type": "port",
+        "default": 3306,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ],
+    "secrets": [
+      {
+        "name": "mariadb_root_password",
+        "description": "Enter a STRONG root password for MariaDB or use the suggested random password (note it down):",
+        "type": "random_with_prompt",
+        "length": 16,
+        "addToCompose": true
+      }
+    ]
+  },
+
+  "traefik": {
+    "supported": false
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "MARIADB_PORT"
+  },
+
+  "status": {
+    "file": "06_mariadb_status",
+    "successMessage": "MariaDB Setup Completed",
+    "telemetryAction": "mariadb"
+  }
+}

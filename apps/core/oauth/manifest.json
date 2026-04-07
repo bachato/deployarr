@@ -1,0 +1,58 @@
+{
+  "$schema": "../../../manifest-schema.json",
+  "version": "1.1",
+
+  "app": {
+    "sname": "oauth",
+    "pname": "Google OAuth",
+    "descriptionShort": "Forward Auth with Google",
+    "icon": "sh-google",
+    "category": "core"
+  },
+
+  "deployment": {
+    "type": "standard",
+    "compose": "compose.yml",
+    "webui": true,
+    "port": 4181,
+    "protocol": "https"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "socket_proxy_running", "traefik_production", "traefik_running", "hybrid_mode"],
+    "apps": ["socket-proxy", "traefik"]
+  },
+
+  "files": [
+    {
+      "source": "files/middlewares-oauth.yml",
+      "destination": "$DOCKER_FOLDER/appdata/traefik3/rules/$HOSTNAME/middlewares-oauth.yml",
+      "backup": false
+    },
+    {
+      "source": "files/chain-oauth.yml",
+      "destination": "$DOCKER_FOLDER/appdata/traefik3/rules/$HOSTNAME/chain-oauth.yml",
+      "backup": false
+    }
+  ],
+
+  "traefik": {
+    "supported": true,
+    "subdomain": "oauth",
+    "chain": "chain-oauth",
+    "middlewares": ["middlewares-oauth.yml", "chain-oauth.yml"]
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "other",
+    "showStats": true,
+    "portVariable": null
+  },
+
+  "status": {
+    "file": "05_oauth_status",
+    "successMessage": "Google OAuth Setup Completed",
+    "telemetryAction": "oauth"
+  }
+}

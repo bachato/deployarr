@@ -1,0 +1,73 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "redis",
+    "pname": "Redis",
+    "description": "Redis is an open source, in-memory data structure store, used as a database, cache, and message broker.",
+    "descriptionShort": "In-memory key-value database",
+    "icon": "sh-redis",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["database", "cache", "key-value", "in-memory"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["core", "all"],
+    "networks": ["default"],
+    "webui": false,
+    "port": 6379,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "preInstall": {
+    "dialog": {
+      "type": "info",
+      "title": "Redis Security",
+      "message": "\\n\\Z1NOTE!\\Zn\\n\\nFor simplicity Redis password is disabled. This is safe as long as you do not manually expose Redis port (i.e. 6379) to the internet."
+    }
+  },
+
+  "traefik": {
+    "supported": false
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "REDIS_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "REDIS_PORT",
+        "description": "Redis port",
+        "type": "port",
+        "default": 6379,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_redis_status",
+    "successMessage": "Redis Setup Completed",
+    "telemetryAction": "redis"
+  }
+}

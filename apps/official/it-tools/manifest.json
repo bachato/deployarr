@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "it-tools",
+    "pname": "IT-Tools",
+    "description": "IT-Tools is a collection of handy online tools for developers and IT professionals, including encoders, converters, formatters, hash generators, and more.",
+    "descriptionShort": "Set of IT tools",
+    "icon": "sh-it-tools",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["tools", "developer", "utilities"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8081,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "ITTOOLS_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "ITTOOLS_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8081,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_ittools_status",
+    "successMessage": "IT-Tools Setup Completed",
+    "telemetryAction": "ittools"
+  }
+}

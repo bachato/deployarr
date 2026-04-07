@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "sonarr",
+    "pname": "Sonarr",
+    "description": "Sonarr is a TV series collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will interface with clients and indexers to grab, sort, and rename them.",
+    "descriptionShort": "PVR for TV Shows",
+    "icon": "sh-sonarr",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["media", "tv", "pvr", "starr"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["media", "starr", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8989,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "media_folder", "downloads_folder", "appfolder_permission"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "SONARR_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "SONARR_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8989,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_sonarr_status",
+    "successMessage": "Sonarr Setup Completed",
+    "telemetryAction": "sonarr"
+  }
+}

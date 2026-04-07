@@ -1,0 +1,25 @@
+services:
+  # Supabase ImgProxy - Image Transformation
+  supabase-imgproxy:
+    container_name: supabase-imgproxy
+    image: darthsim/imgproxy:${SUPABASEIMGPROXY_VERSION_PIN}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    healthcheck:
+      test: ["CMD", "imgproxy", "health"]
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    networks:
+      - default
+    volumes:
+      - $DOCKERDIR/appdata/supabase/storage:/var/lib/storage:z
+    environment:
+      - IMGPROXY_BIND=:5001
+      - IMGPROXY_LOCAL_FILESYSTEM_ROOT=/
+      - IMGPROXY_USE_ETAG=true
+      - IMGPROXY_ENABLE_WEBP_DETECTION=true
+      - IMGPROXY_MAX_SRC_RESOLUTION=16.8
+    # DOCKER-LABELS-PLACEHOLDER

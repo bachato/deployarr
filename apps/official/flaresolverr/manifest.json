@@ -1,0 +1,75 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "flaresolverr",
+    "pname": "Flaresolverr",
+    "description": "Flaresolverr is a proxy server that helps bypass Cloudflare and DDoS-GUARD protection. It is commonly used with apps like Prowlarr and Jackett to access sites protected by Cloudflare's challenge pages.",
+    "descriptionShort": "Proxy to bypass Cloudflare protection",
+    "icon": "sh-flaresolverr",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["proxy", "cloudflare", "automation", "arr"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": false,
+    "port": 8191,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "hooks": {
+    "preInstall": {
+      "dialog": {
+        "type": "info",
+        "title": "Flaresolverr Issue",
+        "message": "\\n\\Z1NOTE!\\Zn\\n\\nFlaresolverr may currently not work due to Cloudflare actively working to block it.\\n\\nRead More: \\Z4https://github.com/FlareSolverr/FlareSolverr/issues/1253\\Zn."
+      }
+    }
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "other",
+    "showStats": true,
+    "portVariable": "FLARESOLVERR_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "FLARESOLVERR_PORT",
+        "description": "API port",
+        "type": "port",
+        "default": 8191,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_flaresolverr_status",
+    "successMessage": "Flaresolverr Setup Completed",
+    "telemetryAction": "flaresolverr"
+  }
+}

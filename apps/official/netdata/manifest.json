@@ -1,0 +1,66 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "netdata",
+    "pname": "Netdata",
+    "description": "Netdata is an open-source, real-time monitoring tool that provides comprehensive insights into system performance, including CPU, memory, disk, network, and application metrics.",
+    "descriptionShort": "System monitoring",
+    "icon": "sh-netdata",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["monitoring", "metrics", "system"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["monitoring", "all"],
+    "networks": [],
+    "networkMode": "host",
+    "webui": true,
+    "port": 19999,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "NETDATA_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "NETDATA_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 19999,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_netdata_status",
+    "successMessage": "Netdata Setup Completed",
+    "telemetryAction": "netdata"
+  }
+}

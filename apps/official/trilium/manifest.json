@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "trilium",
+    "pname": "Trilium",
+    "description": "Trilium is a hierarchical note-taking application with focus on building large personal knowledge bases. It supports rich text notes, images, files, code snippets, and more.",
+    "descriptionShort": "Personal Hierarchical Notes",
+    "icon": "sh-trilium-notes",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["notes", "wiki", "knowledge-base"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8082,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "TRILIUM_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "TRILIUM_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8082,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_trilium_status",
+    "successMessage": "Trilium Setup Completed",
+    "telemetryAction": "trilium"
+  }
+}

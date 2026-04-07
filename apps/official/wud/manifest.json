@@ -1,0 +1,74 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "wud",
+    "pname": "What's Up Docker",
+    "description": "What's Up Docker (WUD) monitors Docker containers and notifies you when new images are available. It supports various notification methods including Discord, Slack, email, and more.",
+    "descriptionShort": "Docker image updates notification",
+    "icon": "sh-wud",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["docker", "monitoring", "notifications", "updates"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["socket_proxy"],
+    "webui": true,
+    "port": 3001,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "You may edit wud.yml to enable notifications."
+      }
+    ]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "WUD_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "WUD_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 3001,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_wud_status",
+    "successMessage": "What's Up Docker Setup Completed",
+    "telemetryAction": "wud"
+  }
+}

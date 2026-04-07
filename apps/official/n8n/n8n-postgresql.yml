@@ -1,0 +1,26 @@
+services:
+  # n8n PostgreSQL - Dedicated Database for n8n
+  n8n-postgresql:
+    container_name: n8n-postgresql
+    image: postgres:${N8NPOSTGRESQL_VERSION_PIN}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d n8n -U n8n_db_user"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    networks:
+      - default
+    volumes:
+      - $DOCKERDIR/appdata/n8n-postgresql:/var/lib/postgresql
+    environment:
+      - POSTGRES_DB=n8n
+      - POSTGRES_USER=n8n_db_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/n8n_postgresql_password
+    secrets:
+      - n8n_postgresql_password
+    # DOCKER-LABELS-PLACEHOLDER

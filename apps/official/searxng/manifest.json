@@ -1,0 +1,88 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "searxng",
+    "pname": "SearXNG",
+    "description": "SearXNG is a free internet metasearch engine which aggregates results from various search services and databases. Users are neither tracked nor profiled.",
+    "descriptionShort": "Privacy-respecting metasearch engine",
+    "icon": "sh-searxng",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["search", "privacy", "metasearch"]
+  },
+
+  "deployment": {
+    "type": "multicontainer",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8081,
+    "protocol": "http"
+  },
+
+  "dependencies": [
+    {
+      "sname": "searxng-valkey",
+      "pname": "SearXNG Valkey",
+      "compose": "searxng-valkey.yml",
+      "installOrder": 1,
+      "waitForHealthy": true,
+      "required": true,
+      "description": "Dedicated Valkey cache for SearXNG"
+    }
+  ],
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "SEARXNG_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8081,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      },
+      {
+        "name": "SEARXNG_SECRET",
+        "description": "SearXNG secret key (auto-generated via pre-install hook)",
+        "type": "password",
+        "prompt": false,
+        "required": true
+      }
+    ]
+  },
+
+  "hooks": {
+    "preInstall": "files/pre-install.sh"
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "SEARXNG_PORT"
+  },
+
+  "status": {
+    "file": "06_searxng_status",
+    "successMessage": "SearXNG Setup Completed",
+    "telemetryAction": "searxng"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "freshrss",
+    "pname": "FreshRSS",
+    "description": "FreshRSS is a self-hosted RSS feed aggregator. It supports multiple users, OPML import/export, a REST API, and various themes and extensions.",
+    "descriptionShort": "RSS feed aggregator",
+    "icon": "sh-freshrss",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["rss", "news", "aggregator"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8081,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "FRESHRSS_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "FRESHRSS_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8081,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_freshrss_status",
+    "successMessage": "FreshRSS Setup Completed",
+    "telemetryAction": "freshrss"
+  }
+}

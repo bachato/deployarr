@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "piwigo",
+    "pname": "Piwigo",
+    "description": "Piwigo is an open-source photo gallery software for the web. It allows you to organize, manage, and share your photo collection with powerful features for albums, tags, and user management.",
+    "descriptionShort": "Open-source photo gallery",
+    "icon": "sh-piwigo",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["photos", "gallery", "images", "media"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8081,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "photos_folder", "basicpluspro", "appfolder_permission"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "PIWIGO_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "PIWIGO_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8081,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_piwigo_status",
+    "successMessage": "Piwigo Setup Completed",
+    "telemetryAction": "piwigo"
+  }
+}

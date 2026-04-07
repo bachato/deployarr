@@ -1,0 +1,26 @@
+services:
+  # Langfuse PostgreSQL - Dedicated Database for Langfuse
+  langfuse-postgresql:
+    container_name: langfuse-postgresql
+    image: postgres:${LANGFUSEPOSTGRESQL_VERSION_PIN}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d langfuse -U langfuse_db_user"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    networks:
+      - default
+    volumes:
+      - $DOCKERDIR/appdata/langfuse-postgresql:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=langfuse
+      - POSTGRES_USER=langfuse_db_user
+      - POSTGRES_PASSWORD=POSTGRESQL-PASSWORD-PLACEHOLDER
+      - TZ=UTC
+      - PGTZ=UTC
+    # DOCKER-LABELS-PLACEHOLDER

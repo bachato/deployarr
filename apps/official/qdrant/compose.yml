@@ -1,0 +1,15 @@
+services:
+  # Qdrant - A vector database and search engine
+  qdrant:
+    image: qdrant/qdrant
+    container_name: qdrant
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    ports:
+      - $QDRANT_PORT:6333 # HTTP API and dashboard
+      - 6334:6334 # gRPC API
+    volumes:
+      - $DOCKERDIR/appdata/qdrant:/qdrant/storage
+    # DOCKER-LABELS-PLACEHOLDER

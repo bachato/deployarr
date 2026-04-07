@@ -1,0 +1,82 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "qdrant",
+    "pname": "Qdrant",
+    "description": "Qdrant is a vector similarity search engine and database that provides a production-ready service with a convenient API to store, search, and manage vectors with additional payload.",
+    "descriptionShort": "Vector Database",
+    "icon": "sh-qdrant",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["database", "vector", "ai", "search"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 6333,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "preInstall": {
+    "dialog": {
+      "type": "info",
+      "title": "Qdrant Security",
+      "message": "\\n\\Z1NOTE!\\Zn\\n\\nFor simplicity Qdrant will be setup without authentication. This is safe as long as you do not manually expose Qdrant port to the internet."
+    }
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "Use https://${SERVER_LAN_IP}:${QDRANT_PORT}/dashboard or FQDN/dashboard to access the Qdrant dashboard."
+      }
+    ]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "QDRANT_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "QDRANT_PORT",
+        "description": "HTTP API and dashboard port",
+        "type": "port",
+        "default": 6333,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_qdrant_status",
+    "successMessage": "Qdrant Setup Completed",
+    "telemetryAction": "qdrant"
+  }
+}

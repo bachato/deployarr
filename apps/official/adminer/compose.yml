@@ -1,0 +1,14 @@
+services:
+  # Adminer - Frontend for Various Databases (MariaDB, PostgreSQL, etc.)
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    ports:
+      - "$ADMINER_PORT:8080"
+    # DOCKER-LABELS-PLACEHOLDER

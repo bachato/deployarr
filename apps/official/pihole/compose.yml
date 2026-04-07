@@ -1,0 +1,41 @@
+services:
+  # Pi-hole - DNS Server and AdBlocker
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["all", "core"]
+    networks:
+      - default
+    # cap_add:
+    #   # See https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+    #   # Required if you are using Pi-hole as your DHCP server, else not needed
+    #   - NET_ADMIN
+    #   # Required if you are using Pi-hole as your NTP client to be able to set the host's system time
+    #   - SYS_TIME
+    #   # Optional, if Pi-hole should get some more processing time
+    #   - SYS_NICE
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp" # DHCP Server
+      - "$PIHOLE_PORT:80/tcp" # HTTP
+      # - "123:123/udp" # NTP
+      # - "443:443" # HTTPS
+    volumes:
+      - "$DOCKERDIR/appdata/pihole/etc:/etc/pihole"
+      # - "$DOCKERDIR/appdata/pihole/etc/dnsmasq.d:/etc/dnsmasq.d"
+      - "$DOCKERDIR/appdata/pihole/log:/var/log/pihole"
+    environment:
+      # https://docs.pi-hole.net/docker/upgrading/v5-v6/?h=pihole_dns#misc Variables list for v6
+      TZ: ${TZ}
+      FTLCONF_webserver_api_password: ${PIHOLE_WEB_PASSWORD}
+      FTLCONF_dns_listeningMode: 'all'
+      FTLCONF_dns_upstreams: 1.1.1.1;1.0.0.1
+      FTLCONF_dns_bogusPriv: "true"
+      FTLCONF_dns_domainNeeded: "true"
+      FTLCONF_dns_domain: ${PIHOLE_LOCAL_DOMAIN}
+      FTLCONF_webserver_interface_theme: "default_dark"
+    # DOCKER-LABELS-PLACEHOLDER

@@ -1,0 +1,23 @@
+services:
+  # FileZilla - FTP Client
+  filezilla:
+    image: lscr.io/linuxserver/filezilla:latest
+    container_name: filezilla
+    security_opt:
+      - no-new-privileges:true
+      - seccomp:unconfined #optional
+    restart: "unless-stopped"
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    # DEVICES-GPU-PLACEHOLDER-DO-NOT-DELETE
+    ports:
+      - "$FILEZILLA_PORT:3000" # HTTP
+      # - 3001:3001 # HTTPS
+    volumes:
+      - $DOCKERDIR/appdata/filezilla:/config
+    environment:
+      TZ: $TZ
+      PUID: $PUID
+      PGID: $PGID
+    # DOCKER-LABELS-PLACEHOLDER

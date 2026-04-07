@@ -1,0 +1,51 @@
+services:
+  # Paperless-NGX - Document Management System
+  paperless-ngx:
+    image: ghcr.io/paperless-ngx/paperless-ngx:${PAPERLESSNGX_VERSION_PIN}
+    container_name: paperless-ngx
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    depends_on:
+      paperless-ngx-mariadb:
+        condition: service_healthy
+      paperless-ngx-redis:
+        condition: service_healthy
+      gotenberg:
+        condition: service_started
+      tika:
+        condition: service_started
+    networks:
+      - default
+    ports:
+      - "$PAPERLESSNGX_PORT:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - $DOCKERDIR/appdata/paperless-ngx/data:/usr/src/paperless/data
+      - $DOCKERDIR/appdata/paperless-ngx/media:/usr/src/paperless/media
+      - $DOCKERDIR/appdata/paperless-ngx/export:/usr/src/paperless/export
+      - $DOCKERDIR/appdata/paperless-ngx/trash:/usr/src/paperless/trash
+      - $DOCKERDIR/appdata/paperless-ngx/consume:/usr/src/paperless/consume
+    environment:
+      - PAPERLESS_REDIS=redis://paperless-ngx-redis:6379
+      - PAPERLESS_DBENGINE=mariadb
+      - PAPERLESS_DBNAME=paperless
+      - PAPERLESS_DBHOST=paperless-ngx-mariadb
+      - PAPERLESS_DBUSER=paperlessngx_db_user
+      - PAPERLESS_DBPASS=$PAPERLESSNGX_MARIADB_PASSWORD
+      - PAPERLESS_DBPORT=3306
+      - PAPERLESS_SECRET_KEY=$PAPERLESSNGX_SECRET_KEY
+      - PAPERLESS_TIKA_ENABLED=1
+      - PAPERLESS_TIKA_GOTENBERG_ENDPOINT=http://gotenberg:3000
+      - PAPERLESS_TIKA_ENDPOINT=http://tika:9998
+      - PAPERLESS_FILENAME_FORMAT={{created_year}}/{{created_month}}/{{correspondent}}/{{title}} {{asn}}
+      - PAPERLESS_URL=https://$PAPERLESSNGX_SUBDOMAIN.$DOMAINNAME_1
+      - PAPERLESS_TRUSTED_PROXIES=$SERVER_LAN_IP
+      - PAPERLESS_ADMIN_USER=$PAPERLESSNGX_ADMIN_USER
+      - PAPERLESS_ADMIN_PASSWORD=$PAPERLESSNGX_ADMIN_PASSWORD
+    # DOCKER-LABELS-PLACEHOLDER

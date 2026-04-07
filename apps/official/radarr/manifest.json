@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "radarr",
+    "pname": "Radarr",
+    "description": "Radarr is a movie collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new movies and will interface with clients and indexers to grab, sort, and rename them.",
+    "descriptionShort": "PVR for movies",
+    "icon": "sh-radarr",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["media", "movies", "pvr", "starr"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["media", "starr", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 7878,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "media_folder", "downloads_folder", "appfolder_permission"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "RADARR_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "RADARR_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 7878,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_radarr_status",
+    "successMessage": "Radarr Setup Completed",
+    "telemetryAction": "radarr"
+  }
+}

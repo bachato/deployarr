@@ -1,0 +1,19 @@
+services:
+  # Trilium - Personal Heirarchical Notes
+  trilium:
+    image: triliumnext/trilium:latest
+    container_name: trilium
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    ports:
+      - "$TRILIUM_PORT:8080"
+    volumes:
+      - $DOCKERDIR/appdata/trilium:/home/node/trilium-data
+    environment:
+      - TRILIUM_DATA_DIR=/home/node/trilium-data
+      - TZ=$TZ
+    # DOCKER-LABELS-PLACEHOLDER

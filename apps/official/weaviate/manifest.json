@@ -1,0 +1,82 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "weaviate",
+    "pname": "Weaviate",
+    "description": "Weaviate is an open-source vector database that stores both objects and vectors, allowing for combining vector search with structured filtering.",
+    "descriptionShort": "Vector Database",
+    "icon": "sh-weaviate",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["database", "vector", "ai", "search"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": false,
+    "port": 8083,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "preInstall": {
+    "dialog": {
+      "type": "info",
+      "title": "Weaviate Security",
+      "message": "\\n\\Z1NOTE!\\Zn\\n\\nFor simplicity Weaviate will be setup with AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED set to false (default). This is safe as long as you do not manually expose Weaviate port to the internet."
+    }
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "$APP_PNAME does not have a WebUI. Use $WEAVIATE_PORT for REST calls and 50051 for gRPC calls."
+      }
+    ]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "WEAVIATE_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "WEAVIATE_PORT",
+        "description": "REST API port",
+        "type": "port",
+        "default": 8083,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_weaviate_status",
+    "successMessage": "Weaviate Setup Completed",
+    "telemetryAction": "weaviate"
+  }
+}

@@ -1,0 +1,25 @@
+services:
+  # Langfuse MinIO - Dedicated Object Storage for Langfuse
+  langfuse-minio:
+    container_name: langfuse-minio
+    image: minio/minio:${LANGFUSEMINIO_VERSION_PIN}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    entrypoint: sh
+    command: -c 'mkdir -p /data/langfuse && minio server --address ":9000" --console-address ":9001" /data'
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    networks:
+      - default
+    volumes:
+      - $DOCKERDIR/appdata/langfuse-minio:/data
+    environment:
+      - MINIO_ROOT_USER=minio
+      - MINIO_ROOT_PASSWORD=MINIO-PASSWORD-PLACEHOLDER
+    # DOCKER-LABELS-PLACEHOLDER

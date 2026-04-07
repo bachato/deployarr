@@ -1,0 +1,81 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "gptwol",
+    "pname": "GPTWOL",
+    "description": "GPTWOL is a Wake On LAN Docker GUI that allows you to wake up devices on your network from a web interface.",
+    "descriptionShort": "Wake On LAN Docker GUI",
+    "icon": "sh-gptwol",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["wake-on-lan", "network", "utilities"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": [],
+    "webui": true,
+    "port": 5000,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "folders": {
+    "appdata": ["db", "cron"],
+    "permissions": {
+      "appdata": "$PUID:$PGID"
+    }
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "warning",
+        "text": "Don't expose GPTWOL without a strong authentication."
+      }
+    ]
+  },
+
+  "traefik": {
+    "supported": false
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "GPTWOL_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "GPTWOL_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 5000,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_gptwol_status",
+    "successMessage": "GPTWOL Setup Completed",
+    "telemetryAction": "gptwol"
+  }
+}

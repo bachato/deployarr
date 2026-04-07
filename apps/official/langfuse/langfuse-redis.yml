@@ -1,0 +1,22 @@
+services:
+  # Langfuse Redis - Dedicated Cache and Queue for Langfuse
+  langfuse-redis:
+    container_name: langfuse-redis
+    image: redis:${LANGFUSEREDIS_VERSION_PIN}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    command: >
+      --requirepass REDIS-PASSWORD-PLACEHOLDER
+      --maxmemory-policy noeviction
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "REDIS-PASSWORD-PLACEHOLDER", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - default
+    volumes:
+      - $DOCKERDIR/appdata/langfuse-redis:/data
+    # DOCKER-LABELS-PLACEHOLDER

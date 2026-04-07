@@ -1,0 +1,69 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "tautulli",
+    "pname": "Tautulli",
+    "description": "Tautulli is a monitoring and tracking tool for Plex Media Server. It provides analytics and statistics about your Plex usage, including watch history, streaming information, and library statistics.",
+    "descriptionShort": "Plex media server monitoring",
+    "icon": "sh-tautulli",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["media", "monitoring", "plex", "statistics"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["media", "monitoring", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8181,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "hooks": {
+    "preInstall": "files/pre-install.sh"
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "TAUTULLI_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "TAUTULLI_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8181,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_tautulli_status",
+    "successMessage": "Tautulli Setup Completed",
+    "telemetryAction": "tautulli"
+  }
+}

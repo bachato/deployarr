@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "jellyseerr",
+    "pname": "Jellyseerr",
+    "description": "Jellyseerr is a fork of Overseerr designed for Jellyfin users. It allows users to request movies and TV shows, which can be automatically added to Sonarr and Radarr.",
+    "descriptionShort": "Media requests and discovery for Jellyfin",
+    "icon": "sh-jellyseerr",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["media", "requests", "jellyfin"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 5055,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "JELLYSEERR_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "JELLYSEERR_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 5055,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_jellyseerr_status",
+    "successMessage": "Jellyseerr Setup Completed",
+    "telemetryAction": "jellyseerr"
+  }
+}

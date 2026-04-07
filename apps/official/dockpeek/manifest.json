@@ -1,0 +1,95 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "dockpeek",
+    "pname": "Dockpeek",
+    "description": "Dockpeek is a lightweight, self-hosted Docker dashboard that provides quick access to your containers. Monitor container status, resource usage, and manage your Docker environment through a clean web interface.",
+    "descriptionShort": "Lightweight Docker dashboard",
+    "icon": "sh-dockpeek",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["docker", "dashboard", "management", "containers", "monitoring"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["socket_proxy"],
+    "webui": true,
+    "port": 3420,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": ["socket-proxy"]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "DOCKPEEK_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "DOCKPEEK_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 3420,
+        "prompt": true,
+        "required": true,
+        "validation": { "type": "port", "min": 1, "max": 65535 }
+      },
+      {
+        "name": "DOCKPEEK_SECRET_KEY",
+        "description": "Secret key for session encryption (auto-generated)",
+        "type": "password",
+        "generate": "random",
+        "length": 32,
+        "prompt": false,
+        "required": true
+      },
+      {
+        "name": "DOCKPEEK_USERNAME",
+        "description": "Admin username",
+        "type": "string",
+        "default": "admin",
+        "prompt": true,
+        "required": true
+      },
+      {
+        "name": "DOCKPEEK_PASSWORD",
+        "description": "Admin password (change from default!)",
+        "type": "password",
+        "default": "admin",
+        "prompt": true,
+        "required": true
+      }
+    ]
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "warning",
+        "text": "If you kept the default password (\\Z5admin\\Zn), change it immediately from Dockpeek's settings."
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_dockpeek_status",
+    "successMessage": "Dockpeek Setup Completed",
+    "telemetryAction": "dockpeek"
+  }
+}

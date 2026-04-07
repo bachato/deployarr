@@ -1,0 +1,24 @@
+services:
+  # GameVault PostgreSQL - Dedicated Database for GameVault
+  gamevault-postgresql:
+    container_name: gamevault-postgresql
+    image: postgres:${GAMEVAULTPOSTGRESQL_VERSION_PIN}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d gamevault -U gamevault_db_user"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    networks:
+      - default
+    volumes:
+      - $DOCKERDIR/appdata/gamevault-postgresql:/var/lib/postgresql
+    environment:
+      - POSTGRES_DB=gamevault
+      - POSTGRES_USER=gamevault_db_user
+      - POSTGRES_PASSWORD=$GAMEVAULT_POSTGRESQL_PASSWORD
+    # DOCKER-LABELS-PLACEHOLDER

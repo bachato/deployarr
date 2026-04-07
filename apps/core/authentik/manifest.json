@@ -1,0 +1,117 @@
+{
+  "$schema": "../../../manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "authentik",
+    "pname": "Authentik",
+    "descriptionShort": "Open-source Access/Identity Provider",
+    "icon": "sh-authentik",
+    "category": "core"
+  },
+
+  "deployment": {
+    "type": "multicontainer",
+    "compose": "compose.yml",
+    "webui": true,
+    "port": 9000,
+    "protocol": "https"
+  },
+
+  "dependencies": [
+    {
+      "sname": "authentik-postgresql",
+      "pname": "Authentik PostgreSQL",
+      "compose": "authentik-postgresql.yml",
+      "installOrder": 1,
+      "waitForHealthy": true,
+      "description": "Dedicated PostgreSQL database for Authentik"
+    },
+    {
+      "sname": "authentik-worker",
+      "pname": "Authentik Worker",
+      "compose": "authentik-worker.yml",
+      "installOrder": 3,
+      "waitForHealthy": false,
+      "description": "Background task processor for Authentik"
+    }
+  ],
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "socket_proxy_running", "traefik_production", "traefik_running", "hybrid_mode"],
+    "apps": ["socket-proxy", "traefik"]
+  },
+
+  "files": [
+    {
+      "source": "files/middlewares-authentik.yml",
+      "destination": "$DOCKER_FOLDER/appdata/traefik3/rules/$HOSTNAME/middlewares-authentik.yml",
+      "backup": false
+    },
+    {
+      "source": "files/chain-authentik.yml",
+      "destination": "$DOCKER_FOLDER/appdata/traefik3/rules/$HOSTNAME/chain-authentik.yml",
+      "backup": false
+    }
+  ],
+
+  "traefik": {
+    "supported": true,
+    "subdomain": "authentik",
+    "chain": "chain-no-auth",
+    "middlewares": ["middlewares-authentik.yml", "chain-authentik.yml"]
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "other",
+    "showStats": true,
+    "portVariable": null
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "AUTHENTIK_VERSION_PIN",
+        "type": "string",
+        "default": "latest",
+        "prompt": false,
+        "required": true
+      },
+      {
+        "name": "AUTHENTIK_POSTGRESQL__PASSWORD",
+        "type": "string",
+        "default": "file:///run/secrets/authentik_postgresql_password",
+        "prompt": false,
+        "required": true
+      },
+      {
+        "name": "AUTHENTIK_SECRET_KEY",
+        "type": "string",
+        "default": "file:///run/secrets/authentik_secret_key",
+        "prompt": false,
+        "required": true
+      }
+    ],
+    "secrets": [
+      {
+        "name": "authentik_postgresql_password",
+        "type": "random",
+        "generateDefault": true,
+        "generateLength": 60
+      },
+      {
+        "name": "authentik_secret_key",
+        "type": "random",
+        "generateDefault": true,
+        "generateLength": 60
+      }
+    ]
+  },
+
+  "status": {
+    "file": "05_authentik_status",
+    "successMessage": "Authentik Setup Completed",
+    "telemetryAction": "authentik"
+  }
+}

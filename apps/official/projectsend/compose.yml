@@ -1,0 +1,21 @@
+services:
+  # ProjectSend - Secure, Private File Sharing
+  projectsend:
+    image: lscr.io/linuxserver/projectsend:latest
+    container_name: projectsend
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    ports:
+      - "$PROJECTSEND_PORT:80"
+    volumes:
+      - $DOCKERDIR/appdata/projectsend/config:/config
+      - $DOCKERDIR/appdata/projectsend/data:/data
+    environment:
+      TZ: $TZ
+      PUID: $PUID
+      PGID: $PGID
+    # DOCKER-LABELS-PLACEHOLDER

@@ -1,0 +1,113 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "scrutiny",
+    "pname": "Scrutiny",
+    "description": "Scrutiny is a WebUI for smartd S.M.A.R.T monitoring with a dedicated InfluxDB backend for historical data storage and analysis of disk health metrics.",
+    "descriptionShort": "SMART disk monitoring",
+    "icon": "sh-scrutiny",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["monitoring", "disk", "smart", "health", "influxdb"]
+  },
+
+  "deployment": {
+    "type": "multicontainer",
+    "compose": "compose.yml",
+    "profiles": ["apps", "monitoring", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8081,
+    "protocol": "http"
+  },
+
+  "dependencies": [
+    {
+      "sname": "scrutiny-influxdb",
+      "pname": "Scrutiny InfluxDB",
+      "compose": "scrutiny-influxdb.yml",
+      "installOrder": 1,
+      "waitForHealthy": true,
+      "required": true,
+      "description": "Dedicated InfluxDB database for Scrutiny"
+    }
+  ],
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "database": {
+    "type": "influxdb",
+    "containerSname": "scrutiny-influxdb",
+    "name": "scrutiny",
+    "user": "scrutiny_admin",
+    "host": "scrutiny-influxdb",
+    "port": 8086
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "SCRUTINY_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "SCRUTINY_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8081,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      },
+      {
+        "name": "SCRUTINY_INFLUXDB_TOKEN",
+        "description": "InfluxDB admin token (auto-generated)",
+        "type": "password",
+        "generate": "random",
+        "length": 32,
+        "prompt": false,
+        "required": true
+      },
+      {
+        "name": "SCRUTINY_INFLUXDB_PASSWORD",
+        "description": "InfluxDB admin password (auto-generated)",
+        "type": "password",
+        "generate": "random",
+        "length": 24,
+        "prompt": false,
+        "required": true
+      }
+    ]
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "Scrutiny uses a dedicated InfluxDB (\\Z5scrutiny-influxdb\\Zn). Credentials stored in \\Z4$DOCKER_FOLDER/.env\\Zn."
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_scrutiny_status",
+    "successMessage": "Scrutiny Setup Completed",
+    "telemetryAction": "scrutiny"
+  }
+}

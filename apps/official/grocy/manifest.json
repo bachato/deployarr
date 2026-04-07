@@ -1,0 +1,74 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "grocy",
+    "pname": "Grocy",
+    "description": "Grocy is a self-hosted ERP system for your kitchen and household. It helps you track groceries, manage recipes, meal planning, shopping lists, and household chores.",
+    "descriptionShort": "ERP System for the Kitchen",
+    "icon": "sh-grocy",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["home", "groceries", "recipes", "household"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8081,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "$APP_PNAME default username/password are: admin/admin"
+      }
+    ]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "GROCY_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "GROCY_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8081,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_grocy_status",
+    "successMessage": "Grocy Setup Completed",
+    "telemetryAction": "grocy"
+  }
+}

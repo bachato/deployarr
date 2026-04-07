@@ -1,0 +1,74 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "resilio-sync",
+    "pname": "Resilio-Sync",
+    "description": "Resilio Sync (formerly BitTorrent Sync) is a proprietary peer-to-peer file synchronization tool. It can sync files between devices on a local network, or between remote devices over the Internet via a modified version of the BitTorrent protocol.",
+    "descriptionShort": "File Sync using BitTorrent protocol",
+    "icon": "sh-resilio-sync",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["files", "sync", "backup", "p2p"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8888,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites", "downloads_folder"],
+    "apps": []
+  },
+
+  "postInstall": {
+    "messages": [
+      {
+        "type": "note",
+        "text": "Edit $DOCKER_FOLDER/compose/$HOSTNAME/resilio-sync.yml and change Sync data folder path as needed."
+      }
+    ]
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "RESILIOSYNC_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "RESILIOSYNC_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8888,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_resilio-sync_status",
+    "successMessage": "Resilio-Sync Setup Completed",
+    "telemetryAction": "resilio-sync"
+  }
+}

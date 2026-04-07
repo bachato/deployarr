@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../apps/manifest-schema.json",
+  "version": "1.2",
+
+  "app": {
+    "sname": "phpmyadmin",
+    "pname": "phpMyAdmin",
+    "description": "phpMyAdmin is a free software tool written in PHP intended to handle the administration of MySQL or MariaDB databases over the Web.",
+    "descriptionShort": "Web UI for MariaDB/MySQL",
+    "icon": "sh-phpmyadmin",
+    "category": "official",
+    "menuNumber": "06",
+    "tags": ["database", "admin", "mysql", "mariadb"]
+  },
+
+  "deployment": {
+    "type": "single",
+    "compose": "compose.yml",
+    "profiles": ["apps", "all"],
+    "networks": ["default"],
+    "webui": true,
+    "port": 8081,
+    "protocol": "http"
+  },
+
+  "requirements": {
+    "prerequisites": ["prerequisites"],
+    "apps": []
+  },
+
+  "traefik": {
+    "supported": true
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "location": "local",
+    "showStats": true,
+    "portVariable": "PHPMYADMIN_PORT"
+  },
+
+  "env": {
+    "variables": [
+      {
+        "name": "PHPMYADMIN_PORT",
+        "description": "Web interface port",
+        "type": "port",
+        "default": 8081,
+        "prompt": true,
+        "required": true,
+        "validation": {
+          "type": "port",
+          "min": 1,
+          "max": 65535
+        }
+      }
+    ]
+  },
+
+  "status": {
+    "file": "06_phpmyadmin_status",
+    "successMessage": "phpMyAdmin Setup Completed",
+    "telemetryAction": "phpmyadmin"
+  }
+}
