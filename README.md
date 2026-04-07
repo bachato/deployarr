@@ -29,42 +29,40 @@ Deployrr revolutionizes homelab setup by automating the deployment and configura
 
 ## Prerequisites
 
-Deployrr v6 requires `curl` and `npm` (Node.js) to be installed on your system before beginning the installation.
-
-**For Ubuntu / Debian:**
+Install Node.js and npm:
 ```bash
-sudo apt update && sudo apt upgrade -y
-sudo apt install -y curl npm
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt-get install -y nodejs
 ```
 
-**For CentOS / RHEL / Rocky Linux:**
+## Quick Start v6
+
+Install Deployrr (same command to update Deployrr):
 ```bash
-sudo dnf update -y
-sudo dnf install -y curl npm
+sudo npx @simplehomelab/deployrr@latest
 ```
 
-**For Arch Linux:**
+That is it. You can run Deployrr from anywhere using the command:
 ```bash
-sudo pacman -Syu --noconfirm
-sudo pacman -S --noconfirm curl npm
+deployrr
 ```
 
-## Quick Start
+## Version 5 Support
 
-The fastest way to install Deployrr v6+ is via `npx` (requires Node.js/npm):
-```bash
-sudo npx @simplehomelab/deployrr
+If your version 5 stopped working, it is probably because you are on a version older than v5.11.2, which is the latest and the last version of Deployrr v5. 
+
+In order to have continued access to version 5 of Deployrr, please manually download v5.11.2 ([v5 branch](https://github.com/SimpleHomelab/Deployrr/tree/v5)) using the following command:
+
+```
+wget https://github.com/SimpleHomelab/Deployrr/raw/refs/heads/v5/deployrr_v5.11.2.app
+chmod +x deployrr_v5.11.2.app
+./deployrr_v5.11.2.app
 ```
 
-Alternatively, if you prefer not to use `npm`, you can use the standalone bash installer:
-```bash
-sudo bash -c "$(curl -fsSL https://files.deployrr.app/install.sh)"
-```
-
-> **Note for v5 Users:** The older installation command (`curl https://www.deployrr.app/install.sh`) is deprecated and is strictly for initializing Deployrr v5 environments.
+Use the `deployrr_v5.11.2-arm.app` if you are on ARM architecture. 
 
 ## Impact & Growth
-![Deployrr Stats](images/v5/2025_11_13_deployrr_stats.png)
+![Deployrr Stats](images/v6/deployarr%20stats%202026-04.png)
 
 ## Testimonials
 
@@ -81,9 +79,11 @@ Deployrr can automatically setup Socket Proxy, Traefik (fetch LE SSL certificate
 
 ## Learn More
 
-- [Official Documentation](https://www.simplehomelab.com/deployrr/)
-- [Quick Start Guide (20 min)](https://www.simplehomelab.com/go/deployarr-v5-intro/)
-- [Comprehensive 2.5-hour Tutorial](https://www.simplehomelab.com/go/deployarr-v5-detailed-guide/)
+- [Deployrr v6 Intro (13 min)](https://youtu.be/Nuo83uzTWco)
+- [Deployrr v5 Intro (20 min)](https://www.simplehomelab.com/go/deployarr-v5-intro/)
+- [Comprehensive 2.5-hour v5  Tutorial](https://www.simplehomelab.com/go/deployarr-v5-detailed-guide/)
+- [Official Website](https://www.simplehomelab.com/deployrr/)
+- [Official Documentation](https://docs.deployrr.app)
 
 ## Supported Environments
 
