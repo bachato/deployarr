@@ -178,9 +178,7 @@ Total Supported Apps: 150+
 - Updated version pins: TinyAuth v5, Authelia 4.39.15, Deployrr Dashboard 1.9.0, Authentik 2025.12.1.
 - Upgraded TinyAuth from v4 to v5 — all env vars now use TINYAUTH*<SECTION>*<KEY> format. Existing users are auto-migrated seamlessly (data preserved).
 - Security improvement - script now enforces non-root execution.
-- v5 main menu now includes "Upgrade to v6" option that creates a handoff file for seamless v6 migration.
 - DP_VERSION tracking in deployrr_constants — auto-stamps current version on every boot for future upgrade detection.
-- Migration detection log shows which method triggered (DP_VERSION or handoff file).
 - Domain checks now support UFW Port Address Translation (PAT) configurations with intelligent port detection.
 - App manifests support runOnUpdate field for triggering pre-install hooks during app updates.
 - OS-aware package lists in installation dialogs for Arch, Fedora/RHEL, and Debian/Ubuntu.
